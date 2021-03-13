@@ -8,8 +8,12 @@ legacy software from my quarter century-old Lisp archive :-) It still
 works flawlessly in 2021. Tested with LispWorks 6.1 & CLIM on Ubuntu,
 32bit Motif port. Not sure about Windows.
 
-A prototypical ontology-based spatial information system, capable of answering complex ontology-based spatial queries. The program /framework was written between 2003 and 2005, as part of my PhD thesis. 
-Here you can find [more details about DLMAPS.](https://www.michael-wessel.info/dlmaps.html), including publications. 
+A prototypical ontology-based spatial information system, capable of
+answering complex ontology-based spatial queries. The program /
+framework was written between 2003 and 2005, as part of my PhD thesis.
+Here you can find [more details about
+DLMAPS](https://www.michael-wessel.info/dlmaps.html), including
+publications.
 
 DLMAPS was written in 2003 - 2005, and can be considered the first
 hybrid ontology-based geographical information system that relies on
@@ -20,20 +24,24 @@ ontology-based spatial query language to so-called
 graphs, property graphs, and other graph-like knowledge representation
 structures. A unique feature of the substrate data model is that their
 nodes are not simply symbols, but can have complex structure, i.e.,
-are geometric objects (polygons, lines, points) in an eucledian
-space. This complex (geometric, metric, topological) structure / space
-can then be queries via its query language. DLMAPS' quey language
-encompasses qualitative spatial relationships (RCC relations), metric,
-and geometric constraints.
+are geometric objects (polygons, lines, points) in an Euclidean
+(geometric) space. This complex (geometric, metric, topological)
+structure / space can then be queried with a complex ontology-based
+query language. DLMAPS' query language encompasses vocabulary and
+expressive means for formulating qualitative spatial relationships
+(RCC relations), as well as metric, geometric, and thematic
+constraints.
 
-The software in this repository is a cut-down version if the original
+The software in this repository is a cut-down version of the original
 DLMAPS. The full version was also capable of using the Racer
-description logic reasoner for ABox query answering. Here, a
-special-purpose research prototype reasoner called "MiDeLoRa" is used
-for answering the ontology-based parts of the queries
-instead. MiDeLoRa's ABox is a special geometric map substrate; i.e.,
-the ABox nodes / individuals are geometric objects and their spatial
-properties are hence intrinsicially ("analogical") represented.
+description logic reasoner for ABox query answering (i.e., in a hybrid
+way). Here, a special-purpose Description Logic reasoner, called
+"MiDeLoRa" (for Michael's Description Logic Reasoner), is used for
+answering the ontology-based parts of the queries instead. MiDeLoRa's
+ABox is a special geometric map substrate in this instantiation; i.e.,
+the ABox nodes / individuals are geometric objects, and their spatial
+properties are hence intrinsicially ("analogical") represented, and
+can be queried. 
 
 Here are some pictures for illustration: 
 
@@ -58,7 +66,6 @@ Here are some pictures for illustration:
 ![dlmaps-10](pics/dlmaps-10.png)
 
 ## Papers 
-
 
 [See the DLMAPS homepage.](https://www.michael-wessel.info/dlmaps.html), including publications. 
 
