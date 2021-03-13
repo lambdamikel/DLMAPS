@@ -42,6 +42,9 @@ the ABox nodes / individuals are geometric objects, and their spatial
 properties are hence intrinsicially ("analogical") represented, and
 can be queried. 
 
+
+![dlmaps-2](pics/dlmaps-2.png)
+
 Here are a few example queries (these can directly be entered into 
 the "Query Inspector" by typing their respective function names;
 these pre-defined queries are in the files 
@@ -182,8 +185,6 @@ these pre-defined queries are in the files
 Here are some pictures for illustration: 
 
 ![dlmaps-1](pics/dlmaps-1.png)
-
-![dlmaps-2](pics/dlmaps-2.png)
 
 ![dlmaps-3](pics/dlmaps-3.png)
 
