@@ -48,7 +48,7 @@ can be queried.
 Here are a few example queries (these can directly be entered into 
 the "Query Inspector" by typing their respective function names;
 these pre-defined queries are in the files 
-[`src/map-viewer/q-queries.lisp`](./src/map-viewer/q-queries.lisp`)): 
+[`src/map-viewer/q-queries.lisp`](./src/map-viewer/q-queries.lisp)): 
 
 ```
 (defun q1 ()
