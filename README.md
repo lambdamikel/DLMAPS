@@ -72,7 +72,13 @@ Here are some pictures for illustration:
 
 Adjust the logical pathname translations in `dlmaps-sysdcl.lisp` to
 match your environment. Then, simply do a load, and start the program
-with `(dlmaps)` followed by `(dlmaps-demo)`. Load the `maps\va4.sqd`
-map, and enter one of 20 pre-defined queries `q1` to `q19` into the
-"Query Inspector".
-
+with `(dlmaps)` followed by `(dlmaps-demo)`. Load the `maps/va4.sqd`
+map from the "Map Viewer" via "Load SQD Map" menu. When the map has
+loaded, go to the "Query Inspector" frame / window. Here, you can
+enter one of 20 pre-defined queries and get it executed, simply type
+`q1` to `q19` into the "Query Processor" console pane. Some queries
+(e.g., `q17` will take some time to execute, so be patient ;-) 
+Also, queries that use an `(all ...)` quantifier will require that
+you "close the roles" first - this can be done right after the SQD
+map was loaded, using the menu item "Close Roles" from the "Map Viewer"
+menu. Enjoy! 
