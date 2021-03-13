@@ -15,22 +15,21 @@ Here you can find [more details about
 DLMAPS](https://www.michael-wessel.info/dlmaps.html), including
 publications.
 
-DLMAPS was written in 2003 - 2005, and can be considered the first
-hybrid ontology-based geographical information system that relies on
-Description Logic reasoning. In a sense, its spatio-thematic query
-language is an ancient predecessor of GeoSPARQL. It features a rich
-ontology-based spatial query language to so-called
-"substrates". Substrates subsume Description Logic ABoxes, RDFs
-graphs, property graphs, and other graph-like knowledge representation
-structures. A unique feature of the substrate data model is that their
-nodes are not simply symbols, but can have complex structure, i.e.,
-are geometric objects (polygons, lines, points) in an Euclidean
-(geometric) space. This complex (geometric, metric, topological)
-structure / space can then be queried with a complex ontology-based
-query language. DLMAPS' query language encompasses vocabulary and
-expressive means for formulating qualitative spatial relationships
-(RCC relations), as well as metric, geometric, and thematic
-constraints.
+DLMAPS can be considered the first hybrid ontology-based geographical
+information system that relies on Description Logic reasoning. In a
+sense, its spatio-thematic query language is an ancient predecessor of
+GeoSPARQL. It features a rich ontology-based spatial query language to
+so-called "substrates". Substrates subsume Description Logic ABoxes,
+RDFs graphs, property graphs, and other graph-like knowledge
+representation structures. A unique feature of the substrate data
+model is that their nodes are not simply symbols, but can have complex
+structure, i.e., are geometric objects (polygons, lines, points) in an
+Euclidean (geometric) space. This complex (geometric, metric,
+topological) structure / space can then be queried with a complex
+ontology-based query language. DLMAPS' query language encompasses
+vocabulary and expressive means for formulating qualitative spatial
+relationships (RCC relations), as well as metric, geometric, and
+thematic constraints.
 
 The software in this repository is a cut-down version of the original
 DLMAPS. The full version was also capable of using the Racer
