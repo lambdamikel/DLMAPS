@@ -67,7 +67,8 @@ these pre-defined queries are in the files
         (v '(?*x ?*y)))
 
     (inspector-answer-query q v "Show all residential areas that have
-    some adjacent (EC Externally Connected) green areas.")))
+                                 some adjacent (EC Externally
+                                 Connected) green areas.")))
 
 (defun q7 ()
   (let ((q 
@@ -85,7 +86,7 @@ these pre-defined queries are in the files
                             all creeks or rivers that cross (RCC
                             relation EC or PO) a residential area that
                             flows into a lake or pond that is
-                            contained in a park . ")))
+                            contained in a park. ")))
 
 (defun q12 ()
   (let ((q
