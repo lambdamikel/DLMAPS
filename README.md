@@ -189,15 +189,9 @@ Here are some pictures for illustration:
 
 ![dlmaps-4](pics/dlmaps-4.png)
 
-![dlmaps-5](pics/dlmaps-5.png)
-
 ![dlmaps-6](pics/dlmaps-6.png)
 
 ![dlmaps-7](pics/dlmaps-7.png)
-
-![dlmaps-8](pics/dlmaps-8.png)
-
-![dlmaps-9](pics/dlmaps-9.png)
 
 ![dlmaps-10](pics/dlmaps-10.png)
 
