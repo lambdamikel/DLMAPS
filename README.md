@@ -43,9 +43,9 @@ properties are hence intrinsicially ("analogical") represented, and
 can be queried. 
 
 Here are a few example queries (these can directly be entered into 
-the "Query Inspector" by typing their repective function names;
+the "Query Inspector" by typing their respective function names;
 these pre-defined queries are in the files 
-[`src/map-viewer/q-queries.lisp`](./src/map-viewer/q-queries.lisp`])): 
+[`src/map-viewer/q-queries.lisp`](./src/map-viewer/q-queries.lisp`)): 
 
 ```
 (defun q1 ()
@@ -53,7 +53,7 @@ these pre-defined queries are in the files
         (v '(?*x)))
 
     (inspector-answer-query q v
-                            "Zeige mir alle Wohngebiete.")))
+                            "Show all residential areas.")))
 
 (defun q3 ()
   (let ((q 
@@ -63,8 +63,8 @@ these pre-defined queries are in the files
 	   (?*x ?*y ec)))
         (v '(?*x ?*y)))
 
-    (inspector-answer-query q v "Zeige mir alle Wohngebiete, 
-die an einer Grünfläche liegen.")))
+    (inspector-answer-query q v "Show all residential areas that have
+    some adjacent (EC Externally Connected) green areas.")))
 
 (defun q7 ()
   (let ((q 
@@ -78,10 +78,11 @@ die an einer Grünfläche liegen.")))
         (v '(?*x ?*y ?*z ?*w)))
 
     (inspector-answer-query q v
-                            "Gibt es einen Fluss oder Bach, 
-der ein Wohngebiet kreutzt, 
-und dann in einen Teich oder See fließt, 
-der in einem Park liegt?")))
+                            "Environmental protection monitoring: Show
+                            all creeks or rivers that cross (RCC
+                            relation EC or PO) a residential area that
+                            flows into a lake or pond that is
+                            contained in a park . ")))
 
 (defun q12 ()
   (let ((q
@@ -100,12 +101,14 @@ der in einem Park liegt?")))
         (v '(?*x)))
 
     (inspector-answer-query q v
-                            "Zeige mir Wohngebiete,
-die an eine Wiese/Weide angrenzen, 
-die einen Teich enthält,
-sodass alle angrenzenden Flächen 
-ebenfalls Wiesen/Weiden oder
-Parkplätze sind.")))
+                            "Identify high quality residential areas:
+                            Show all residential areas containing some
+                            buildings (RCC relation TPPI union NTPPI)
+                            that have an adjacent (RCC relation EC)
+                            meadow that contains a lake or
+                            pond. Moreover, all areas adjacent to the
+                            residential area have to be parking lots
+                            or meadows.")))
 
 (defun q13 ()
   (let ((q 
@@ -117,10 +120,13 @@ Parkplätze sind.")))
         (v '(?*wohngebiet ?*u-bahn-station ?*teich)))
 
     (inspector-answer-query q v 
-                            "Zeige mir Wohngebiete,
-die Teiche oder Seen enthalten, 
-und in deren Epsilon-Umgebung von 
-100 Metern eine U-Bahn-Station liegt.")))
+			    "Identify high quality residential areas:
+                            Show all residential areas containing a
+                            lake or pond, such that a subway station
+                            is close by, i.e., in the vicinity of 100
+                            meters around the epsilon buffer area of
+                            the living area `(:inside-epsilon 100)`.")))
+
 
 (defun q14 ()
   (let ((q 
@@ -133,10 +139,12 @@ und in deren Epsilon-Umgebung von
 		(and (geometry::is-geom-polygon-p object)
 		     (> (geometry:calculate-area object) 50000))))))
         (v '(?*x)))
+
     (inspector-answer-query q v
-                            "Zeige mir Wohngebiete, 
-die mindestens 8 Gebäude enthalten, 
-und deren Fläche größer als 50000 ist.")))
+                            "Show all residential areas that have an
+                            area of at least 50000 m^2 and contain at
+                            least 8 buildings (RCC relation
+                            NTPPI).")))
 
 
 (defun q17 ()
@@ -160,15 +168,16 @@ und deren Fläche größer als 50000 ist.")))
            ?*teich)))
 
     (inspector-answer-query q v
-                            "Zeige mir Wohngebiete,
-die nicht an Industrie- oder Gewerbegebiete angrenzen,
-die Gebaeude enthalten, und 
-die eine Kirche in der Epsilon-Umgebung von 200 Metern, 
-eine U-Bahn-Station im Epsilon-Umkreis von 100 Metern, 
-sowie einen Teich (oder See) enthalten.")))
-
+                            "Show all residential areas such that all
+                             adjacent are NOT industrial areas /
+                             industrial parks, and it contains some
+                             buildings. Moreover, we require that it
+                             contains a lake or pond, and that a
+                             subway station and a church are close
+                             by (within the area's 100-meter
+                             resp. 200-meter outer epsilon buffer
+                             area).")))
 ```
-
 
 Here are some pictures for illustration: 
 
