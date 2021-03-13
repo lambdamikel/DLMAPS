@@ -1,0 +1,1 @@
+(((RETRIEVE (?*X ?*Y) (AND (?*X ?*Y (HAS-COLLEGUE (:PREDICATE (SEARCH "a description")))) (?*X ?*Y (:SATISFIES (:PREDICATE <))) (?*Y (:PREDICATE (SEARCH "Ralf"))))) (((?*X MICHAEL) (?*Y RALF))) RES-EQUAL-P))

@@ -1,0 +1,1 @@
+(((retrieve-under-premise ((instance a c) (instance b d) (related a b r)) (?x ?y) (and (?x c) (?y d) (?x ?y r))) (((?x a) (?y b))) res-equal-p))

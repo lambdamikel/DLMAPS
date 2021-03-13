@@ -1,0 +1,1 @@
+(((get-next-tuple :last) ((?x eve)) res-equal-p))

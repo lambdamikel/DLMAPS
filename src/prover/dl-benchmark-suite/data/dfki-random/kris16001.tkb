@@ -1,0 +1,5896 @@
+(define-primitive-role r1)
+(define-primitive-role r2)
+(define-primitive-role r3)
+(define-primitive-role r4)
+(define-primitive-role r5)
+(define-primitive-role r6)
+(define-primitive-role r7)
+(define-primitive-role r8)
+(define-primitive-role r9)
+(define-primitive-role r10)
+
+(define-primitive-concept c0 TOP)
+
+(define-primitive-concept c1
+    (and (all r3 c0)))
+(define-primitive-concept c2
+    (and (all r6 c0)
+         (at-least 5 r7)))
+(define-primitive-concept c3
+    (and (all r4 c0)
+         (at-most 8 r1)))
+(define-primitive-concept c4
+    (and c2
+         (all r10 c2) (all r2 c3)
+         (at-least 3 r10)
+         (at-most 7 r2)))
+(define-primitive-concept c5
+    (and c3
+         (all r3 c1)
+         (at-least 1 r1)))
+(define-concept c6
+    (and c1
+         (all r7 c2) (all r2 c0)
+         (at-most 8 r8)))
+(define-primitive-concept c7
+    (and c1 c3
+         (all r10 c1) (all r8 c3)
+         (at-least 5 r2)
+         (at-most 6 r7)))
+(define-primitive-concept c8
+    (and c3 c1
+         (at-most 5 r8)))
+(define-primitive-concept c9
+    (and c2 c1
+         (all r3 c2)
+         (at-least 4 r5)
+         (at-most 8 r4)))
+(define-concept c10
+    (and c2 c3
+         (all r5 c1)))
+(define-primitive-concept c11
+    (and c2 c3))
+(define-primitive-concept c12
+    (and c2 c3
+         (at-most 6 r6)))
+(define-concept c13
+    (and c5 c8
+         (all r2 c7)
+         (at-least 2 r2)))
+(define-primitive-concept c14
+    (and c6 c5
+         (at-least 5 r10)))
+(define-primitive-concept c15
+    (and c11 c7
+         (all r4 c9)
+         (at-most 7 r2)))
+(define-primitive-concept c16
+    (and c2 c8
+         (all r5 c12)))
+(define-primitive-concept c17
+    (and c5 c9
+         (all r8 c12)
+         (at-least 2 r3)))
+(define-primitive-concept c18
+    (and c12
+         (at-least 3 r8)))
+(define-primitive-concept c19
+    (and c8 c10
+         (all r8 c10)))
+(define-concept c20
+    (and c11
+         (all r6 c5) (all r5 c6)))
+(define-primitive-concept c21
+    (and c7 c11
+         (all r2 c4) (all r10 c1)))
+(define-primitive-concept c22
+    (and c9 c10
+         (all r6 c12) (all r3 c11)
+         (at-most 6 r7)))
+(define-primitive-concept c23
+    (and c3 c11))
+(define-concept c24
+    (and c10
+         (at-least 5 r1)))
+(define-primitive-concept c25
+    (and c9
+         (all r4 c2) (all r7 c2)
+         (at-least 5 r10)))
+(define-primitive-concept c26
+    (and c10
+         (at-least 3 r10)
+         (at-most 6 r4)))
+(define-primitive-concept c27
+    (and c5 c4
+         (at-least 5 r7)))
+(define-primitive-concept c28
+    (and c4 c10
+         (at-most 7 r4)))
+(define-primitive-concept c29
+    (and c4 c11
+         (all r7 c3)))
+(define-concept c30
+    (and c4
+         (all r2 c8) (all r3 c10)))
+(define-primitive-concept c31
+    (and c11
+         (at-most 5 r4)))
+(define-primitive-concept c32
+    (and c10
+         (all r7 c3)
+         (at-most 9 r6)))
+(define-primitive-concept c33
+    (and c12
+         (at-least 5 r4)
+         (at-most 8 r3)))
+(define-concept c34
+    (and c10 c8
+         (all r8 c5) (all r6 c11)
+         (at-most 8 r4)))
+(define-primitive-concept c35
+    (and c8
+         (all r9 c12) (all r10 c4)
+         (at-least 2 r7)
+         (at-most 5 r3)))
+(define-primitive-concept c36
+    (and c6
+         (all r1 c4)
+         (at-least 1 r1)
+         (at-most 5 r1)))
+(define-primitive-concept c37
+    (and c12 c11
+         (all r3 c0) (all r1 c2)))
+(define-primitive-concept c38
+    (and c11
+         (all r2 c12)))
+(define-concept c39
+    (and c3 c6
+         (at-least 1 r9)
+         (at-most 5 r3)))
+(define-concept c40
+    (and c31
+         (all r5 c2)
+         (at-most 8 r5)))
+(define-primitive-concept c41
+    (and c16
+         (all r10 c4)
+         (at-least 2 r3)
+         (at-most 9 r2)))
+(define-primitive-concept c42
+    (and c26
+         (at-least 5 r3)))
+(define-primitive-concept c43
+    (and c28
+         (all r9 c28)
+         (at-least 2 r3)
+         (at-most 5 r3)))
+(define-primitive-concept c44
+    (and c33
+         (all r7 c21)
+         (at-most 9 r10)))
+(define-primitive-concept c45
+    (and c26 c14
+         (all r7 c11) (all r4 c0)))
+(define-primitive-concept c46
+    (and c10 c14
+         (at-least 2 r4)
+         (at-most 6 r2)))
+(define-primitive-concept c47
+    (and c17
+         (all r2 c9) (all r9 c3)
+         (at-least 5 r9)
+         (at-most 7 r7)))
+(define-primitive-concept c48
+    (and c19 c34
+         (at-least 5 r2)))
+(define-primitive-concept c49
+    (and c4 c22
+         (at-least 2 r3)
+         (at-most 6 r10)))
+(define-primitive-concept c50
+    (and c13
+         (all r7 c20)
+         (at-most 8 r3)))
+(define-primitive-concept c51
+    (and c27
+         (all r9 c24)))
+(define-concept c52
+    (and c32
+         (all r6 c12)
+         (at-least 2 r9)))
+(define-concept c53
+    (and c16
+         (all r5 c33)
+         (at-least 4 r2)
+         (at-most 6 r1)))
+(define-concept c54
+    (and c30
+         (all r2 c26) (all r1 c28)
+         (at-least 1 r7)
+         (at-most 6 r1)))
+(define-primitive-concept c55
+    (and c34
+         (at-least 4 r10)))
+(define-primitive-concept c56
+    (and c35 c39
+         (all r2 c18)))
+(define-primitive-concept c57
+    (and c39 c19
+         (at-least 3 r5)))
+(define-primitive-concept c58
+    (and c22 c19))
+(define-primitive-concept c59
+    (and c4 c24
+         (at-least 2 r4)))
+(define-primitive-concept c60
+    (and c28 c27
+         (all r4 c23) (all r5 c1)
+         (at-most 6 r9)))
+(define-primitive-concept c61
+    (and c27 c17
+         (at-least 1 r1)))
+(define-primitive-concept c62
+    (and c3 c26))
+(define-primitive-concept c63
+    (and c25))
+(define-primitive-concept c64
+    (and c21
+         (all r2 c31)
+         (at-most 7 r3)))
+(define-primitive-concept c65
+    (and c28 c26
+         (at-least 3 r10)))
+(define-primitive-concept c66
+    (and c34
+         (at-least 1 r1)
+         (at-most 9 r3)))
+(define-primitive-concept c67
+    (and c4 c21
+         (all r7 c35)))
+(define-primitive-concept c68
+    (and c17
+         (all r4 c22)
+         (at-least 4 r1)))
+(define-concept c69
+    (and c31 c13
+         (all r4 c2) (all r6 c26)
+         (at-least 3 r9)))
+(define-primitive-concept c70
+    (and c21 c32
+         (at-least 5 r9)
+         (at-most 6 r5)))
+(define-primitive-concept c71
+    (and c11 c35
+         (all r3 c31)
+         (at-least 5 r6)))
+(define-primitive-concept c72
+    (and c29
+         (all r6 c8)))
+(define-concept c73
+    (and c34 c20))
+(define-primitive-concept c74
+    (and c9 c28
+         (all r5 c37) (all r10 c12)
+         (at-most 7 r1)))
+(define-primitive-concept c75
+    (and c33
+         (all r6 c25)
+         (at-least 4 r6)
+         (at-most 8 r4)))
+(define-primitive-concept c76
+    (and c28
+         (all r9 c22) (all r6 c32)))
+(define-concept c77
+    (and c21 c28
+         (at-least 5 r5)
+         (at-most 5 r9)))
+(define-concept c78
+    (and c33
+         (at-least 2 r3)))
+(define-primitive-concept c79
+    (and c18 c27
+         (all r5 c1)
+         (at-most 5 r2)))
+(define-concept c80
+    (and c22 c16
+         (at-least 4 r4)
+         (at-most 9 r4)))
+(define-primitive-concept c81
+    (and c18
+         (all r10 c1) (all r7 c20)
+         (at-most 8 r3)))
+(define-concept c82
+    (and c27 c13
+         (all r4 c1)
+         (at-least 3 r6)))
+(define-primitive-concept c83
+    (and c17
+         (all r3 c6)
+         (at-most 8 r2)))
+(define-concept c84
+    (and c26 c23
+         (at-least 5 r1)))
+(define-primitive-concept c85
+    (and c18 c35
+         (all r8 c13) (all r1 c22)
+         (at-most 6 r1)))
+(define-primitive-concept c86
+    (and c26 c17
+         (all r2 c4) (all r3 c28)
+         (at-least 1 r3)))
+(define-primitive-concept c87
+    (and c32))
+(define-primitive-concept c88
+    (and c22 c13
+         (all r10 c12)))
+(define-primitive-concept c89
+    (and c15 c29
+         (all r7 c14)))
+(define-concept c90
+    (and c36
+         (all r4 c14) (all r6 c27)
+         (at-least 2 r4)))
+(define-concept c91
+    (and c28
+         (all r2 c28)
+         (at-least 2 r1)
+         (at-most 8 r4)))
+(define-primitive-concept c92
+    (and c21 c23
+         (all r4 c7) (all r9 c38)
+         (at-most 8 r3)))
+(define-primitive-concept c93
+    (and c21
+         (all r9 c27)))
+(define-primitive-concept c94
+    (and c6 c24
+         (at-most 6 r10)))
+(define-concept c95
+    (and c9 c15
+         (all r6 c0)
+         (at-least 5 r8)))
+(define-primitive-concept c96
+    (and c8 c27))
+(define-primitive-concept c97
+    (and c25
+         (all r8 c24)
+         (at-least 1 r8)))
+(define-primitive-concept c98
+    (and c13
+         (at-least 2 r10)))
+(define-primitive-concept c99
+    (and c31
+         (all r1 c2) (all r4 c21)
+         (at-most 9 r10)))
+(define-primitive-concept c100
+    (and c6 c18
+         (at-least 4 r2)
+         (at-most 5 r4)))
+(define-primitive-concept c101
+    (and c17 c14
+         (all r4 c28)
+         (at-least 1 r6)
+         (at-most 8 r8)))
+(define-primitive-concept c102
+    (and c20 c33
+         (at-least 1 r6)
+         (at-most 9 r3)))
+(define-primitive-concept c103
+    (and c27
+         (all r4 c20) (all r2 c23)))
+(define-primitive-concept c104
+    (and c21
+         (all r10 c3)
+         (at-least 2 r7)
+         (at-most 5 r9)))
+(define-concept c105
+    (and c2 c32
+         (all r10 c0)
+         (at-least 2 r1)))
+(define-primitive-concept c106
+    (and c23
+         (at-most 9 r8)))
+(define-concept c107
+    (and c20
+         (all r10 c31) (all r6 c37)
+         (at-most 8 r6)))
+(define-primitive-concept c108
+    (and c34 c21
+         (all r4 c18)
+         (at-least 3 r2)
+         (at-most 5 r10)))
+(define-concept c109
+    (and c27
+         (at-least 5 r8)
+         (at-most 9 r2)))
+(define-primitive-concept c110
+    (and c18 c33
+         (all r8 c0)
+         (at-least 4 r8)
+         (at-most 6 r1)))
+(define-primitive-concept c111
+    (and c19
+         (at-least 2 r9)))
+(define-primitive-concept c112
+    (and c12 c32
+         (at-most 5 r10)))
+(define-primitive-concept c113
+    (and c19 c23
+         (all r5 c2) (all r3 c2)
+         (at-least 3 r3)
+         (at-most 5 r2)))
+(define-primitive-concept c114
+    (and c20 c21
+         (all r9 c18)
+         (at-least 4 r1)
+         (at-most 7 r2)))
+(define-primitive-concept c115
+    (and c6 c39
+         (at-least 3 r8)))
+(define-primitive-concept c116
+    (and c35 c25))
+(define-concept c117
+    (and c14 c24))
+(define-primitive-concept c118
+    (and c22 c24
+         (all r6 c15) (all r4 c26)
+         (at-least 1 r10)
+         (at-most 7 r5)))
+(define-primitive-concept c119
+    (and c19 c18
+         (all r2 c21)
+         (at-least 1 r5)))
+(define-concept c120
+    (and c22
+         (all r4 c12) (all r10 c7)))
+(define-primitive-concept c121
+    (and c57 c51
+         (all r1 c97) (all r10 c86)
+         (at-most 6 r4)))
+(define-primitive-concept c122
+    (and c86 c101
+         (all r4 c113)
+         (at-least 1 r4)
+         (at-most 9 r1)))
+(define-primitive-concept c123
+    (and c56
+         (all r7 c72)
+         (at-least 1 r5)))
+(define-primitive-concept c124
+    (and c106 c100
+         (all r3 c43)
+         (at-least 1 r1)))
+(define-concept c125
+    (and c24 c108
+         (all r9 c69)))
+(define-primitive-concept c126
+    (and c94
+         (all r6 c28) (all r10 c111)
+         (at-least 2 r2)))
+(define-primitive-concept c127
+    (and c46 c60
+         (all r3 c45) (all r2 c65)))
+(define-primitive-concept c128
+    (and c119 c101
+         (all r3 c46)
+         (at-least 3 r9)
+         (at-most 6 r8)))
+(define-concept c129
+    (and c55
+         (at-most 6 r4)))
+(define-concept c130
+    (and c58 c87
+         (at-least 5 r4)
+         (at-most 6 r4)))
+(define-primitive-concept c131
+    (and c47
+         (all r9 c96) (all r5 c26)
+         (at-least 5 r3)))
+(define-primitive-concept c132
+    (and c87
+         (all r5 c82)
+         (at-most 5 r3)))
+(define-primitive-concept c133
+    (and c118 c92
+         (all r10 c35) (all r6 c114)
+         (at-most 8 r3)))
+(define-primitive-concept c134
+    (and c77 c120
+         (all r2 c108)
+         (at-most 9 r8)))
+(define-primitive-concept c135
+    (and c42 c95
+         (all r9 c27) (all r8 c38)
+         (at-most 7 r5)))
+(define-concept c136
+    (and c106
+         (all r4 c69)))
+(define-primitive-concept c137
+    (and c67 c60
+         (all r10 c31)
+         (at-most 8 r2)))
+(define-primitive-concept c138
+    (and c85
+         (at-least 1 r5)
+         (at-most 6 r5)))
+(define-primitive-concept c139
+    (and c78
+         (at-most 5 r2)))
+(define-primitive-concept c140
+    (and c81 c69
+         (at-least 3 r4)
+         (at-most 5 r1)))
+(define-primitive-concept c141
+    (and c73
+         (all r9 c32) (all r3 c97)))
+(define-primitive-concept c142
+    (and c67
+         (all r1 c45) (all r2 c107)
+         (at-least 5 r8)))
+(define-concept c143
+    (and c87
+         (at-least 5 r10)))
+(define-concept c144
+    (and c95 c116
+         (at-most 6 r6)))
+(define-concept c145
+    (and c105 c61
+         (all r8 c49) (all r10 c60)
+         (at-least 3 r10)
+         (at-most 8 r10)))
+(define-primitive-concept c146
+    (and c46
+         (all r2 c105)
+         (at-least 3 r5)
+         (at-most 5 r9)))
+(define-primitive-concept c147
+    (and c26 c81
+         (all r8 c106)
+         (at-least 4 r4)))
+(define-primitive-concept c148
+    (and c44 c120
+         (all r10 c96)))
+(define-concept c149
+    (and c102
+         (at-least 1 r6)
+         (at-most 9 r1)))
+(define-primitive-concept c150
+    (and c89 c43
+         (all r6 c114)
+         (at-most 6 r2)))
+(define-primitive-concept c151
+    (and c10 c59
+         (all r5 c35)
+         (at-least 3 r1)))
+(define-primitive-concept c152
+    (and c84
+         (at-least 4 r10)
+         (at-most 9 r1)))
+(define-concept c153
+    (and c62
+         (at-least 5 r6)))
+(define-primitive-concept c154
+    (and c58
+         (all r4 c37)
+         (at-most 5 r2)))
+(define-primitive-concept c155
+    (and c103 c89
+         (all r9 c62)
+         (at-least 3 r7)))
+(define-primitive-concept c156
+    (and c49 c112))
+(define-primitive-concept c157
+    (and c97 c74
+         (at-most 5 r2)))
+(define-primitive-concept c158
+    (and c100 c103
+         (at-least 2 r4)
+         (at-most 8 r8)))
+(define-primitive-concept c159
+    (and c78
+         (all r3 c102) (all r8 c116)
+         (at-most 5 r9)))
+(define-primitive-concept c160
+    (and c49
+         (all r9 c60)
+         (at-most 6 r7)))
+(define-concept c161
+    (and c113 c61
+         (at-least 2 r9)
+         (at-most 9 r2)))
+(define-concept c162
+    (and c106 c108
+         (at-most 7 r7)))
+(define-primitive-concept c163
+    (and c69 c84
+         (all r5 c55)
+         (at-most 7 r4)))
+(define-primitive-concept c164
+    (and c104 c71
+         (all r7 c99)))
+(define-concept c165
+    (and c86 c108
+         (all r8 c92)
+         (at-most 5 r9)))
+(define-primitive-concept c166
+    (and c118
+         (at-least 1 r9)))
+(define-primitive-concept c167
+    (and c84
+         (all r3 c11)
+         (at-most 5 r1)))
+(define-concept c168
+    (and c115 c120
+         (at-most 7 r3)))
+(define-primitive-concept c169
+    (and c93
+         (at-least 1 r5)
+         (at-most 6 r3)))
+(define-concept c170
+    (and c96
+         (at-most 5 r4)))
+(define-primitive-concept c171
+    (and c108 c57
+         (all r8 c31) (all r4 c113)
+         (at-least 5 r2)
+         (at-most 5 r7)))
+(define-primitive-concept c172
+    (and c40
+         (all r5 c54)
+         (at-least 4 r9)
+         (at-most 6 r10)))
+(define-primitive-concept c173
+    (and c86
+         (all r10 c50)))
+(define-concept c174
+    (and c95 c52
+         (all r9 c55)
+         (at-most 5 r7)))
+(define-primitive-concept c175
+    (and c85 c65
+         (all r3 c59)
+         (at-least 4 r2)))
+(define-primitive-concept c176
+    (and c84 c94))
+(define-primitive-concept c177
+    (and c87
+         (all r2 c34)))
+(define-primitive-concept c178
+    (and c120
+         (all r8 c76)
+         (at-least 5 r6)))
+(define-primitive-concept c179
+    (and c98 c103
+         (all r8 c119) (all r5 c113)
+         (at-most 5 r4)))
+(define-primitive-concept c180
+    (and c64
+         (all r2 c25) (all r6 c32)
+         (at-least 2 r7)))
+(define-primitive-concept c181
+    (and c9 c55
+         (all r3 c44) (all r8 c33)))
+(define-primitive-concept c182
+    (and c11 c73
+         (all r5 c97) (all r2 c95)
+         (at-most 7 r4)))
+(define-primitive-concept c183
+    (and c112
+         (all r7 c86) (all r3 c20)
+         (at-least 4 r4)
+         (at-most 7 r8)))
+(define-primitive-concept c184
+    (and c118 c104))
+(define-primitive-concept c185
+    (and c95))
+(define-primitive-concept c186
+    (and c61 c104
+         (all r9 c91)))
+(define-primitive-concept c187
+    (and c109 c92
+         (all r3 c12)
+         (at-most 7 r6)))
+(define-concept c188
+    (and c46 c70
+         (all r10 c67) (all r8 c4)
+         (at-least 4 r7)
+         (at-most 9 r7)))
+(define-primitive-concept c189
+    (and c112
+         (all r9 c17)
+         (at-least 1 r9)
+         (at-most 6 r2)))
+(define-primitive-concept c190
+    (and c71
+         (all r1 c90) (all r8 c6)
+         (at-most 6 r5)))
+(define-primitive-concept c191
+    (and c116 c120
+         (at-least 1 r9)
+         (at-most 8 r8)))
+(define-primitive-concept c192
+    (and c18 c65
+         (at-least 3 r5)
+         (at-most 8 r7)))
+(define-primitive-concept c193
+    (and c90 c100
+         (all r1 c48)
+         (at-least 3 r4)
+         (at-most 5 r4)))
+(define-primitive-concept c194
+    (and c59 c109
+         (all r9 c34)
+         (at-least 3 r10)
+         (at-most 7 r6)))
+(define-concept c195
+    (and c113
+         (at-most 7 r6)))
+(define-primitive-concept c196
+    (and c112 c62
+         (all r5 c38)
+         (at-least 5 r1)
+         (at-most 7 r8)))
+(define-concept c197
+    (and c60 c46
+         (all r5 c33) (all r8 c24)
+         (at-least 5 r8)))
+(define-primitive-concept c198
+    (and c73
+         (at-least 5 r8)
+         (at-most 8 r1)))
+(define-primitive-concept c199
+    (and c41 c106
+         (all r3 c40) (all r10 c25)
+         (at-least 4 r1)
+         (at-most 5 r2)))
+(define-primitive-concept c200
+    (and c85 c74
+         (all r3 c93) (all r9 c89)
+         (at-least 3 r9)
+         (at-most 8 r7)))
+(define-primitive-concept c201
+    (and c101))
+(define-primitive-concept c202
+    (and c8 c116
+         (all r4 c85) (all r7 c38)
+         (at-least 4 r3)
+         (at-most 6 r8)))
+(define-concept c203
+    (and c50
+         (at-least 3 r5)
+         (at-most 6 r1)))
+(define-primitive-concept c204
+    (and c76 c80
+         (all r2 c13) (all r10 c89)
+         (at-most 6 r8)))
+(define-primitive-concept c205
+    (and c40
+         (all r2 c76)
+         (at-least 3 r2)))
+(define-primitive-concept c206
+    (and c77
+         (at-most 7 r1)))
+(define-primitive-concept c207
+    (and c38 c54))
+(define-concept c208
+    (and c31 c69
+         (all r8 c36) (all r7 c109)
+         (at-most 7 r9)))
+(define-primitive-concept c209
+    (and c7 c111
+         (all r10 c85) (all r8 c107)
+         (at-least 1 r1)
+         (at-most 9 r7)))
+(define-primitive-concept c210
+    (and c90 c85
+         (all r9 c27)))
+(define-primitive-concept c211
+    (and c110
+         (all r4 c80)))
+(define-primitive-concept c212
+    (and c105 c108
+         (all r3 c91)
+         (at-least 2 r10)
+         (at-most 8 r3)))
+(define-primitive-concept c213
+    (and c115
+         (all r3 c70) (all r4 c108)
+         (at-most 5 r8)))
+(define-concept c214
+    (and c45 c59
+         (at-least 3 r1)
+         (at-most 7 r3)))
+(define-concept c215
+    (and c56
+         (all r5 c1)
+         (at-least 4 r4)))
+(define-primitive-concept c216
+    (and c25 c98
+         (all r10 c42)))
+(define-primitive-concept c217
+    (and c86
+         (all r10 c116) (all r4 c108)
+         (at-least 1 r9)
+         (at-most 6 r6)))
+(define-primitive-concept c218
+    (and c23 c52
+         (all r3 c67) (all r10 c42)
+         (at-most 7 r5)))
+(define-concept c219
+    (and c81
+         (all r6 c104)
+         (at-least 3 r1)))
+(define-primitive-concept c220
+    (and c79 c83
+         (at-most 8 r10)))
+(define-primitive-concept c221
+    (and c71
+         (all r4 c3)))
+(define-primitive-concept c222
+    (and c46 c62
+         (all r8 c101) (all r10 c83)
+         (at-most 8 r2)))
+(define-primitive-concept c223
+    (and c19 c67))
+(define-concept c224
+    (and c71 c88
+         (all r7 c95)))
+(define-concept c225
+    (and c88
+         (at-least 5 r1)))
+(define-primitive-concept c226
+    (and c3 c57
+         (all r9 c68)
+         (at-most 9 r5)))
+(define-primitive-concept c227
+    (and c58
+         (all r4 c35) (all r10 c41)
+         (at-most 5 r9)))
+(define-primitive-concept c228
+    (and c44 c83))
+(define-concept c229
+    (and c45 c50
+         (at-least 5 r4)))
+(define-primitive-concept c230
+    (and c98
+         (all r1 c22) (all r6 c75)
+         (at-least 2 r2)))
+(define-concept c231
+    (and c53 c66
+         (at-least 1 r1)))
+(define-primitive-concept c232
+    (and c58 c63
+         (all r9 c70)
+         (at-most 9 r7)))
+(define-primitive-concept c233
+    (and c67 c49
+         (all r2 c120)
+         (at-least 5 r2)))
+(define-primitive-concept c234
+    (and c97 c42
+         (all r1 c45) (all r3 c108)
+         (at-least 5 r1)
+         (at-most 7 r4)))
+(define-primitive-concept c235
+    (and c18 c61
+         (all r6 c18) (all r8 c20)
+         (at-least 4 r7)
+         (at-most 5 r10)))
+(define-concept c236
+    (and c68
+         (at-least 4 r9)
+         (at-most 5 r6)))
+(define-primitive-concept c237
+    (and c112
+         (all r1 c46) (all r5 c100)
+         (at-least 3 r7)))
+(define-primitive-concept c238
+    (and c57
+         (all r4 c64) (all r2 c22)))
+(define-primitive-concept c239
+    (and c61
+         (all r9 c74)))
+(define-primitive-concept c240
+    (and c82
+         (at-least 4 r5)))
+(define-primitive-concept c241
+    (and c114
+         (all r10 c15)
+         (at-least 1 r3)))
+(define-primitive-concept c242
+    (and c91 c99))
+(define-primitive-concept c243
+    (and c95
+         (all r9 c118) (all r2 c24)
+         (at-least 1 r3)))
+(define-primitive-concept c244
+    (and c116 c92
+         (all r8 c6) (all r3 c61)))
+(define-concept c245
+    (and c64
+         (at-most 6 r5)))
+(define-concept c246
+    (and c99
+         (at-least 2 r2)
+         (at-most 6 r8)))
+(define-concept c247
+    (and c118 c78
+         (at-most 7 r8)))
+(define-primitive-concept c248
+    (and c118
+         (at-least 2 r2)
+         (at-most 5 r10)))
+(define-primitive-concept c249
+    (and c94 c53
+         (all r4 c40) (all r2 c102)))
+(define-primitive-concept c250
+    (and c43 c44
+         (all r3 c76)
+         (at-least 5 r2)
+         (at-most 5 r2)))
+(define-primitive-concept c251
+    (and c88))
+(define-primitive-concept c252
+    (and c16 c120
+         (at-least 5 r9)
+         (at-most 5 r5)))
+(define-concept c253
+    (and c94 c101
+         (all r5 c69) (all r1 c117)
+         (at-most 8 r3)))
+(define-concept c254
+    (and c118 c120
+         (all r6 c22) (all r9 c109)
+         (at-least 2 r8)
+         (at-most 9 r7)))
+(define-primitive-concept c255
+    (and c62 c81
+         (all r7 c118)))
+(define-concept c256
+    (and c52 c66
+         (all r9 c3) (all r5 c102)))
+(define-concept c257
+    (and c58 c67
+         (all r8 c85)))
+(define-concept c258
+    (and c14 c82))
+(define-primitive-concept c259
+    (and c96
+         (all r1 c77) (all r3 c116)
+         (at-least 2 r3)))
+(define-primitive-concept c260
+    (and c109
+         (all r5 c36) (all r6 c74)
+         (at-most 5 r4)))
+(define-primitive-concept c261
+    (and c104 c77
+         (all r10 c43)
+         (at-most 8 r5)))
+(define-primitive-concept c262
+    (and c116 c58
+         (all r7 c49)
+         (at-least 3 r3)
+         (at-most 5 r8)))
+(define-concept c263
+    (and c90
+         (all r1 c24) (all r2 c52)
+         (at-least 4 r2)))
+(define-concept c264
+    (and c96
+         (all r6 c115)
+         (at-most 9 r8)))
+(define-primitive-concept c265
+    (and c80
+         (at-least 2 r4)
+         (at-most 6 r9)))
+(define-primitive-concept c266
+    (and c107 c92
+         (at-least 2 r6)))
+(define-primitive-concept c267
+    (and c115
+         (all r4 c46)))
+(define-primitive-concept c268
+    (and c56
+         (all r5 c70) (all r8 c69)))
+(define-primitive-concept c269
+    (and c50
+         (all r6 c27) (all r3 c43)
+         (at-least 4 r10)))
+(define-concept c270
+    (and c94
+         (all r1 c37) (all r10 c25)))
+(define-concept c271
+    (and c87
+         (all r3 c60)
+         (at-most 9 r1)))
+(define-concept c272
+    (and c86 c97
+         (all r3 c42) (all r4 c19)
+         (at-least 3 r6)))
+(define-primitive-concept c273
+    (and c113 c101
+         (all r1 c103)
+         (at-most 5 r4)))
+(define-primitive-concept c274
+    (and c72 c88
+         (all r3 c51) (all r4 c2)
+         (at-least 3 r10)))
+(define-concept c275
+    (and c62
+         (all r2 c54)
+         (at-most 6 r8)))
+(define-primitive-concept c276
+    (and c119
+         (at-least 3 r10)
+         (at-most 5 r10)))
+(define-primitive-concept c277
+    (and c35 c88
+         (at-least 1 r3)))
+(define-primitive-concept c278
+    (and c27 c97
+         (all r7 c38)
+         (at-least 5 r6)
+         (at-most 8 r10)))
+(define-primitive-concept c279
+    (and c56))
+(define-primitive-concept c280
+    (and c69
+         (all r8 c52)
+         (at-least 4 r7)))
+(define-primitive-concept c281
+    (and c33 c95
+         (all r7 c42)
+         (at-least 3 r9)))
+(define-primitive-concept c282
+    (and c112
+         (all r4 c86)
+         (at-most 8 r10)))
+(define-primitive-concept c283
+    (and c46 c84
+         (all r2 c69) (all r6 c7)
+         (at-least 4 r5)))
+(define-primitive-concept c284
+    (and c57
+         (at-least 4 r2)))
+(define-primitive-concept c285
+    (and c17 c51
+         (all r2 c17)
+         (at-least 1 r8)))
+(define-primitive-concept c286
+    (and c63
+         (all r5 c97) (all r7 c3)))
+(define-primitive-concept c287
+    (and c107 c41
+         (all r3 c104)
+         (at-least 3 r2)
+         (at-most 9 r4)))
+(define-concept c288
+    (and c51
+         (all r10 c115)
+         (at-most 5 r9)))
+(define-primitive-concept c289
+    (and c110 c82
+         (all r5 c3)
+         (at-least 3 r2)))
+(define-primitive-concept c290
+    (and c58
+         (all r1 c113) (all r9 c29)))
+(define-primitive-concept c291
+    (and c63 c90
+         (at-least 3 r1)))
+(define-concept c292
+    (and c51
+         (all r5 c66)
+         (at-least 5 r10)
+         (at-most 7 r10)))
+(define-concept c293
+    (and c62 c112
+         (all r6 c60)
+         (at-least 4 r2)
+         (at-most 8 r9)))
+(define-primitive-concept c294
+    (and c84
+         (all r4 c56) (all r5 c20)
+         (at-least 4 r7)))
+(define-primitive-concept c295
+    (and c49
+         (all r2 c37)
+         (at-least 2 r8)
+         (at-most 5 r2)))
+(define-primitive-concept c296
+    (and c70
+         (all r5 c19) (all r3 c57)
+         (at-most 9 r3)))
+(define-concept c297
+    (and c23 c82))
+(define-concept c298
+    (and c25 c103
+         (all r3 c3)
+         (at-least 4 r5)))
+(define-primitive-concept c299
+    (and c24 c46
+         (all r1 c17)
+         (at-least 1 r6)
+         (at-most 9 r1)))
+(define-concept c300
+    (and c69
+         (at-least 3 r1)
+         (at-most 9 r1)))
+(define-primitive-concept c301
+    (and c50
+         (at-most 5 r9)))
+(define-concept c302
+    (and c52 c62
+         (at-most 6 r7)))
+(define-concept c303
+    (and c57
+         (all r5 c47) (all r6 c118)))
+(define-primitive-concept c304
+    (and c105
+         (all r1 c18)
+         (at-least 5 r2)))
+(define-primitive-concept c305
+    (and c114 c44
+         (all r5 c105)
+         (at-least 2 r3)))
+(define-primitive-concept c306
+    (and c82 c101
+         (all r5 c79)
+         (at-most 5 r4)))
+(define-primitive-concept c307
+    (and c69
+         (all r9 c69) (all r8 c71)))
+(define-primitive-concept c308
+    (and c94
+         (all r1 c40)
+         (at-least 5 r3)
+         (at-most 8 r3)))
+(define-primitive-concept c309
+    (and c97
+         (all r9 c90)))
+(define-primitive-concept c310
+    (and c57
+         (all r8 c94) (all r3 c72)
+         (at-most 5 r10)))
+(define-concept c311
+    (and c56 c76
+         (at-least 5 r9)
+         (at-most 5 r6)))
+(define-concept c312
+    (and c10 c80
+         (at-least 5 r4)
+         (at-most 9 r9)))
+(define-primitive-concept c313
+    (and c73
+         (all r10 c23)))
+(define-primitive-concept c314
+    (and c60
+         (at-least 3 r7)
+         (at-most 9 r7)))
+(define-primitive-concept c315
+    (and c59 c57
+         (at-least 4 r5)))
+(define-primitive-concept c316
+    (and c65
+         (at-least 1 r8)))
+(define-primitive-concept c317
+    (and c89
+         (at-least 4 r5)))
+(define-primitive-concept c318
+    (and c19 c76
+         (all r2 c99)
+         (at-most 8 r2)))
+(define-primitive-concept c319
+    (and c110 c82))
+(define-concept c320
+    (and c86
+         (all r7 c67) (all r10 c39)
+         (at-least 5 r10)))
+(define-primitive-concept c321
+    (and c107))
+(define-primitive-concept c322
+    (and c116
+         (all r7 c103) (all r4 c37)
+         (at-least 2 r5)))
+(define-concept c323
+    (and c117 c83
+         (all r1 c99)
+         (at-least 1 r1)
+         (at-most 5 r3)))
+(define-concept c324
+    (and c117
+         (all r7 c114)
+         (at-least 2 r10)))
+(define-concept c325
+    (and c74
+         (at-least 1 r6)
+         (at-most 8 r5)))
+(define-concept c326
+    (and c107 c106
+         (at-least 1 r7)))
+(define-concept c327
+    (and c3 c82
+         (all r3 c58)
+         (at-most 7 r10)))
+(define-concept c328
+    (and c70 c50
+         (at-most 5 r2)))
+(define-primitive-concept c329
+    (and c105
+         (all r3 c10)
+         (at-least 5 r6)
+         (at-most 5 r5)))
+(define-primitive-concept c330
+    (and c88
+         (all r4 c51)
+         (at-least 2 r6)))
+(define-primitive-concept c331
+    (and c54 c120
+         (all r7 c109)
+         (at-least 4 r2)))
+(define-primitive-concept c332
+    (and c3 c118
+         (at-most 6 r9)))
+(define-primitive-concept c333
+    (and c113
+         (at-most 9 r10)))
+(define-primitive-concept c334
+    (and c99
+         (all r8 c19)))
+(define-primitive-concept c335
+    (and c82
+         (all r6 c16)
+         (at-least 3 r9)
+         (at-most 9 r10)))
+(define-primitive-concept c336
+    (and c67
+         (all r3 c85)
+         (at-most 7 r6)))
+(define-concept c337
+    (and c29 c89
+         (all r2 c56)
+         (at-most 7 r5)))
+(define-concept c338
+    (and c46 c102
+         (at-most 9 r1)))
+(define-primitive-concept c339
+    (and c82 c118
+         (all r1 c64) (all r8 c115)
+         (at-least 4 r2)))
+(define-primitive-concept c340
+    (and c92
+         (at-least 4 r6)))
+(define-primitive-concept c341
+    (and c90 c64
+         (all r3 c79)))
+(define-concept c342
+    (and c15 c120
+         (all r4 c100) (all r9 c26)))
+(define-concept c343
+    (and c43 c72
+         (all r2 c24)
+         (at-least 2 r6)))
+(define-primitive-concept c344
+    (and c21 c69))
+(define-concept c345
+    (and c45 c105
+         (all r7 c34)
+         (at-most 8 r4)))
+(define-concept c346
+    (and c90 c49
+         (at-least 3 r5)
+         (at-most 7 r6)))
+(define-primitive-concept c347
+    (and c49 c107
+         (all r5 c92)
+         (at-least 5 r3)
+         (at-most 7 r7)))
+(define-primitive-concept c348
+    (and c69
+         (all r2 c27)
+         (at-least 3 r9)))
+(define-primitive-concept c349
+    (and c10 c64
+         (at-least 1 r9)
+         (at-most 9 r6)))
+(define-primitive-concept c350
+    (and c57
+         (all r8 c8)
+         (at-most 7 r8)))
+(define-concept c351
+    (and c81 c99
+         (all r10 c117) (all r5 c83)))
+(define-primitive-concept c352
+    (and c41 c104
+         (all r5 c18)
+         (at-most 5 r10)))
+(define-primitive-concept c353
+    (and c47 c78
+         (at-least 4 r5)
+         (at-most 9 r1)))
+(define-primitive-concept c354
+    (and c22 c53
+         (at-least 1 r5)))
+(define-primitive-concept c355
+    (and c107 c57
+         (at-most 8 r9)))
+(define-primitive-concept c356
+    (and c79 c61
+         (at-least 1 r9)
+         (at-most 7 r6)))
+(define-primitive-concept c357
+    (and c119 c109
+         (all r3 c23) (all r9 c109)))
+(define-concept c358
+    (and c80 c64
+         (at-most 8 r3)))
+(define-primitive-concept c359
+    (and c45
+         (at-most 6 r9)))
+(define-primitive-concept c360
+    (and c96 c48))
+(define-primitive-concept c361
+    (and c102 c109
+         (at-most 9 r1)))
+(define-primitive-concept c362
+    (and c46
+         (at-least 4 r8)
+         (at-most 8 r6)))
+(define-concept c363
+    (and c95
+         (at-least 2 r10)
+         (at-most 6 r9)))
+(define-primitive-concept c364
+    (and c26 c238
+         (at-least 3 r6)
+         (at-most 6 r6)))
+(define-primitive-concept c365
+    (and c360))
+(define-concept c366
+    (and c267 c137
+         (all r2 c192)
+         (at-least 1 r8)
+         (at-most 6 r6)))
+(define-concept c367
+    (and c81 c133
+         (all r1 c179)))
+(define-primitive-concept c368
+    (and c128 c201
+         (all r8 c190)
+         (at-least 1 r10)))
+(define-primitive-concept c369
+    (and c93 c205
+         (all r3 c63)
+         (at-most 5 r9)))
+(define-primitive-concept c370
+    (and c179))
+(define-primitive-concept c371
+    (and c28 c148
+         (all r2 c53)
+         (at-least 2 r2)
+         (at-most 9 r2)))
+(define-primitive-concept c372
+    (and c35 c202
+         (at-least 2 r4)
+         (at-most 7 r6)))
+(define-concept c373
+    (and c333 c207
+         (at-least 3 r9)
+         (at-most 5 r5)))
+(define-primitive-concept c374
+    (and c242
+         (all r6 c299) (all r1 c278)))
+(define-primitive-concept c375
+    (and c68 c174
+         (all r4 c189)))
+(define-concept c376
+    (and c167 c317))
+(define-primitive-concept c377
+    (and c139 c305
+         (all r7 c335)
+         (at-least 2 r10)))
+(define-primitive-concept c378
+    (and c169 c127
+         (all r10 c355)
+         (at-least 3 r4)
+         (at-most 9 r2)))
+(define-concept c379
+    (and c159
+         (all r4 c44)
+         (at-most 8 r5)))
+(define-concept c380
+    (and c300
+         (all r10 c96)
+         (at-least 1 r1)
+         (at-most 7 r6)))
+(define-concept c381
+    (and c108 c263
+         (all r2 c222)
+         (at-least 3 r1)))
+(define-primitive-concept c382
+    (and c145
+         (all r8 c19) (all r1 c8)
+         (at-most 6 r10)))
+(define-concept c383
+    (and c160 c310
+         (all r6 c286) (all r3 c72)))
+(define-primitive-concept c384
+    (and c276 c174))
+(define-concept c385
+    (and c253 c294
+         (all r8 c277) (all r5 c71)))
+(define-primitive-concept c386
+    (and c209
+         (at-least 5 r8)))
+(define-primitive-concept c387
+    (and c177
+         (all r8 c141) (all r5 c132)
+         (at-least 3 r3)))
+(define-concept c388
+    (and c137
+         (at-least 5 r6)))
+(define-primitive-concept c389
+    (and c111 c178
+         (at-least 2 r2)))
+(define-primitive-concept c390
+    (and c249
+         (all r4 c62)
+         (at-least 1 r8)
+         (at-most 9 r4)))
+(define-primitive-concept c391
+    (and c185 c316
+         (all r10 c106)
+         (at-least 4 r6)
+         (at-most 7 r2)))
+(define-primitive-concept c392
+    (and c239
+         (all r9 c244) (all r7 c102)
+         (at-least 3 r1)
+         (at-most 6 r10)))
+(define-primitive-concept c393
+    (and c230 c294
+         (all r9 c250)
+         (at-least 5 r6)))
+(define-primitive-concept c394
+    (and c218
+         (all r4 c271) (all r5 c31)))
+(define-primitive-concept c395
+    (and c249
+         (all r6 c345) (all r7 c6)
+         (at-least 4 r4)))
+(define-primitive-concept c396
+    (and c181 c164))
+(define-primitive-concept c397
+    (and c140 c355
+         (all r2 c175)
+         (at-most 5 r2)))
+(define-concept c398
+    (and c140
+         (all r9 c259)))
+(define-concept c399
+    (and c285 c317
+         (at-least 4 r9)))
+(define-concept c400
+    (and c215
+         (all r6 c50) (all r4 c31)
+         (at-most 8 r5)))
+(define-primitive-concept c401
+    (and c222 c237
+         (all r1 c16)))
+(define-primitive-concept c402
+    (and c302))
+(define-primitive-concept c403
+    (and c4 c269
+         (all r9 c269) (all r10 c183)
+         (at-most 8 r8)))
+(define-primitive-concept c404
+    (and c119 c175
+         (at-least 5 r6)))
+(define-primitive-concept c405
+    (and c180
+         (all r6 c115)))
+(define-concept c406
+    (and c127
+         (at-least 3 r9)
+         (at-most 7 r1)))
+(define-concept c407
+    (and c329
+         (all r7 c358) (all r2 c98)
+         (at-most 6 r2)))
+(define-primitive-concept c408
+    (and c342
+         (all r8 c46) (all r6 c203)
+         (at-most 7 r10)))
+(define-concept c409
+    (and c218
+         (all r7 c34) (all r2 c352)
+         (at-least 1 r8)))
+(define-primitive-concept c410
+    (and c300
+         (at-least 4 r5)
+         (at-most 7 r7)))
+(define-primitive-concept c411
+    (and c362 c294))
+(define-primitive-concept c412
+    (and c201 c342
+         (all r5 c278) (all r7 c311)
+         (at-least 5 r4)))
+(define-primitive-concept c413
+    (and c317 c297
+         (all r9 c102) (all r6 c44)
+         (at-most 8 r5)))
+(define-concept c414
+    (and c296
+         (all r10 c145)
+         (at-least 5 r10)
+         (at-most 8 r2)))
+(define-concept c415
+    (and c168 c353
+         (all r2 c281)
+         (at-most 9 r5)))
+(define-primitive-concept c416
+    (and c202 c187
+         (at-least 3 r6)
+         (at-most 6 r3)))
+(define-primitive-concept c417
+    (and c202 c346
+         (all r10 c338) (all r3 c70)
+         (at-least 5 r1)))
+(define-primitive-concept c418
+    (and c340 c144
+         (at-least 5 r8)))
+(define-concept c419
+    (and c12 c335
+         (all r5 c4)))
+(define-primitive-concept c420
+    (and c131
+         (all r3 c248)
+         (at-most 7 r4)))
+(define-primitive-concept c421
+    (and c203 c126
+         (at-most 9 r2)))
+(define-primitive-concept c422
+    (and c323
+         (all r1 c190)))
+(define-concept c423
+    (and c285
+         (all r1 c201)
+         (at-least 2 r9)))
+(define-primitive-concept c424
+    (and c270 c340
+         (all r9 c310)
+         (at-least 2 r2)))
+(define-primitive-concept c425
+    (and c60 c256
+         (all r2 c65)))
+(define-primitive-concept c426
+    (and c347 c189
+         (all r1 c131)
+         (at-least 5 r3)
+         (at-most 7 r10)))
+(define-primitive-concept c427
+    (and c186
+         (all r9 c165)
+         (at-least 5 r7)
+         (at-most 7 r4)))
+(define-concept c428
+    (and c268 c219))
+(define-primitive-concept c429
+    (and c176
+         (all r8 c207) (all r7 c22)))
+(define-primitive-concept c430
+    (and c91 c224
+         (at-least 5 r1)
+         (at-most 8 r4)))
+(define-primitive-concept c431
+    (and c247
+         (at-most 6 r4)))
+(define-primitive-concept c432
+    (and c42 c292
+         (all r10 c28) (all r7 c137)
+         (at-least 3 r10)
+         (at-most 6 r6)))
+(define-primitive-concept c433
+    (and c291
+         (all r1 c16)
+         (at-most 5 r5)))
+(define-concept c434
+    (and c323
+         (at-least 4 r2)))
+(define-primitive-concept c435
+    (and c202))
+(define-primitive-concept c436
+    (and c2 c205
+         (all r8 c266)))
+(define-concept c437
+    (and c136
+         (at-most 5 r4)))
+(define-primitive-concept c438
+    (and c198))
+(define-primitive-concept c439
+    (and c260
+         (all r8 c192)
+         (at-least 4 r7)
+         (at-most 7 r10)))
+(define-primitive-concept c440
+    (and c171
+         (all r5 c68) (all r3 c150)
+         (at-least 3 r9)
+         (at-most 6 r6)))
+(define-primitive-concept c441
+    (and c170 c178
+         (all r6 c17)
+         (at-most 6 r6)))
+(define-primitive-concept c442
+    (and c327 c198
+         (all r6 c41) (all r4 c231)
+         (at-least 1 r5)
+         (at-most 9 r1)))
+(define-primitive-concept c443
+    (and c145 c307
+         (at-least 4 r9)))
+(define-primitive-concept c444
+    (and c353
+         (all r10 c159)))
+(define-primitive-concept c445
+    (and c171 c267
+         (all r5 c107)))
+(define-concept c446
+    (and c335 c163
+         (all r9 c220)
+         (at-least 3 r3)
+         (at-most 8 r5)))
+(define-primitive-concept c447
+    (and c305
+         (at-least 1 r1)
+         (at-most 8 r2)))
+(define-primitive-concept c448
+    (and c168 c298
+         (at-least 5 r10)
+         (at-most 9 r6)))
+(define-concept c449
+    (and c54 c260
+         (all r9 c282) (all r3 c352)
+         (at-least 1 r3)
+         (at-most 5 r8)))
+(define-primitive-concept c450
+    (and c165
+         (all r3 c331)
+         (at-least 1 r2)))
+(define-primitive-concept c451
+    (and c311
+         (all r1 c237)
+         (at-least 1 r1)))
+(define-primitive-concept c452
+    (and c175
+         (all r3 c343)
+         (at-least 3 r4)
+         (at-most 8 r5)))
+(define-concept c453
+    (and c287 c214))
+(define-primitive-concept c454
+    (and c188 c174
+         (at-least 1 r6)
+         (at-most 9 r6)))
+(define-concept c455
+    (and c187
+         (all r7 c247)
+         (at-least 1 r6)
+         (at-most 8 r6)))
+(define-primitive-concept c456
+    (and c147
+         (all r8 c249)))
+(define-primitive-concept c457
+    (and c144
+         (all r5 c178) (all r9 c101)
+         (at-least 5 r2)))
+(define-concept c458
+    (and c293
+         (all r10 c306)
+         (at-least 5 r10)))
+(define-primitive-concept c459
+    (and c184 c186
+         (at-most 9 r8)))
+(define-concept c460
+    (and c222 c264
+         (all r2 c331) (all r5 c31)))
+(define-concept c461
+    (and c253
+         (all r8 c289) (all r10 c9)
+         (at-least 2 r7)))
+(define-primitive-concept c462
+    (and c9 c225
+         (at-least 5 r3)))
+(define-primitive-concept c463
+    (and c180 c135
+         (at-least 4 r5)
+         (at-most 9 r3)))
+(define-primitive-concept c464
+    (and c251 c210
+         (all r10 c119)))
+(define-primitive-concept c465
+    (and c174))
+(define-concept c466
+    (and c272
+         (all r2 c89) (all r10 c85)
+         (at-least 4 r10)
+         (at-most 7 r6)))
+(define-primitive-concept c467
+    (and c24 c180
+         (all r4 c283) (all r2 c170)))
+(define-primitive-concept c468
+    (and c297
+         (all r7 c266) (all r8 c141)))
+(define-primitive-concept c469
+    (and c277 c166
+         (all r7 c325)
+         (at-least 3 r5)))
+(define-primitive-concept c470
+    (and c152 c300
+         (all r6 c231) (all r3 c322)
+         (at-least 1 r8)
+         (at-most 7 r9)))
+(define-concept c471
+    (and c156 c229
+         (at-most 7 r8)))
+(define-primitive-concept c472
+    (and c262
+         (all r8 c133) (all r6 c211)
+         (at-most 9 r1)))
+(define-primitive-concept c473
+    (and c245 c155))
+(define-primitive-concept c474
+    (and c172
+         (all r10 c308)
+         (at-most 8 r2)))
+(define-primitive-concept c475
+    (and c142
+         (all r4 c226) (all r1 c204)))
+(define-primitive-concept c476
+    (and c21 c191
+         (all r8 c70) (all r3 c345)
+         (at-least 3 r6)))
+(define-primitive-concept c477
+    (and c185 c253
+         (at-least 3 r5)
+         (at-most 9 r8)))
+(define-concept c478
+    (and c102 c221
+         (at-least 2 r10)))
+(define-concept c479
+    (and c276 c221
+         (all r10 c39)
+         (at-least 1 r8)
+         (at-most 5 r9)))
+(define-primitive-concept c480
+    (and c191 c212
+         (at-least 3 r8)
+         (at-most 8 r10)))
+(define-primitive-concept c481
+    (and c304
+         (all r8 c356)
+         (at-most 5 r9)))
+(define-primitive-concept c482
+    (and c209 c245
+         (all r4 c295)
+         (at-least 5 r1)))
+(define-primitive-concept c483
+    (and c186
+         (all r8 c79) (all r5 c283)
+         (at-least 5 r10)))
+(define-primitive-concept c484
+    (and c310
+         (all r5 c116) (all r6 c67)
+         (at-most 8 r6)))
+(define-primitive-concept c485
+    (and c324
+         (all r5 c37) (all r8 c257)
+         (at-least 4 r3)))
+(define-concept c486
+    (and c296 c198
+         (all r4 c193) (all r2 c56)
+         (at-most 5 r9)))
+(define-primitive-concept c487
+    (and c195
+         (all r9 c344)
+         (at-most 6 r9)))
+(define-primitive-concept c488
+    (and c326 c230
+         (all r8 c106)
+         (at-most 6 r7)))
+(define-concept c489
+    (and c254
+         (at-most 8 r7)))
+(define-concept c490
+    (and c250
+         (all r8 c82) (all r3 c259)
+         (at-least 2 r4)))
+(define-primitive-concept c491
+    (and c121
+         (at-least 3 r10)))
+(define-primitive-concept c492
+    (and c55 c153
+         (all r3 c22) (all r1 c359)))
+(define-concept c493
+    (and c284
+         (all r5 c316)
+         (at-least 4 r10)
+         (at-most 5 r6)))
+(define-primitive-concept c494
+    (and c318 c316
+         (all r3 c131)
+         (at-most 5 r7)))
+(define-primitive-concept c495
+    (and c95 c177
+         (at-least 5 r2)))
+(define-primitive-concept c496
+    (and c121 c288
+         (at-least 1 r1)))
+(define-primitive-concept c497
+    (and c3 c295
+         (all r4 c12) (all r3 c173)))
+(define-primitive-concept c498
+    (and c336
+         (all r5 c352)))
+(define-concept c499
+    (and c151
+         (at-least 2 r4)))
+(define-primitive-concept c500
+    (and c304))
+(define-primitive-concept c501
+    (and c201 c200
+         (at-least 5 r10)))
+(define-concept c502
+    (and c179
+         (all r9 c88) (all r7 c264)
+         (at-most 9 r7)))
+(define-concept c503
+    (and c49 c128
+         (all r4 c309) (all r2 c192)))
+(define-primitive-concept c504
+    (and c118 c341
+         (all r5 c330)
+         (at-most 8 r6)))
+(define-primitive-concept c505
+    (and c194
+         (all r5 c197)))
+(define-primitive-concept c506
+    (and c272
+         (at-most 7 r8)))
+(define-primitive-concept c507
+    (and c238
+         (at-most 9 r1)))
+(define-concept c508
+    (and c210
+         (all r10 c106) (all r1 c28)))
+(define-primitive-concept c509
+    (and c253 c198
+         (all r7 c64)
+         (at-most 5 r5)))
+(define-primitive-concept c510
+    (and c153
+         (all r2 c220) (all r1 c184)
+         (at-least 5 r5)))
+(define-primitive-concept c511
+    (and c158
+         (at-least 5 r9)))
+(define-primitive-concept c512
+    (and c362
+         (all r9 c192)
+         (at-least 3 r1)
+         (at-most 8 r9)))
+(define-primitive-concept c513
+    (and c258
+         (all r3 c300) (all r1 c302)
+         (at-most 6 r8)))
+(define-primitive-concept c514
+    (and c53 c244
+         (all r10 c48)
+         (at-least 4 r8)))
+(define-primitive-concept c515
+    (and c333
+         (all r7 c238) (all r10 c162)))
+(define-primitive-concept c516
+    (and c204
+         (all r4 c88) (all r2 c32)
+         (at-least 1 r4)
+         (at-most 8 r2)))
+(define-primitive-concept c517
+    (and c273 c316
+         (all r10 c266) (all r7 c280)
+         (at-most 6 r2)))
+(define-primitive-concept c518
+    (and c192))
+(define-primitive-concept c519
+    (and c80 c268
+         (all r2 c327) (all r4 c232)
+         (at-least 5 r3)))
+(define-primitive-concept c520
+    (and c165
+         (all r1 c209) (all r9 c286)))
+(define-primitive-concept c521
+    (and c214
+         (all r6 c171) (all r3 c244)
+         (at-least 5 r3)
+         (at-most 9 r5)))
+(define-primitive-concept c522
+    (and c333 c317
+         (all r4 c306) (all r1 c200)
+         (at-most 6 r2)))
+(define-concept c523
+    (and c56 c238))
+(define-primitive-concept c524
+    (and c275
+         (all r2 c28)
+         (at-least 1 r6)
+         (at-most 5 r6)))
+(define-primitive-concept c525
+    (and c109 c217
+         (at-least 1 r6)
+         (at-most 9 r6)))
+(define-primitive-concept c526
+    (and c199
+         (all r3 c83)))
+(define-primitive-concept c527
+    (and c339 c312
+         (all r1 c130) (all r4 c211)
+         (at-least 2 r3)))
+(define-concept c528
+    (and c295
+         (all r7 c192) (all r5 c127)))
+(define-concept c529
+    (and c313 c321
+         (at-most 9 r7)))
+(define-primitive-concept c530
+    (and c217
+         (at-least 5 r3)
+         (at-most 9 r10)))
+(define-concept c531
+    (and c282 c350
+         (all r9 c163)
+         (at-least 1 r9)))
+(define-concept c532
+    (and c330
+         (all r10 c240)
+         (at-least 2 r9)
+         (at-most 5 r9)))
+(define-primitive-concept c533
+    (and c256
+         (at-least 2 r2)
+         (at-most 6 r9)))
+(define-primitive-concept c534
+    (and c224
+         (all r3 c236) (all r1 c154)
+         (at-least 3 r9)
+         (at-most 5 r1)))
+(define-primitive-concept c535
+    (and c189
+         (all r6 c131) (all r10 c285)))
+(define-primitive-concept c536
+    (and c308
+         (all r6 c234)
+         (at-most 8 r4)))
+(define-primitive-concept c537
+    (and c306))
+(define-primitive-concept c538
+    (and c69 c236
+         (all r4 c90)
+         (at-least 3 r9)
+         (at-most 9 r2)))
+(define-primitive-concept c539
+    (and c149
+         (all r8 c106)
+         (at-least 4 r2)
+         (at-most 9 r1)))
+(define-primitive-concept c540
+    (and c248 c165
+         (all r7 c52)
+         (at-most 7 r3)))
+(define-primitive-concept c541
+    (and c296
+         (all r6 c133) (all r3 c349)
+         (at-least 2 r5)))
+(define-concept c542
+    (and c325
+         (all r8 c170) (all r5 c303)
+         (at-least 3 r5)))
+(define-primitive-concept c543
+    (and c48 c255
+         (all r9 c173)
+         (at-most 5 r4)))
+(define-primitive-concept c544
+    (and c183 c259
+         (all r2 c211)))
+(define-primitive-concept c545
+    (and c188
+         (all r5 c266) (all r3 c0)
+         (at-least 4 r8)
+         (at-most 9 r5)))
+(define-primitive-concept c546
+    (and c146 c137
+         (all r8 c252)
+         (at-most 7 r8)))
+(define-primitive-concept c547
+    (and c217
+         (at-most 6 r7)))
+(define-primitive-concept c548
+    (and c216 c137
+         (all r7 c163)
+         (at-least 1 r8)))
+(define-concept c549
+    (and c99 c323
+         (at-least 5 r9)))
+(define-primitive-concept c550
+    (and c169
+         (all r4 c85) (all r5 c14)
+         (at-most 8 r8)))
+(define-primitive-concept c551
+    (and c188))
+(define-primitive-concept c552
+    (and c135 c205
+         (all r10 c226) (all r1 c136)
+         (at-least 1 r8)))
+(define-primitive-concept c553
+    (and c201 c213
+         (all r9 c201) (all r2 c88)))
+(define-primitive-concept c554
+    (and c185 c363
+         (all r2 c232) (all r10 c43)
+         (at-least 1 r5)))
+(define-primitive-concept c555
+    (and c261
+         (all r1 c77)
+         (at-least 5 r8)
+         (at-most 9 r6)))
+(define-primitive-concept c556
+    (and c123 c178
+         (at-least 1 r2)
+         (at-most 7 r9)))
+(define-primitive-concept c557
+    (and c121
+         (all r1 c314)
+         (at-least 2 r4)
+         (at-most 7 r5)))
+(define-primitive-concept c558
+    (and c77 c279
+         (at-least 4 r3)
+         (at-most 5 r2)))
+(define-primitive-concept c559
+    (and c141
+         (all r2 c34)
+         (at-least 2 r6)
+         (at-most 9 r4)))
+(define-primitive-concept c560
+    (and c319
+         (all r4 c197)))
+(define-primitive-concept c561
+    (and c269))
+(define-concept c562
+    (and c277 c181
+         (all r10 c350)
+         (at-least 3 r7)
+         (at-most 6 r9)))
+(define-primitive-concept c563
+    (and c318 c322
+         (at-least 4 r10)
+         (at-most 5 r8)))
+(define-primitive-concept c564
+    (and c150 c307
+         (at-least 2 r3)))
+(define-primitive-concept c565
+    (and c331
+         (all r10 c176) (all r5 c315)
+         (at-most 8 r10)))
+(define-concept c566
+    (and c284 c336
+         (all r4 c195)
+         (at-least 1 r10)))
+(define-primitive-concept c567
+    (and c92 c137
+         (at-least 1 r3)))
+(define-primitive-concept c568
+    (and c347 c310
+         (all r4 c341) (all r10 c151)
+         (at-least 4 r6)))
+(define-primitive-concept c569
+    (and c128
+         (all r9 c67) (all r4 c5)))
+(define-primitive-concept c570
+    (and c84 c312))
+(define-primitive-concept c571
+    (and c327
+         (all r4 c346)
+         (at-least 1 r1)
+         (at-most 9 r6)))
+(define-primitive-concept c572
+    (and c201
+         (all r10 c326) (all r4 c199)
+         (at-most 6 r10)))
+(define-primitive-concept c573
+    (and c17 c221
+         (all r3 c164) (all r9 c350)
+         (at-most 7 r6)))
+(define-primitive-concept c574
+    (and c280
+         (at-most 6 r5)))
+(define-primitive-concept c575
+    (and c299))
+(define-primitive-concept c576
+    (and c81 c149
+         (at-least 3 r6)))
+(define-primitive-concept c577
+    (and c50 c305
+         (all r5 c127) (all r9 c211)))
+(define-primitive-concept c578
+    (and c81 c255
+         (all r9 c69)
+         (at-least 2 r4)))
+(define-primitive-concept c579
+    (and c187 c247
+         (all r5 c144)))
+(define-primitive-concept c580
+    (and c275 c331
+         (all r4 c219)
+         (at-least 1 r5)))
+(define-concept c581
+    (and c151 c344
+         (all r4 c312)
+         (at-least 3 r2)))
+(define-concept c582
+    (and c279
+         (all r6 c337)))
+(define-concept c583
+    (and c141
+         (all r7 c245) (all r5 c341)
+         (at-most 6 r4)))
+(define-concept c584
+    (and c276 c206
+         (all r3 c75)
+         (at-least 1 r9)
+         (at-most 8 r6)))
+(define-primitive-concept c585
+    (and c258 c127
+         (all r2 c90)
+         (at-least 4 r7)
+         (at-most 7 r1)))
+(define-primitive-concept c586
+    (and c361 c182
+         (all r9 c33)
+         (at-most 6 r7)))
+(define-concept c587
+    (and c112 c314
+         (all r7 c46) (all r4 c18)))
+(define-primitive-concept c588
+    (and c2 c299
+         (all r5 c336) (all r9 c187)))
+(define-concept c589
+    (and c67 c141
+         (all r5 c274)
+         (at-least 4 r1)
+         (at-most 7 r5)))
+(define-concept c590
+    (and c129 c157
+         (at-least 1 r2)
+         (at-most 5 r3)))
+(define-primitive-concept c591
+    (and c273
+         (all r10 c303) (all r8 c108)))
+(define-primitive-concept c592
+    (and c32 c229
+         (all r3 c74)))
+(define-concept c593
+    (and c196
+         (all r3 c177) (all r6 c164)))
+(define-primitive-concept c594
+    (and c280))
+(define-primitive-concept c595
+    (and c145))
+(define-concept c596
+    (and c219 c280
+         (all r8 c208) (all r1 c353)))
+(define-primitive-concept c597
+    (and c319
+         (all r10 c48)
+         (at-least 1 r1)
+         (at-most 7 r2)))
+(define-primitive-concept c598
+    (and c96 c208
+         (at-least 3 r2)
+         (at-most 7 r4)))
+(define-primitive-concept c599
+    (and c303
+         (at-most 5 r8)))
+(define-primitive-concept c600
+    (and c157
+         (all r10 c247)
+         (at-least 4 r4)
+         (at-most 9 r4)))
+(define-primitive-concept c601
+    (and c209 c357
+         (all r8 c244)))
+(define-primitive-concept c602
+    (and c339 c158
+         (all r5 c342)
+         (at-most 7 r3)))
+(define-concept c603
+    (and c120 c196
+         (all r6 c334) (all r1 c119)))
+(define-concept c604
+    (and c135
+         (at-least 5 r7)))
+(define-primitive-concept c605
+    (and c122
+         (at-least 4 r3)))
+(define-concept c606
+    (and c146
+         (at-least 1 r1)))
+(define-primitive-concept c607
+    (and c300))
+(define-primitive-concept c608
+    (and c101 c174
+         (all r5 c349)
+         (at-least 4 r7)))
+(define-concept c609
+    (and c222
+         (all r3 c164) (all r10 c186)
+         (at-least 4 r5)))
+(define-primitive-concept c610
+    (and c138
+         (all r8 c69)
+         (at-least 1 r6)
+         (at-most 9 r7)))
+(define-primitive-concept c611
+    (and c262 c288
+         (at-least 5 r7)))
+(define-primitive-concept c612
+    (and c125 c171
+         (all r1 c171)))
+(define-primitive-concept c613
+    (and c254 c358
+         (all r3 c43)))
+(define-primitive-concept c614
+    (and c359 c248
+         (all r6 c363)))
+(define-primitive-concept c615
+    (and c100 c290
+         (all r6 c294) (all r8 c99)
+         (at-least 1 r2)
+         (at-most 5 r2)))
+(define-concept c616
+    (and c248 c136
+         (at-least 2 r8)))
+(define-primitive-concept c617
+    (and c305
+         (all r10 c60)
+         (at-most 9 r1)))
+(define-concept c618
+    (and c149 c261
+         (all r2 c310)
+         (at-most 5 r4)))
+(define-primitive-concept c619
+    (and c21 c155
+         (all r4 c336) (all r3 c215)))
+(define-primitive-concept c620
+    (and c232 c322
+         (all r2 c84) (all r7 c224)))
+(define-primitive-concept c621
+    (and c193
+         (all r2 c284) (all r6 c312)))
+(define-primitive-concept c622
+    (and c193 c159
+         (all r10 c87)
+         (at-least 4 r1)
+         (at-most 6 r5)))
+(define-concept c623
+    (and c258 c245
+         (all r10 c3)
+         (at-most 6 r5)))
+(define-primitive-concept c624
+    (and c237
+         (all r5 c243)
+         (at-least 5 r9)
+         (at-most 7 r9)))
+(define-concept c625
+    (and c154
+         (all r9 c207)))
+(define-primitive-concept c626
+    (and c119 c125
+         (all r9 c239)
+         (at-least 5 r1)))
+(define-primitive-concept c627
+    (and c134 c260
+         (all r1 c278)
+         (at-least 4 r1)))
+(define-concept c628
+    (and c147
+         (at-most 7 r2)))
+(define-concept c629
+    (and c47 c315
+         (all r10 c154) (all r3 c41)
+         (at-most 6 r7)))
+(define-concept c630
+    (and c186 c133
+         (all r8 c255)
+         (at-most 5 r6)))
+(define-primitive-concept c631
+    (and c340
+         (all r5 c54) (all r3 c84)
+         (at-least 1 r6)
+         (at-most 9 r9)))
+(define-primitive-concept c632
+    (and c215
+         (all r10 c308)
+         (at-most 7 r4)))
+(define-primitive-concept c633
+    (and c337 c139
+         (all r3 c226) (all r7 c189)
+         (at-least 5 r8)))
+(define-concept c634
+    (and c196 c192
+         (all r5 c240)
+         (at-most 8 r5)))
+(define-primitive-concept c635
+    (and c290
+         (all r1 c275)
+         (at-least 2 r1)))
+(define-primitive-concept c636
+    (and c207
+         (all r8 c300) (all r1 c344)
+         (at-least 2 r5)
+         (at-most 7 r8)))
+(define-primitive-concept c637
+    (and c165
+         (at-least 3 r3)
+         (at-most 5 r6)))
+(define-primitive-concept c638
+    (and c36 c324
+         (at-least 1 r4)
+         (at-most 5 r2)))
+(define-concept c639
+    (and c350 c314
+         (at-least 3 r10)
+         (at-most 5 r6)))
+(define-primitive-concept c640
+    (and c351
+         (all r8 c360) (all r2 c168)
+         (at-most 9 r10)))
+(define-primitive-concept c641
+    (and c331
+         (all r8 c174)))
+(define-primitive-concept c642
+    (and c293 c250
+         (all r6 c251)
+         (at-least 5 r10)))
+(define-primitive-concept c643
+    (and c244
+         (all r7 c1)
+         (at-most 6 r1)))
+(define-primitive-concept c644
+    (and c113 c148
+         (at-least 4 r8)))
+(define-primitive-concept c645
+    (and c100 c241
+         (at-most 6 r4)))
+(define-primitive-concept c646
+    (and c133
+         (at-least 4 r2)))
+(define-primitive-concept c647
+    (and c180
+         (all r4 c241)
+         (at-least 1 r5)
+         (at-most 5 r1)))
+(define-primitive-concept c648
+    (and c182
+         (all r10 c250)))
+(define-primitive-concept c649
+    (and c278 c237
+         (all r6 c240)
+         (at-most 9 r8)))
+(define-primitive-concept c650
+    (and c175 c144))
+(define-concept c651
+    (and c6 c138
+         (all r3 c72)
+         (at-least 5 r10)
+         (at-most 8 r10)))
+(define-primitive-concept c652
+    (and c353))
+(define-concept c653
+    (and c100 c143
+         (all r9 c42)))
+(define-primitive-concept c654
+    (and c206
+         (all r2 c14)
+         (at-most 9 r9)))
+(define-primitive-concept c655
+    (and c255
+         (all r5 c361) (all r9 c288)))
+(define-primitive-concept c656
+    (and c27 c216
+         (all r9 c187)))
+(define-concept c657
+    (and c245
+         (all r6 c143)
+         (at-most 6 r5)))
+(define-primitive-concept c658
+    (and c269 c135
+         (all r1 c143)
+         (at-least 1 r6)
+         (at-most 6 r3)))
+(define-primitive-concept c659
+    (and c53 c177
+         (at-most 9 r8)))
+(define-primitive-concept c660
+    (and c266
+         (all r4 c52) (all r6 c42)
+         (at-most 8 r9)))
+(define-concept c661
+    (and c27 c284
+         (all r8 c130) (all r4 c185)))
+(define-primitive-concept c662
+    (and c328 c215
+         (all r7 c139) (all r3 c210)
+         (at-most 7 r3)))
+(define-primitive-concept c663
+    (and c122 c195
+         (all r2 c318)))
+(define-concept c664
+    (and c281 c271
+         (all r6 c317) (all r4 c104)
+         (at-most 9 r6)))
+(define-concept c665
+    (and c192 c359
+         (at-least 3 r3)
+         (at-most 6 r7)))
+(define-concept c666
+    (and c10 c352
+         (all r2 c324)
+         (at-least 2 r6)
+         (at-most 9 r3)))
+(define-primitive-concept c667
+    (and c315))
+(define-primitive-concept c668
+    (and c251
+         (all r9 c168)
+         (at-least 1 r4)
+         (at-most 9 r8)))
+(define-concept c669
+    (and c309 c186
+         (all r4 c121)
+         (at-least 2 r5)))
+(define-primitive-concept c670
+    (and c328
+         (all r7 c1) (all r9 c293)
+         (at-most 9 r7)))
+(define-primitive-concept c671
+    (and c167 c291
+         (all r10 c63) (all r4 c303)
+         (at-least 1 r7)))
+(define-primitive-concept c672
+    (and c314
+         (all r4 c125)))
+(define-primitive-concept c673
+    (and c55 c282
+         (all r1 c29) (all r2 c143)
+         (at-least 2 r5)
+         (at-most 5 r10)))
+(define-primitive-concept c674
+    (and c98 c283
+         (all r9 c180) (all r6 c181)
+         (at-least 4 r10)
+         (at-most 8 r5)))
+(define-concept c675
+    (and c189 c171
+         (at-most 7 r2)))
+(define-primitive-concept c676
+    (and c230
+         (all r8 c333)
+         (at-most 5 r2)))
+(define-primitive-concept c677
+    (and c80 c154
+         (all r9 c261)
+         (at-most 7 r1)))
+(define-concept c678
+    (and c189 c326
+         (all r6 c117)
+         (at-most 5 r4)))
+(define-primitive-concept c679
+    (and c146 c189
+         (at-most 7 r6)))
+(define-primitive-concept c680
+    (and c67 c251
+         (at-least 3 r7)))
+(define-primitive-concept c681
+    (and c351
+         (at-most 8 r8)))
+(define-primitive-concept c682
+    (and c153 c295
+         (at-least 1 r2)
+         (at-most 7 r9)))
+(define-primitive-concept c683
+    (and c350
+         (at-least 5 r9)
+         (at-most 9 r10)))
+(define-primitive-concept c684
+    (and c287
+         (at-most 8 r2)))
+(define-primitive-concept c685
+    (and c238
+         (all r2 c162)
+         (at-most 8 r9)))
+(define-primitive-concept c686
+    (and c130
+         (all r3 c137) (all r10 c183)
+         (at-least 4 r4)
+         (at-most 8 r9)))
+(define-primitive-concept c687
+    (and c156
+         (all r8 c260)))
+(define-primitive-concept c688
+    (and c81 c281
+         (at-least 1 r3)
+         (at-most 6 r5)))
+(define-primitive-concept c689
+    (and c125
+         (all r6 c11) (all r1 c321)
+         (at-most 7 r4)))
+(define-primitive-concept c690
+    (and c44 c236
+         (all r3 c56)
+         (at-least 2 r9)))
+(define-primitive-concept c691
+    (and c363
+         (at-least 4 r8)))
+(define-primitive-concept c692
+    (and c274
+         (all r4 c97)
+         (at-most 7 r7)))
+(define-primitive-concept c693
+    (and c331
+         (all r8 c95) (all r1 c199)
+         (at-most 8 r9)))
+(define-primitive-concept c694
+    (and c82 c269))
+(define-concept c695
+    (and c320
+         (all r10 c63)
+         (at-least 2 r4)))
+(define-primitive-concept c696
+    (and c281
+         (all r1 c287)
+         (at-least 2 r9)
+         (at-most 9 r8)))
+(define-primitive-concept c697
+    (and c125 c266
+         (all r8 c269)))
+(define-primitive-concept c698
+    (and c147))
+(define-primitive-concept c699
+    (and c133 c283
+         (at-least 2 r9)
+         (at-most 6 r6)))
+(define-primitive-concept c700
+    (and c303
+         (all r7 c73) (all r3 c44)))
+(define-concept c701
+    (and c89 c241
+         (all r1 c68)))
+(define-primitive-concept c702
+    (and c319 c158
+         (all r2 c340)
+         (at-least 3 r7)
+         (at-most 8 r1)))
+(define-primitive-concept c703
+    (and c2 c189
+         (all r6 c120)
+         (at-most 8 r3)))
+(define-primitive-concept c704
+    (and c135
+         (all r9 c18)))
+(define-primitive-concept c705
+    (and c271
+         (all r7 c48)
+         (at-least 2 r6)
+         (at-most 7 r4)))
+(define-primitive-concept c706
+    (and c94 c342
+         (all r4 c113) (all r6 c104)
+         (at-least 5 r10)
+         (at-most 7 r4)))
+(define-concept c707
+    (and c348
+         (all r6 c292)))
+(define-primitive-concept c708
+    (and c42 c300
+         (all r10 c91)
+         (at-least 1 r10)
+         (at-most 8 r5)))
+(define-primitive-concept c709
+    (and c264 c158
+         (all r6 c67) (all r1 c75)
+         (at-least 2 r7)))
+(define-primitive-concept c710
+    (and c196
+         (at-least 2 r4)
+         (at-most 9 r7)))
+(define-primitive-concept c711
+    (and c280 c158
+         (all r8 c236)
+         (at-most 9 r1)))
+(define-concept c712
+    (and c335
+         (at-least 3 r7)))
+(define-primitive-concept c713
+    (and c145 c355
+         (at-most 9 r2)))
+(define-concept c714
+    (and c350 c187
+         (at-most 8 r6)))
+(define-primitive-concept c715
+    (and c28 c186
+         (all r9 c236)
+         (at-least 4 r2)
+         (at-most 5 r3)))
+(define-primitive-concept c716
+    (and c218 c240))
+(define-primitive-concept c717
+    (and c195
+         (at-least 5 r2)))
+(define-primitive-concept c718
+    (and c220
+         (all r2 c144) (all r4 c141)
+         (at-most 8 r2)))
+(define-primitive-concept c719
+    (and c181
+         (at-least 5 r2)
+         (at-most 9 r7)))
+(define-primitive-concept c720
+    (and c163 c189
+         (all r10 c237)))
+(define-primitive-concept c721
+    (and c157 c222
+         (all r7 c69)
+         (at-least 2 r10)))
+(define-primitive-concept c722
+    (and c151
+         (all r4 c30)
+         (at-least 4 r3)))
+(define-concept c723
+    (and c360 c298
+         (at-least 3 r3)
+         (at-most 5 r6)))
+(define-primitive-concept c724
+    (and c195
+         (all r9 c342)
+         (at-least 2 r2)))
+(define-primitive-concept c725
+    (and c331 c170
+         (all r5 c19) (all r4 c142)
+         (at-least 5 r9)
+         (at-most 9 r3)))
+(define-primitive-concept c726
+    (and c208 c174
+         (at-least 2 r7)
+         (at-most 9 r5)))
+(define-primitive-concept c727
+    (and c329 c263
+         (at-most 9 r10)))
+(define-concept c728
+    (and c200
+         (all r6 c4)))
+(define-primitive-concept c729
+    (and c65 c319
+         (all r3 c119)))
+(define-primitive-concept c730
+    (and c271
+         (all r3 c229) (all r6 c269)))
+(define-primitive-concept c731
+    (and c281
+         (all r10 c101) (all r9 c102)
+         (at-most 7 r1)))
+(define-primitive-concept c732
+    (and c289 c258
+         (all r8 c282) (all r6 c213)
+         (at-least 4 r6)))
+(define-primitive-concept c733
+    (and c137 c311
+         (at-least 4 r9)
+         (at-most 9 r9)))
+(define-primitive-concept c734
+    (and c335
+         (all r3 c62)
+         (at-least 3 r1)
+         (at-most 6 r10)))
+(define-primitive-concept c735
+    (and c209
+         (at-least 4 r9)
+         (at-most 8 r2)))
+(define-concept c736
+    (and c272
+         (all r3 c218)
+         (at-least 3 r9)))
+(define-primitive-concept c737
+    (and c302
+         (all r3 c0) (all r6 c224)
+         (at-least 2 r7)
+         (at-most 5 r3)))
+(define-concept c738
+    (and c314
+         (all r8 c331)))
+(define-primitive-concept c739
+    (and c178
+         (all r5 c285)))
+(define-concept c740
+    (and c318 c320
+         (all r8 c15)
+         (at-least 5 r9)))
+(define-concept c741
+    (and c298
+         (all r1 c197)
+         (at-least 1 r5)
+         (at-most 5 r2)))
+(define-primitive-concept c742
+    (and c192
+         (all r8 c137)
+         (at-least 2 r3)))
+(define-concept c743
+    (and c75 c171
+         (at-least 1 r10)))
+(define-primitive-concept c744
+    (and c323 c295
+         (at-most 9 r9)))
+(define-primitive-concept c745
+    (and c198 c183
+         (all r9 c234)))
+(define-primitive-concept c746
+    (and c238
+         (at-least 2 r7)
+         (at-most 8 r8)))
+(define-primitive-concept c747
+    (and c318
+         (all r4 c216) (all r2 c203)))
+(define-primitive-concept c748
+    (and c348 c175))
+(define-primitive-concept c749
+    (and c154 c213
+         (all r10 c312)))
+(define-primitive-concept c750
+    (and c336
+         (all r1 c341)
+         (at-most 5 r3)))
+(define-primitive-concept c751
+    (and c250 c143
+         (all r8 c43) (all r6 c201)
+         (at-most 7 r10)))
+(define-concept c752
+    (and c134 c157
+         (at-least 4 r3)))
+(define-primitive-concept c753
+    (and c271
+         (all r10 c75) (all r3 c89)
+         (at-most 7 r6)))
+(define-primitive-concept c754
+    (and c124 c289
+         (all r9 c226)
+         (at-least 2 r1)))
+(define-primitive-concept c755
+    (and c53 c314
+         (all r5 c97) (all r2 c26)))
+(define-primitive-concept c756
+    (and c332))
+(define-primitive-concept c757
+    (and c18 c226
+         (at-most 8 r7)))
+(define-concept c758
+    (and c240 c146
+         (all r1 c118)
+         (at-least 5 r4)
+         (at-most 6 r9)))
+(define-primitive-concept c759
+    (and c179
+         (all r1 c11) (all r7 c0)))
+(define-concept c760
+    (and c304
+         (at-most 8 r2)))
+(define-concept c761
+    (and c133 c214
+         (all r9 c235)))
+(define-primitive-concept c762
+    (and c198))
+(define-concept c763
+    (and c228 c363
+         (at-most 7 r6)))
+(define-primitive-concept c764
+    (and c353 c185
+         (at-least 2 r5)))
+(define-concept c765
+    (and c167 c146
+         (all r1 c290)
+         (at-least 3 r10)))
+(define-primitive-concept c766
+    (and c163 c262
+         (all r4 c363)
+         (at-most 5 r5)))
+(define-primitive-concept c767
+    (and c293 c241))
+(define-concept c768
+    (and c263 c233
+         (at-least 2 r4)))
+(define-concept c769
+    (and c126 c198
+         (at-least 2 r10)
+         (at-most 6 r9)))
+(define-primitive-concept c770
+    (and c169
+         (all r3 c45) (all r7 c169)
+         (at-least 4 r5)
+         (at-most 7 r8)))
+(define-primitive-concept c771
+    (and c90 c140))
+(define-primitive-concept c772
+    (and c212
+         (all r2 c80)
+         (at-least 3 r7)
+         (at-most 6 r10)))
+(define-primitive-concept c773
+    (and c154 c240))
+(define-primitive-concept c774
+    (and c128
+         (all r1 c279) (all r7 c152)
+         (at-least 5 r7)
+         (at-most 5 r8)))
+(define-primitive-concept c775
+    (and c363 c261
+         (all r10 c338) (all r7 c190)
+         (at-least 3 r1)
+         (at-most 5 r6)))
+(define-primitive-concept c776
+    (and c304 c227
+         (at-least 5 r1)))
+(define-primitive-concept c777
+    (and c195 c140))
+(define-primitive-concept c778
+    (and c344
+         (all r6 c315) (all r8 c58)
+         (at-least 3 r3)))
+(define-concept c779
+    (and c176 c334
+         (all r10 c301)
+         (at-least 5 r3)))
+(define-primitive-concept c780
+    (and c267 c188
+         (at-least 1 r7)
+         (at-most 8 r8)))
+(define-primitive-concept c781
+    (and c293
+         (at-most 5 r7)))
+(define-primitive-concept c782
+    (and c98 c268
+         (all r10 c139) (all r8 c112)
+         (at-least 2 r10)))
+(define-concept c783
+    (and c197
+         (all r4 c103) (all r1 c241)
+         (at-most 5 r9)))
+(define-concept c784
+    (and c277 c125))
+(define-primitive-concept c785
+    (and c23 c281
+         (all r10 c67)
+         (at-least 2 r1)))
+(define-concept c786
+    (and c350
+         (all r9 c354)
+         (at-least 4 r4)
+         (at-most 7 r9)))
+(define-primitive-concept c787
+    (and c162
+         (all r7 c219)
+         (at-most 7 r10)))
+(define-primitive-concept c788
+    (and c326
+         (all r8 c64) (all r1 c110)))
+(define-primitive-concept c789
+    (and c225
+         (all r5 c63) (all r1 c124)))
+(define-primitive-concept c790
+    (and c39 c231
+         (all r8 c127)
+         (at-least 1 r8)
+         (at-most 5 r9)))
+(define-primitive-concept c791
+    (and c324 c326
+         (at-most 9 r1)))
+(define-primitive-concept c792
+    (and c322 c170
+         (all r1 c142)))
+(define-concept c793
+    (and c31 c176
+         (all r10 c25) (all r8 c87)))
+(define-primitive-concept c794
+    (and c210 c196
+         (all r1 c122) (all r9 c236)))
+(define-primitive-concept c795
+    (and c209
+         (all r3 c98)))
+(define-concept c796
+    (and c181
+         (all r4 c76)
+         (at-most 6 r6)))
+(define-primitive-concept c797
+    (and c145
+         (all r8 c243) (all r2 c304)
+         (at-least 5 r10)))
+(define-primitive-concept c798
+    (and c353
+         (all r8 c177)
+         (at-least 3 r6)))
+(define-primitive-concept c799
+    (and c282
+         (all r10 c204) (all r5 c277)
+         (at-least 3 r10)))
+(define-primitive-concept c800
+    (and c293
+         (at-most 8 r6)))
+(define-primitive-concept c801
+    (and c218
+         (all r9 c82) (all r4 c113)
+         (at-most 9 r5)))
+(define-primitive-concept c802
+    (and c276 c325
+         (at-most 6 r2)))
+(define-primitive-concept c803
+    (and c247 c343))
+(define-primitive-concept c804
+    (and c239
+         (all r8 c250)))
+(define-primitive-concept c805
+    (and c339
+         (all r6 c26) (all r4 c6)
+         (at-least 3 r8)
+         (at-most 8 r7)))
+(define-primitive-concept c806
+    (and c296 c196
+         (all r10 c177) (all r1 c333)
+         (at-least 4 r10)
+         (at-most 6 r7)))
+(define-concept c807
+    (and c153
+         (all r6 c332) (all r3 c211)
+         (at-least 1 r3)))
+(define-primitive-concept c808
+    (and c338
+         (all r4 c44)
+         (at-least 4 r3)
+         (at-most 8 r3)))
+(define-primitive-concept c809
+    (and c179 c242
+         (all r4 c233)
+         (at-least 1 r6)))
+(define-primitive-concept c810
+    (and c270
+         (all r9 c350)
+         (at-least 2 r6)
+         (at-most 6 r6)))
+(define-concept c811
+    (and c326
+         (all r10 c344) (all r4 c188)
+         (at-least 3 r9)))
+(define-primitive-concept c812
+    (and c313
+         (all r9 c143) (all r5 c196)
+         (at-least 5 r1)
+         (at-most 9 r1)))
+(define-primitive-concept c813
+    (and c274
+         (all r5 c215)
+         (at-least 4 r9)))
+(define-concept c814
+    (and c236
+         (all r1 c324)
+         (at-least 2 r6)
+         (at-most 5 r4)))
+(define-primitive-concept c815
+    (and c325
+         (all r9 c88) (all r10 c266)
+         (at-least 3 r10)))
+(define-primitive-concept c816
+    (and c194
+         (at-least 5 r2)
+         (at-most 7 r10)))
+(define-primitive-concept c817
+    (and c248 c298
+         (at-least 3 r3)))
+(define-primitive-concept c818
+    (and c350
+         (all r7 c354)
+         (at-least 1 r1)))
+(define-primitive-concept c819
+    (and c284))
+(define-concept c820
+    (and c224
+         (all r2 c12) (all r1 c3)
+         (at-least 4 r5)
+         (at-most 6 r1)))
+(define-primitive-concept c821
+    (and c298 c143
+         (all r3 c47)))
+(define-primitive-concept c822
+    (and c222
+         (at-most 8 r1)))
+(define-concept c823
+    (and c198 c329))
+(define-primitive-concept c824
+    (and c177
+         (all r5 c300)))
+(define-primitive-concept c825
+    (and c271
+         (all r10 c305) (all r1 c25)
+         (at-least 4 r10)))
+(define-concept c826
+    (and c141
+         (all r9 c186) (all r3 c188)
+         (at-least 1 r5)))
+(define-primitive-concept c827
+    (and c301 c303
+         (at-least 3 r7)))
+(define-primitive-concept c828
+    (and c130
+         (at-least 5 r7)
+         (at-most 8 r10)))
+(define-concept c829
+    (and c323 c191
+         (all r10 c244) (all r3 c131)
+         (at-most 6 r7)))
+(define-primitive-concept c830
+    (and c361 c340
+         (at-least 1 r6)))
+(define-primitive-concept c831
+    (and c319
+         (all r4 c201)
+         (at-most 8 r3)))
+(define-primitive-concept c832
+    (and c262
+         (at-least 2 r10)))
+(define-concept c833
+    (and c319
+         (all r2 c170)
+         (at-least 2 r10)
+         (at-most 9 r6)))
+(define-primitive-concept c834
+    (and c178 c159
+         (all r10 c68) (all r3 c168)
+         (at-least 5 r9)
+         (at-most 6 r8)))
+(define-primitive-concept c835
+    (and c53 c236
+         (all r2 c113)
+         (at-least 2 r7)
+         (at-most 9 r4)))
+(define-primitive-concept c836
+    (and c208 c183
+         (at-least 2 r9)))
+(define-primitive-concept c837
+    (and c293
+         (at-least 3 r1)
+         (at-most 7 r4)))
+(define-concept c838
+    (and c160 c185
+         (at-least 3 r4)))
+(define-primitive-concept c839
+    (and c320
+         (all r1 c113)
+         (at-least 2 r3)))
+(define-primitive-concept c840
+    (and c226 c143
+         (all r10 c210) (all r5 c133)
+         (at-most 7 r6)))
+(define-primitive-concept c841
+    (and c132 c339
+         (at-least 4 r9)
+         (at-most 8 r5)))
+(define-primitive-concept c842
+    (and c118 c233))
+(define-concept c843
+    (and c265 c323
+         (at-most 8 r5)))
+(define-primitive-concept c844
+    (and c283
+         (all r8 c257) (all r5 c130)
+         (at-most 6 r4)))
+(define-concept c845
+    (and c179
+         (all r3 c78) (all r2 c106)
+         (at-most 7 r1)))
+(define-primitive-concept c846
+    (and c350
+         (all r9 c214) (all r1 c114)
+         (at-least 4 r3)
+         (at-most 6 r5)))
+(define-primitive-concept c847
+    (and c252
+         (all r1 c201)
+         (at-most 9 r9)))
+(define-primitive-concept c848
+    (and c15 c126
+         (at-least 5 r8)))
+(define-primitive-concept c849
+    (and c340 c126
+         (all r5 c311) (all r8 c242)
+         (at-most 8 r3)))
+(define-primitive-concept c850
+    (and c255
+         (all r6 c38)
+         (at-least 2 r7)
+         (at-most 9 r5)))
+(define-primitive-concept c851
+    (and c362))
+(define-primitive-concept c852
+    (and c22 c278
+         (all r8 c110) (all r4 c143)
+         (at-most 9 r3)))
+(define-primitive-concept c853
+    (and c360 c218
+         (all r9 c81) (all r2 c181)))
+(define-primitive-concept c854
+    (and c293
+         (at-least 1 r2)
+         (at-most 6 r4)))
+(define-primitive-concept c855
+    (and c144
+         (all r1 c325) (all r9 c107)
+         (at-most 7 r9)))
+(define-concept c856
+    (and c309
+         (all r1 c106) (all r4 c335)))
+(define-primitive-concept c857
+    (and c277 c182
+         (all r6 c80) (all r1 c358)))
+(define-primitive-concept c858
+    (and c297
+         (all r6 c280)
+         (at-least 3 r10)))
+(define-primitive-concept c859
+    (and c349
+         (at-least 2 r6)
+         (at-most 5 r7)))
+(define-primitive-concept c860
+    (and c101 c209
+         (at-least 2 r3)))
+(define-primitive-concept c861
+    (and c29 c280
+         (all r1 c301)))
+(define-primitive-concept c862
+    (and c218 c141
+         (all r5 c331) (all r1 c362)
+         (at-most 5 r6)))
+(define-primitive-concept c863
+    (and c336 c260
+         (all r7 c361) (all r4 c232)
+         (at-least 4 r1)
+         (at-most 8 r9)))
+(define-primitive-concept c864
+    (and c252
+         (all r2 c169) (all r7 c96)
+         (at-least 5 r4)
+         (at-most 9 r8)))
+(define-primitive-concept c865
+    (and c2 c268
+         (at-least 1 r9)
+         (at-most 6 r1)))
+(define-concept c866
+    (and c281 c258
+         (all r8 c148)))
+(define-primitive-concept c867
+    (and c145))
+(define-concept c868
+    (and c152
+         (all r9 c17)
+         (at-least 4 r3)))
+(define-primitive-concept c869
+    (and c250 c314
+         (all r9 c277) (all r3 c356)
+         (at-most 8 r3)))
+(define-primitive-concept c870
+    (and c130 c348
+         (all r7 c116) (all r8 c177)
+         (at-most 9 r10)))
+(define-primitive-concept c871
+    (and c58 c345
+         (all r7 c206) (all r4 c181)
+         (at-least 3 r4)
+         (at-most 5 r10)))
+(define-primitive-concept c872
+    (and c106 c215
+         (all r8 c241)
+         (at-most 9 r3)))
+(define-primitive-concept c873
+    (and c89 c336
+         (at-most 9 r1)))
+(define-primitive-concept c874
+    (and c120 c172
+         (all r9 c209)
+         (at-most 8 r9)))
+(define-primitive-concept c875
+    (and c363 c300
+         (at-least 4 r7)))
+(define-primitive-concept c876
+    (and c195
+         (all r2 c114)))
+(define-primitive-concept c877
+    (and c137
+         (at-least 1 r8)))
+(define-concept c878
+    (and c184
+         (all r4 c129)
+         (at-least 2 r5)))
+(define-concept c879
+    (and c222 c215
+         (all r7 c75) (all r10 c58)
+         (at-least 5 r5)
+         (at-most 6 r1)))
+(define-concept c880
+    (and c174 c265
+         (at-most 6 r4)))
+(define-concept c881
+    (and c336
+         (at-most 7 r10)))
+(define-primitive-concept c882
+    (and c156
+         (all r5 c212)
+         (at-most 5 r8)))
+(define-concept c883
+    (and c307
+         (at-least 4 r3)
+         (at-most 6 r7)))
+(define-concept c884
+    (and c312
+         (all r10 c298) (all r4 c348)
+         (at-most 8 r5)))
+(define-concept c885
+    (and c169 c177
+         (all r8 c121) (all r1 c41)))
+(define-concept c886
+    (and c60 c242
+         (all r6 c164)
+         (at-most 5 r10)))
+(define-primitive-concept c887
+    (and c283))
+(define-primitive-concept c888
+    (and c190
+         (all r4 c80) (all r6 c291)))
+(define-primitive-concept c889
+    (and c278 c355
+         (all r5 c337)
+         (at-least 3 r8)
+         (at-most 9 r7)))
+(define-primitive-concept c890
+    (and c236
+         (all r4 c0)
+         (at-least 4 r5)
+         (at-most 8 r10)))
+(define-concept c891
+    (and c143 c339
+         (at-least 1 r7)
+         (at-most 6 r3)))
+(define-primitive-concept c892
+    (and c325 c146
+         (all r4 c0)
+         (at-most 9 r4)))
+(define-primitive-concept c893
+    (and c345 c334
+         (all r2 c99) (all r7 c116)
+         (at-least 3 r8)
+         (at-most 6 r6)))
+(define-primitive-concept c894
+    (and c319 c175
+         (all r1 c235) (all r5 c59)
+         (at-least 1 r4)))
+(define-primitive-concept c895
+    (and c362
+         (all r5 c127)))
+(define-concept c896
+    (and c350
+         (all r1 c65)))
+(define-concept c897
+    (and c329
+         (at-least 5 r2)
+         (at-most 8 r2)))
+(define-primitive-concept c898
+    (and c148
+         (all r7 c94) (all r8 c314)))
+(define-concept c899
+    (and c315
+         (at-least 3 r9)
+         (at-most 9 r6)))
+(define-primitive-concept c900
+    (and c3 c260
+         (all r4 c347)
+         (at-most 5 r9)))
+(define-primitive-concept c901
+    (and c180 c306
+         (all r6 c275)
+         (at-least 5 r7)))
+(define-concept c902
+    (and c218 c256
+         (all r4 c53)
+         (at-least 2 r1)
+         (at-most 5 r1)))
+(define-concept c903
+    (and c345
+         (at-least 2 r2)
+         (at-most 7 r10)))
+(define-primitive-concept c904
+    (and c96 c147
+         (all r3 c265) (all r1 c28)
+         (at-least 2 r7)))
+(define-primitive-concept c905
+    (and c180 c186
+         (at-most 6 r10)))
+(define-primitive-concept c906
+    (and c322))
+(define-primitive-concept c907
+    (and c92 c199
+         (all r10 c156)))
+(define-primitive-concept c908
+    (and c113 c230
+         (all r10 c62) (all r6 c223)))
+(define-primitive-concept c909
+    (and c263
+         (all r1 c44)))
+(define-primitive-concept c910
+    (and c262
+         (at-most 5 r5)))
+(define-primitive-concept c911
+    (and c337
+         (all r7 c266)))
+(define-primitive-concept c912
+    (and c254 c348
+         (all r3 c17)
+         (at-least 5 r7)
+         (at-most 7 r7)))
+(define-primitive-concept c913
+    (and c328 c168
+         (all r4 c90)))
+(define-primitive-concept c914
+    (and c248 c335
+         (all r10 c140)))
+(define-concept c915
+    (and c152
+         (all r7 c164)))
+(define-primitive-concept c916
+    (and c352
+         (all r6 c23)
+         (at-most 8 r3)))
+(define-primitive-concept c917
+    (and c174
+         (all r4 c26)
+         (at-least 3 r3)))
+(define-primitive-concept c918
+    (and c33 c286
+         (all r1 c322) (all r8 c306)
+         (at-least 5 r10)))
+(define-primitive-concept c919
+    (and c345 c212
+         (all r10 c226)))
+(define-primitive-concept c920
+    (and c82 c303
+         (all r10 c50) (all r5 c91)
+         (at-least 3 r7)))
+(define-primitive-concept c921
+    (and c341
+         (all r8 c219) (all r9 c206)
+         (at-least 2 r6)))
+(define-primitive-concept c922
+    (and c346
+         (all r8 c91) (all r2 c143)))
+(define-primitive-concept c923
+    (and c288
+         (at-least 4 r9)))
+(define-primitive-concept c924
+    (and c243
+         (all r3 c95) (all r5 c177)))
+(define-primitive-concept c925
+    (and c254
+         (all r5 c37) (all r6 c348)
+         (at-least 4 r7)))
+(define-primitive-concept c926
+    (and c357
+         (all r2 c315)
+         (at-least 4 r3)))
+(define-primitive-concept c927
+    (and c252 c155
+         (all r8 c7)))
+(define-primitive-concept c928
+    (and c356))
+(define-primitive-concept c929
+    (and c176 c301
+         (all r4 c108)
+         (at-least 5 r6)
+         (at-most 8 r8)))
+(define-concept c930
+    (and c32 c319
+         (all r1 c337)
+         (at-least 2 r6)))
+(define-primitive-concept c931
+    (and c259
+         (at-most 5 r3)))
+(define-primitive-concept c932
+    (and c136
+         (at-least 4 r5)))
+(define-primitive-concept c933
+    (and c179 c160
+         (all r9 c218) (all r8 c8)
+         (at-most 9 r7)))
+(define-primitive-concept c934
+    (and c268 c196
+         (at-most 8 r9)))
+(define-primitive-concept c935
+    (and c165
+         (all r9 c95)
+         (at-least 1 r2)))
+(define-concept c936
+    (and c270
+         (all r9 c32)
+         (at-least 4 r1)
+         (at-most 7 r9)))
+(define-concept c937
+    (and c340 c254
+         (all r1 c205) (all r9 c264)
+         (at-least 2 r7)))
+(define-concept c938
+    (and c204
+         (all r9 c357)
+         (at-most 8 r4)))
+(define-primitive-concept c939
+    (and c192 c187
+         (all r7 c320) (all r5 c241)
+         (at-least 4 r7)
+         (at-most 8 r10)))
+(define-concept c940
+    (and c280
+         (all r3 c290) (all r5 c31)))
+(define-primitive-concept c941
+    (and c345))
+(define-concept c942
+    (and c64 c191
+         (at-least 2 r3)))
+(define-primitive-concept c943
+    (and c323))
+(define-primitive-concept c944
+    (and c221
+         (at-most 8 r6)))
+(define-primitive-concept c945
+    (and c288 c343
+         (all r5 c266) (all r4 c44)
+         (at-least 4 r8)))
+(define-primitive-concept c946
+    (and c348 c156
+         (all r4 c287)
+         (at-least 1 r1)
+         (at-most 7 r3)))
+(define-primitive-concept c947
+    (and c363
+         (all r10 c199)
+         (at-least 2 r7)))
+(define-primitive-concept c948
+    (and c229 c230
+         (at-most 5 r4)))
+(define-primitive-concept c949
+    (and c196
+         (all r2 c316)
+         (at-most 9 r9)))
+(define-primitive-concept c950
+    (and c255
+         (all r1 c181) (all r10 c91)
+         (at-least 1 r7)
+         (at-most 9 r5)))
+(define-primitive-concept c951
+    (and c180 c245
+         (all r5 c104)
+         (at-most 7 r2)))
+(define-primitive-concept c952
+    (and c197 c277
+         (all r6 c359)
+         (at-least 3 r4)))
+(define-primitive-concept c953
+    (and c335
+         (at-most 7 r5)))
+(define-primitive-concept c954
+    (and c300 c210
+         (at-least 4 r6)))
+(define-primitive-concept c955
+    (and c348
+         (all r4 c83) (all r2 c155)
+         (at-least 1 r7)))
+(define-concept c956
+    (and c190
+         (at-most 6 r10)))
+(define-primitive-concept c957
+    (and c336
+         (all r9 c58)
+         (at-most 5 r4)))
+(define-primitive-concept c958
+    (and c271 c324
+         (all r5 c299) (all r2 c220)))
+(define-primitive-concept c959
+    (and c352
+         (all r9 c160) (all r6 c310)
+         (at-least 1 r6)))
+(define-primitive-concept c960
+    (and c283
+         (all r2 c165) (all r8 c116)
+         (at-most 6 r5)))
+(define-primitive-concept c961
+    (and c80 c164
+         (all r6 c126)
+         (at-least 4 r1)))
+(define-primitive-concept c962
+    (and c142 c269
+         (at-least 1 r2)
+         (at-most 9 r8)))
+(define-concept c963
+    (and c306 c200
+         (all r3 c358) (all r6 c345)))
+(define-primitive-concept c964
+    (and c130
+         (at-most 5 r10)))
+(define-primitive-concept c965
+    (and c215
+         (all r2 c180)
+         (at-least 1 r8)))
+(define-primitive-concept c966
+    (and c12 c194
+         (all r10 c274)
+         (at-least 2 r8)))
+(define-primitive-concept c967
+    (and c176 c254
+         (all r4 c46) (all r6 c18)
+         (at-most 6 r1)))
+(define-concept c968
+    (and c322
+         (all r2 c198) (all r3 c194)))
+(define-primitive-concept c969
+    (and c88 c215
+         (all r2 c321) (all r9 c127)))
+(define-primitive-concept c970
+    (and c26 c159
+         (all r9 c164)
+         (at-least 2 r10)))
+(define-primitive-concept c971
+    (and c184
+         (all r10 c194) (all r5 c50)
+         (at-least 2 r3)))
+(define-primitive-concept c972
+    (and c232
+         (all r9 c77)))
+(define-primitive-concept c973
+    (and c168 c310
+         (all r5 c291)
+         (at-most 8 r3)))
+(define-primitive-concept c974
+    (and c179
+         (all r4 c57)
+         (at-most 5 r9)))
+(define-primitive-concept c975
+    (and c309))
+(define-primitive-concept c976
+    (and c27 c132
+         (at-least 1 r4)
+         (at-most 7 r8)))
+(define-primitive-concept c977
+    (and c6 c179
+         (at-least 5 r8)
+         (at-most 8 r4)))
+(define-primitive-concept c978
+    (and c324))
+(define-concept c979
+    (and c361
+         (at-least 1 r3)))
+(define-primitive-concept c980
+    (and c266
+         (at-most 6 r7)))
+(define-primitive-concept c981
+    (and c256
+         (all r4 c60) (all r3 c206)
+         (at-least 4 r10)))
+(define-primitive-concept c982
+    (and c133
+         (all r7 c61)
+         (at-least 3 r1)
+         (at-most 5 r7)))
+(define-primitive-concept c983
+    (and c160
+         (at-least 5 r9)
+         (at-most 6 r3)))
+(define-concept c984
+    (and c270
+         (all r3 c180)
+         (at-least 4 r9)))
+(define-primitive-concept c985
+    (and c149
+         (at-least 4 r10)
+         (at-most 8 r4)))
+(define-primitive-concept c986
+    (and c233 c149
+         (all r6 c149) (all r7 c2)
+         (at-most 8 r7)))
+(define-primitive-concept c987
+    (and c255
+         (all r2 c58)
+         (at-least 4 r7)
+         (at-most 5 r8)))
+(define-primitive-concept c988
+    (and c282 c189
+         (at-least 4 r1)))
+(define-concept c989
+    (and c357 c255
+         (all r9 c151) (all r8 c89)))
+(define-primitive-concept c990
+    (and c71 c337
+         (all r1 c248) (all r8 c362)
+         (at-least 4 r7)
+         (at-most 8 r5)))
+(define-concept c991
+    (and c346
+         (at-most 5 r9)))
+(define-primitive-concept c992
+    (and c193
+         (all r5 c15) (all r8 c143)
+         (at-least 5 r1)))
+(define-primitive-concept c993
+    (and c230
+         (at-least 5 r5)
+         (at-most 8 r10)))
+(define-primitive-concept c994
+    (and c152 c233
+         (all r7 c334)
+         (at-most 9 r4)))
+(define-primitive-concept c995
+    (and c164 c140
+         (all r3 c263)
+         (at-most 5 r8)))
+(define-primitive-concept c996
+    (and c172 c144
+         (at-least 1 r2)))
+(define-primitive-concept c997
+    (and c336))
+(define-primitive-concept c998
+    (and c348 c358
+         (all r3 c39)
+         (at-least 4 r8)))
+(define-primitive-concept c999
+    (and c148))
+(define-primitive-concept c1000
+    (and c215
+         (all r7 c64) (all r1 c206)
+         (at-least 5 r10)))
+(define-concept c1001
+    (and c27 c237
+         (at-least 2 r7)
+         (at-most 5 r7)))
+(define-primitive-concept c1002
+    (and c102 c267
+         (all r6 c72)
+         (at-least 2 r10)))
+(define-primitive-concept c1003
+    (and c284 c251
+         (all r2 c276) (all r8 c311)))
+(define-primitive-concept c1004
+    (and c182 c178
+         (all r2 c249) (all r5 c224)))
+(define-primitive-concept c1005
+    (and c118 c237
+         (all r4 c326) (all r8 c248)
+         (at-most 5 r1)))
+(define-primitive-concept c1006
+    (and c311
+         (at-least 5 r3)))
+(define-concept c1007
+    (and c327
+         (all r1 c323) (all r9 c187)
+         (at-least 4 r4)))
+(define-primitive-concept c1008
+    (and c5 c194
+         (at-least 5 r3)
+         (at-most 6 r1)))
+(define-concept c1009
+    (and c313
+         (all r3 c268)))
+(define-primitive-concept c1010
+    (and c350 c230))
+(define-concept c1011
+    (and c218
+         (all r4 c196) (all r3 c283)))
+(define-concept c1012
+    (and c251 c122
+         (all r8 c122)))
+(define-primitive-concept c1013
+    (and c65 c346
+         (at-most 9 r2)))
+(define-primitive-concept c1014
+    (and c58 c345
+         (at-most 7 r5)))
+(define-primitive-concept c1015
+    (and c216 c281
+         (all r9 c200) (all r2 c205)
+         (at-least 3 r5)
+         (at-most 9 r5)))
+(define-primitive-concept c1016
+    (and c201
+         (all r10 c350)
+         (at-least 4 r10)
+         (at-most 8 r4)))
+(define-primitive-concept c1017
+    (and c283
+         (at-least 4 r3)))
+(define-concept c1018
+    (and c124
+         (all r2 c308) (all r10 c13)))
+(define-primitive-concept c1019
+    (and c83 c182
+         (at-least 2 r4)
+         (at-most 5 r8)))
+(define-primitive-concept c1020
+    (and c11 c278
+         (all r8 c36) (all r1 c342)
+         (at-least 1 r9)
+         (at-most 5 r10)))
+(define-primitive-concept c1021
+    (and c7 c259
+         (all r9 c316)
+         (at-most 7 r2)))
+(define-concept c1022
+    (and c108 c344
+         (all r8 c106)
+         (at-least 2 r3)
+         (at-most 8 r1)))
+(define-primitive-concept c1023
+    (and c259 c144
+         (all r2 c337)
+         (at-least 1 r8)))
+(define-primitive-concept c1024
+    (and c253))
+(define-concept c1025
+    (and c215
+         (all r10 c120)))
+(define-primitive-concept c1026
+    (and c191
+         (all r2 c168) (all r7 c242)
+         (at-most 6 r2)))
+(define-primitive-concept c1027
+    (and c294 c184
+         (at-most 9 r5)))
+(define-primitive-concept c1028
+    (and c196
+         (all r6 c57)
+         (at-least 1 r4)
+         (at-most 8 r10)))
+(define-primitive-concept c1029
+    (and c363
+         (all r8 c2)
+         (at-most 8 r8)))
+(define-concept c1030
+    (and c201 c264
+         (all r8 c40)
+         (at-least 3 r8)))
+(define-primitive-concept c1031
+    (and c188 c130
+         (at-least 4 r3)
+         (at-most 8 r2)))
+(define-primitive-concept c1032
+    (and c131
+         (at-least 3 r1)))
+(define-primitive-concept c1033
+    (and c125))
+(define-primitive-concept c1034
+    (and c308 c129
+         (at-least 4 r6)
+         (at-most 8 r7)))
+(define-primitive-concept c1035
+    (and c271))
+(define-concept c1036
+    (and c29 c304
+         (all r10 c29)
+         (at-least 4 r2)
+         (at-most 9 r10)))
+(define-primitive-concept c1037
+    (and c164 c244
+         (all r3 c181) (all r9 c166)
+         (at-least 3 r4)))
+(define-primitive-concept c1038
+    (and c60 c307
+         (all r4 c167)
+         (at-least 4 r4)
+         (at-most 9 r10)))
+(define-primitive-concept c1039
+    (and c162
+         (at-most 7 r8)))
+(define-primitive-concept c1040
+    (and c127
+         (all r4 c101)
+         (at-least 5 r3)
+         (at-most 8 r3)))
+(define-primitive-concept c1041
+    (and c195 c278
+         (at-most 6 r8)))
+(define-primitive-concept c1042
+    (and c146
+         (all r9 c36)
+         (at-least 4 r1)
+         (at-most 8 r2)))
+(define-primitive-concept c1043
+    (and c301 c334
+         (all r4 c277) (all r3 c188)
+         (at-most 6 r2)))
+(define-primitive-concept c1044
+    (and c186 c341
+         (all r8 c109)
+         (at-least 1 r5)))
+(define-primitive-concept c1045
+    (and c337
+         (at-most 5 r3)))
+(define-concept c1046
+    (and c312 c142
+         (all r1 c261)
+         (at-least 5 r3)))
+(define-primitive-concept c1047
+    (and c147
+         (at-least 1 r8)
+         (at-most 6 r3)))
+(define-primitive-concept c1048
+    (and c42 c156
+         (all r6 c172)
+         (at-most 8 r8)))
+(define-primitive-concept c1049
+    (and c348 c247
+         (at-most 9 r9)))
+(define-primitive-concept c1050
+    (and c309
+         (all r1 c26) (all r9 c58)))
+(define-concept c1051
+    (and c320
+         (at-most 6 r5)))
+(define-primitive-concept c1052
+    (and c285
+         (at-least 4 r3)))
+(define-primitive-concept c1053
+    (and c348
+         (at-least 4 r6)))
+(define-primitive-concept c1054
+    (and c153 c227
+         (all r1 c176)
+         (at-most 7 r2)))
+(define-primitive-concept c1055
+    (and c340
+         (at-least 4 r5)
+         (at-most 5 r7)))
+(define-primitive-concept c1056
+    (and c331 c196
+         (at-least 4 r1)))
+(define-primitive-concept c1057
+    (and c93 c286
+         (all r6 c330) (all r2 c78)
+         (at-least 3 r3)
+         (at-most 7 r4)))
+(define-concept c1058
+    (and c178 c127
+         (all r5 c166) (all r2 c357)))
+(define-concept c1059
+    (and c259
+         (all r3 c300)
+         (at-most 7 r6)))
+(define-primitive-concept c1060
+    (and c211 c121
+         (at-least 2 r9)
+         (at-most 9 r1)))
+(define-primitive-concept c1061
+    (and c303))
+(define-primitive-concept c1062
+    (and c190 c319
+         (all r3 c8)
+         (at-least 2 r8)))
+(define-primitive-concept c1063
+    (and c318 c180))
+(define-primitive-concept c1064
+    (and c329 c203
+         (all r1 c87) (all r9 c298)
+         (at-most 8 r1)))
+(define-primitive-concept c1065
+    (and c325
+         (at-most 6 r7)))
+(define-primitive-concept c1066
+    (and c186
+         (all r1 c200) (all r5 c236)
+         (at-least 4 r5)))
+(define-primitive-concept c1067
+    (and c312
+         (at-least 1 r8)
+         (at-most 8 r2)))
+(define-primitive-concept c1068
+    (and c240
+         (at-least 5 r9)))
+(define-primitive-concept c1069
+    (and c311
+         (at-most 6 r2)))
+(define-concept c1070
+    (and c197 c294
+         (all r8 c78)
+         (at-most 9 r3)))
+(define-primitive-concept c1071
+    (and c222
+         (all r5 c116) (all r4 c13)))
+(define-concept c1072
+    (and c7 c270
+         (all r8 c236)
+         (at-least 1 r5)))
+(define-primitive-concept c1073
+    (and c230
+         (all r3 c308) (all r8 c62)))
+(define-concept c1074
+    (and c212 c157
+         (all r5 c250) (all r1 c138)
+         (at-least 2 r6)
+         (at-most 9 r8)))
+(define-primitive-concept c1075
+    (and c251 c153
+         (all r9 c82)
+         (at-most 5 r1)))
+(define-primitive-concept c1076
+    (and c177
+         (all r7 c153)))
+(define-primitive-concept c1077
+    (and c272
+         (all r1 c225)
+         (at-least 1 r8)))
+(define-primitive-concept c1078
+    (and c174
+         (all r10 c64) (all r5 c277)))
+(define-concept c1079
+    (and c167 c352
+         (at-least 5 r4)
+         (at-most 6 r2)))
+(define-primitive-concept c1080
+    (and c197 c300
+         (all r4 c89) (all r1 c182)
+         (at-most 9 r5)))
+(define-concept c1081
+    (and c239 c295
+         (all r2 c162)
+         (at-least 1 r3)))
+(define-primitive-concept c1082
+    (and c339 c139
+         (at-most 7 r9)))
+(define-primitive-concept c1083
+    (and c180
+         (all r2 c269) (all r9 c169)
+         (at-least 4 r8)
+         (at-most 5 r5)))
+(define-primitive-concept c1084
+    (and c138 c155
+         (all r1 c171)))
+(define-concept c1085
+    (and c102 c359
+         (all r7 c281) (all r1 c246)
+         (at-least 5 r1)))
+(define-primitive-concept c1086
+    (and c171
+         (all r6 c33) (all r1 c143)))
+(define-primitive-concept c1087
+    (and c245
+         (all r8 c151)
+         (at-least 1 r10)
+         (at-most 5 r7)))
+(define-primitive-concept c1088
+    (and c297
+         (all r2 c201)
+         (at-most 5 r8)))
+(define-primitive-concept c1089
+    (and c257
+         (all r1 c33) (all r6 c250)))
+(define-primitive-concept c1090
+    (and c202
+         (all r5 c289)))
+(define-primitive-concept c1091
+    (and c123
+         (all r5 c124) (all r7 c202)
+         (at-most 8 r7)))
+(define-primitive-concept c1092
+    (and c124
+         (all r10 c146)
+         (at-most 5 r8)))
+(define-primitive-concept c1093
+    (and c493
+         (all r6 c381)
+         (at-most 5 r10)))
+(define-primitive-concept c1094
+    (and c392 c754
+         (at-most 5 r10)))
+(define-concept c1095
+    (and c412 c636
+         (all r7 c79)
+         (at-least 2 r8)
+         (at-most 6 r10)))
+(define-primitive-concept c1096
+    (and c447
+         (at-least 5 r10)
+         (at-most 9 r2)))
+(define-primitive-concept c1097
+    (and c627
+         (all r1 c778)
+         (at-least 3 r10)
+         (at-most 5 r9)))
+(define-concept c1098
+    (and c576 c499
+         (all r10 c85) (all r3 c121)
+         (at-least 3 r8)
+         (at-most 6 r3)))
+(define-primitive-concept c1099
+    (and c400
+         (all r9 c71) (all r1 c770)
+         (at-least 3 r6)))
+(define-primitive-concept c1100
+    (and c476 c723
+         (all r1 c67)
+         (at-least 3 r3)))
+(define-primitive-concept c1101
+    (and c970))
+(define-concept c1102
+    (and c918
+         (at-least 2 r9)
+         (at-most 9 r5)))
+(define-primitive-concept c1103
+    (and c218 c455
+         (all r4 c984)
+         (at-least 3 r5)))
+(define-primitive-concept c1104
+    (and c698 c501
+         (at-least 3 r9)))
+(define-concept c1105
+    (and c547 c522
+         (all r2 c82)
+         (at-least 2 r1)))
+(define-concept c1106
+    (and c438
+         (all r1 c600)
+         (at-least 4 r5)
+         (at-most 8 r10)))
+(define-primitive-concept c1107
+    (and c867
+         (at-least 3 r8)))
+(define-primitive-concept c1108
+    (and c972
+         (at-most 7 r10)))
+(define-primitive-concept c1109
+    (and c874
+         (all r6 c126) (all r8 c40)
+         (at-least 5 r6)
+         (at-most 8 r9)))
+(define-concept c1110
+    (and c1007
+         (at-least 2 r9)
+         (at-most 7 r6)))
+(define-primitive-concept c1111
+    (and c615 c939
+         (all r2 c954) (all r10 c916)
+         (at-least 2 r1)))
+(define-primitive-concept c1112
+    (and c86 c664
+         (all r9 c512)
+         (at-most 8 r9)))
+(define-primitive-concept c1113
+    (and c302 c872
+         (all r9 c948) (all r5 c722)
+         (at-most 6 r2)))
+(define-concept c1114
+    (and c762 c1031
+         (all r7 c789) (all r8 c688)))
+(define-concept c1115
+    (and c1034 c540
+         (all r1 c985)
+         (at-least 1 r4)))
+(define-primitive-concept c1116
+    (and c702 c1057
+         (all r10 c663)
+         (at-most 9 r7)))
+(define-primitive-concept c1117
+    (and c912
+         (all r5 c849) (all r8 c456)
+         (at-most 5 r10)))
+(define-primitive-concept c1118
+    (and c421
+         (at-most 8 r9)))
+(define-primitive-concept c1119
+    (and c40 c418))
+(define-primitive-concept c1120
+    (and c922 c758
+         (all r6 c322) (all r10 c201)
+         (at-least 2 r6)))
+(define-concept c1121
+    (and c900
+         (all r7 c1022) (all r4 c876)
+         (at-most 6 r5)))
+(define-primitive-concept c1122
+    (and c672
+         (at-least 4 r10)))
+(define-primitive-concept c1123
+    (and c646 c477
+         (all r1 c128) (all r3 c888)
+         (at-most 5 r3)))
+(define-primitive-concept c1124
+    (and c253 c942
+         (all r4 c306) (all r2 c303)
+         (at-least 1 r8)
+         (at-most 8 r4)))
+(define-primitive-concept c1125
+    (and c980
+         (all r9 c204)
+         (at-least 3 r5)))
+(define-primitive-concept c1126
+    (and c121 c681))
+(define-primitive-concept c1127
+    (and c877
+         (all r6 c585) (all r1 c393)
+         (at-least 2 r3)
+         (at-most 9 r3)))
+(define-primitive-concept c1128
+    (and c604
+         (at-least 1 r10)
+         (at-most 9 r6)))
+(define-primitive-concept c1129
+    (and c539))
+(define-primitive-concept c1130
+    (and c941
+         (all r9 c596)))
+(define-primitive-concept c1131
+    (and c529
+         (all r9 c556) (all r3 c569)))
+(define-primitive-concept c1132
+    (and c699
+         (all r1 c766) (all r6 c827)))
+(define-primitive-concept c1133
+    (and c482 c726
+         (all r4 c1058) (all r2 c233)
+         (at-most 5 r4)))
+(define-primitive-concept c1134
+    (and c328 c785
+         (all r10 c703) (all r3 c762)
+         (at-least 5 r5)
+         (at-most 5 r9)))
+(define-concept c1135
+    (and c873
+         (all r10 c242)))
+(define-primitive-concept c1136
+    (and c471))
+(define-concept c1137
+    (and c569 c502
+         (all r6 c418) (all r5 c202)
+         (at-least 3 r5)))
+(define-primitive-concept c1138
+    (and c864
+         (at-least 1 r9)
+         (at-most 9 r10)))
+(define-primitive-concept c1139
+    (and c558 c1069
+         (all r8 c580) (all r9 c132)))
+(define-primitive-concept c1140
+    (and c487))
+(define-primitive-concept c1141
+    (and c528
+         (all r4 c925) (all r3 c303)
+         (at-least 5 r10)
+         (at-most 7 r7)))
+(define-concept c1142
+    (and c911
+         (all r4 c577) (all r6 c778)
+         (at-least 5 r5)
+         (at-most 8 r3)))
+(define-concept c1143
+    (and c891 c864
+         (all r9 c1033)
+         (at-most 7 r10)))
+(define-primitive-concept c1144
+    (and c897
+         (all r7 c1027)))
+(define-concept c1145
+    (and c98 c741
+         (all r8 c600) (all r10 c511)
+         (at-least 4 r10)))
+(define-primitive-concept c1146
+    (and c995
+         (all r8 c764)
+         (at-least 5 r7)))
+(define-primitive-concept c1147
+    (and c1082
+         (all r1 c95)
+         (at-least 5 r8)))
+(define-concept c1148
+    (and c956
+         (all r5 c916) (all r8 c179)
+         (at-least 2 r10)
+         (at-most 8 r6)))
+(define-primitive-concept c1149
+    (and c466 c829
+         (at-least 5 r9)))
+(define-primitive-concept c1150
+    (and c796 c972
+         (all r3 c95)
+         (at-least 1 r4)))
+(define-concept c1151
+    (and c991 c442
+         (all r5 c392)
+         (at-most 6 r1)))
+(define-concept c1152
+    (and c179 c725
+         (at-most 8 r4)))
+(define-primitive-concept c1153
+    (and c993
+         (all r1 c1041)
+         (at-least 4 r8)))
+(define-primitive-concept c1154
+    (and c790))
+(define-concept c1155
+    (and c455 c1011
+         (at-most 5 r7)))
+(define-primitive-concept c1156
+    (and c158 c664
+         (all r10 c863)
+         (at-most 7 r1)))
+(define-concept c1157
+    (and c390
+         (all r1 c732) (all r6 c302)))
+(define-primitive-concept c1158
+    (and c597 c962
+         (all r4 c303) (all r8 c1088)))
+(define-concept c1159
+    (and c602 c662
+         (at-least 2 r5)))
+(define-primitive-concept c1160
+    (and c769
+         (at-least 1 r4)))
+(define-primitive-concept c1161
+    (and c443
+         (at-least 4 r10)
+         (at-most 8 r1)))
+(define-primitive-concept c1162
+    (and c348 c665
+         (all r3 c625)
+         (at-least 1 r9)))
+(define-primitive-concept c1163
+    (and c423
+         (all r6 c122) (all r1 c706)))
+(define-primitive-concept c1164
+    (and c195 c795
+         (all r5 c368) (all r3 c193)
+         (at-most 5 r7)))
+(define-primitive-concept c1165
+    (and c549 c557
+         (all r7 c265) (all r10 c498)
+         (at-least 1 r7)
+         (at-most 9 r1)))
+(define-concept c1166
+    (and c603 c711
+         (at-least 1 r2)))
+(define-primitive-concept c1167
+    (and c890 c383
+         (all r3 c120)
+         (at-least 1 r7)))
+(define-primitive-concept c1168
+    (and c994
+         (all r6 c534)
+         (at-most 7 r7)))
+(define-primitive-concept c1169
+    (and c408
+         (all r8 c880) (all r7 c497)))
+(define-concept c1170
+    (and c800 c369
+         (all r1 c77)
+         (at-least 3 r4)))
+(define-concept c1171
+    (and c977
+         (all r9 c14) (all r4 c590)
+         (at-least 5 r3)
+         (at-most 5 r7)))
+(define-primitive-concept c1172
+    (and c994 c694
+         (all r2 c605)))
+(define-primitive-concept c1173
+    (and c1081
+         (all r3 c607)))
+(define-primitive-concept c1174
+    (and c1025
+         (all r7 c940) (all r4 c545)
+         (at-least 2 r3)
+         (at-most 7 r8)))
+(define-concept c1175
+    (and c252 c1043
+         (all r6 c122)
+         (at-least 2 r3)
+         (at-most 5 r4)))
+(define-primitive-concept c1176
+    (and c949 c1057
+         (at-most 7 r8)))
+(define-primitive-concept c1177
+    (and c819
+         (all r4 c182) (all r7 c467)))
+(define-primitive-concept c1178
+    (and c656
+         (all r4 c581)
+         (at-least 3 r6)))
+(define-primitive-concept c1179
+    (and c842 c629
+         (all r2 c188)
+         (at-least 3 r5)
+         (at-most 8 r3)))
+(define-primitive-concept c1180
+    (and c457
+         (all r10 c903) (all r9 c891)
+         (at-least 5 r2)))
+(define-primitive-concept c1181
+    (and c745 c653
+         (all r4 c862)
+         (at-least 5 r5)))
+(define-primitive-concept c1182
+    (and c483
+         (at-least 2 r8)))
+(define-primitive-concept c1183
+    (and c809
+         (all r5 c297) (all r1 c757)
+         (at-least 5 r6)
+         (at-most 5 r1)))
+(define-primitive-concept c1184
+    (and c40 c722
+         (all r5 c389)
+         (at-most 6 r4)))
+(define-primitive-concept c1185
+    (and c119 c739
+         (all r6 c686) (all r8 c96)
+         (at-least 2 r9)
+         (at-most 9 r8)))
+(define-primitive-concept c1186
+    (and c806
+         (all r6 c520) (all r10 c606)))
+(define-primitive-concept c1187
+    (and c961 c1078
+         (all r3 c806)
+         (at-most 8 r3)))
+(define-primitive-concept c1188
+    (and c1092 c727
+         (at-least 4 r8)
+         (at-most 7 r9)))
+(define-concept c1189
+    (and c579
+         (all r10 c32)
+         (at-least 4 r5)))
+(define-primitive-concept c1190
+    (and c356 c962
+         (all r1 c914)
+         (at-least 1 r3)))
+(define-primitive-concept c1191
+    (and c1024 c843
+         (all r5 c732)
+         (at-most 8 r8)))
+(define-concept c1192
+    (and c690 c368))
+(define-primitive-concept c1193
+    (and c1026 c491
+         (at-most 7 r9)))
+(define-concept c1194
+    (and c819 c1081
+         (all r7 c337)
+         (at-least 2 r10)))
+(define-primitive-concept c1195
+    (and c735
+         (all r4 c311)))
+(define-primitive-concept c1196
+    (and c888 c456
+         (all r1 c408) (all r9 c604)
+         (at-least 3 r4)))
+(define-primitive-concept c1197
+    (and c404 c858))
+(define-primitive-concept c1198
+    (and c120 c873))
+(define-primitive-concept c1199
+    (and c545
+         (all r5 c939)
+         (at-least 1 r6)
+         (at-most 8 r10)))
+(define-primitive-concept c1200
+    (and c531 c951
+         (all r6 c769)
+         (at-least 5 r7)
+         (at-most 8 r10)))
+(define-primitive-concept c1201
+    (and c563 c991
+         (at-most 5 r2)))
+(define-primitive-concept c1202
+    (and c501))
+(define-primitive-concept c1203
+    (and c1080 c528
+         (all r2 c874)
+         (at-least 2 r1)))
+(define-primitive-concept c1204
+    (and c852
+         (at-most 8 r8)))
+(define-primitive-concept c1205
+    (and c564 c601
+         (all r7 c1007) (all r4 c407)
+         (at-least 5 r5)))
+(define-primitive-concept c1206
+    (and c561 c838
+         (all r6 c985) (all r1 c863)
+         (at-most 6 r7)))
+(define-primitive-concept c1207
+    (and c1055
+         (all r4 c286)
+         (at-least 4 r9)))
+(define-primitive-concept c1208
+    (and c907
+         (all r7 c845) (all r8 c583)))
+(define-concept c1209
+    (and c727
+         (at-most 9 r2)))
+(define-concept c1210
+    (and c921 c681
+         (all r5 c530) (all r2 c880)))
+(define-concept c1211
+    (and c343 c676
+         (all r3 c537)
+         (at-least 1 r10)))
+(define-primitive-concept c1212
+    (and c6 c595
+         (all r9 c828)
+         (at-most 8 r7)))
+(define-primitive-concept c1213
+    (and c596
+         (all r4 c1012) (all r8 c163)))
+(define-primitive-concept c1214
+    (and c607 c713
+         (all r6 c673) (all r5 c293)
+         (at-least 3 r2)))
+(define-primitive-concept c1215
+    (and c194 c470
+         (all r5 c603) (all r9 c990)
+         (at-least 2 r2)))
+(define-primitive-concept c1216
+    (and c936
+         (all r10 c383)
+         (at-least 4 r2)))
+(define-primitive-concept c1217
+    (and c915
+         (all r7 c350) (all r9 c251)))
+(define-primitive-concept c1218
+    (and c542
+         (all r5 c586)
+         (at-least 3 r8)))
+(define-concept c1219
+    (and c29 c586
+         (all r2 c519)))
+(define-primitive-concept c1220
+    (and c750
+         (all r4 c524)
+         (at-least 2 r3)))
+(define-primitive-concept c1221
+    (and c816
+         (all r9 c734) (all r8 c236)))
+(define-concept c1222
+    (and c1008
+         (all r7 c104)
+         (at-least 3 r10)))
+(define-concept c1223
+    (and c587
+         (all r1 c354) (all r7 c900)
+         (at-least 1 r5)
+         (at-most 5 r6)))
+(define-primitive-concept c1224
+    (and c671
+         (all r6 c563) (all r4 c375)
+         (at-least 3 r10)
+         (at-most 7 r3)))
+(define-primitive-concept c1225
+    (and c565 c1013))
+(define-primitive-concept c1226
+    (and c1005 c442
+         (all r10 c712)))
+(define-primitive-concept c1227
+    (and c1084
+         (all r3 c349) (all r7 c614)
+         (at-least 2 r10)))
+(define-concept c1228
+    (and c397
+         (all r9 c92)
+         (at-least 2 r1)))
+(define-primitive-concept c1229
+    (and c925))
+(define-primitive-concept c1230
+    (and c1015
+         (at-least 5 r6)
+         (at-most 6 r8)))
+(define-concept c1231
+    (and c700
+         (all r10 c576)
+         (at-least 2 r1)
+         (at-most 9 r6)))
+(define-primitive-concept c1232
+    (and c776
+         (all r3 c588)
+         (at-least 2 r2)))
+(define-primitive-concept c1233
+    (and c932 c967))
+(define-primitive-concept c1234
+    (and c771 c831
+         (all r8 c532) (all r3 c1037)
+         (at-least 1 r10)
+         (at-most 8 r5)))
+(define-primitive-concept c1235
+    (and c421 c641
+         (all r1 c145)
+         (at-least 3 r4)))
+(define-primitive-concept c1236
+    (and c585
+         (all r4 c204)))
+(define-primitive-concept c1237
+    (and c607
+         (all r4 c606) (all r6 c982)
+         (at-least 2 r6)))
+(define-primitive-concept c1238
+    (and c760
+         (all r6 c378) (all r7 c905)
+         (at-most 8 r8)))
+(define-primitive-concept c1239
+    (and c743 c731
+         (all r7 c147)))
+(define-primitive-concept c1240
+    (and c935 c860
+         (all r5 c460) (all r8 c403)
+         (at-most 7 r8)))
+(define-primitive-concept c1241
+    (and c709
+         (at-most 8 r1)))
+(define-primitive-concept c1242
+    (and c777
+         (all r2 c630)
+         (at-least 2 r10)))
+(define-primitive-concept c1243
+    (and c711
+         (at-least 3 r4)
+         (at-most 7 r2)))
+(define-primitive-concept c1244
+    (and c1036 c1082
+         (all r4 c222) (all r9 c698)))
+(define-concept c1245
+    (and c846
+         (all r8 c917)
+         (at-most 5 r6)))
+(define-primitive-concept c1246
+    (and c852
+         (all r8 c312)
+         (at-least 3 r9)))
+(define-concept c1247
+    (and c374
+         (all r4 c274)
+         (at-least 5 r6)))
+(define-primitive-concept c1248
+    (and c528 c464
+         (all r10 c144)
+         (at-least 3 r8)))
+(define-primitive-concept c1249
+    (and c934
+         (at-least 3 r4)))
+(define-primitive-concept c1250
+    (and c862
+         (all r9 c361)
+         (at-least 1 r4)
+         (at-most 5 r6)))
+(define-primitive-concept c1251
+    (and c837))
+(define-primitive-concept c1252
+    (and c928 c628
+         (all r9 c203) (all r8 c709)
+         (at-least 4 r7)))
+(define-primitive-concept c1253
+    (and c244 c911
+         (all r4 c631) (all r8 c1020)
+         (at-least 1 r2)
+         (at-most 7 r4)))
+(define-concept c1254
+    (and c1021
+         (all r1 c317)
+         (at-least 1 r1)))
+(define-concept c1255
+    (and c611 c753
+         (at-least 5 r1)
+         (at-most 9 r10)))
+(define-primitive-concept c1256
+    (and c487
+         (all r6 c521) (all r2 c26)
+         (at-least 2 r8)
+         (at-most 5 r5)))
+(define-primitive-concept c1257
+    (and c596
+         (at-least 1 r3)
+         (at-most 9 r10)))
+(define-primitive-concept c1258
+    (and c963
+         (all r4 c103) (all r8 c575)
+         (at-least 2 r10)
+         (at-most 9 r9)))
+(define-primitive-concept c1259
+    (and c321 c982))
+(define-concept c1260
+    (and c301 c486
+         (all r6 c84) (all r4 c158)))
+(define-primitive-concept c1261
+    (and c205 c552
+         (at-least 5 r7)
+         (at-most 9 r2)))
+(define-primitive-concept c1262
+    (and c1071
+         (at-least 1 r6)))
+(define-primitive-concept c1263
+    (and c939
+         (all r7 c650) (all r2 c372)
+         (at-least 4 r1)))
+(define-primitive-concept c1264
+    (and c1040
+         (all r6 c327)
+         (at-least 3 r7)))
+(define-primitive-concept c1265
+    (and c478
+         (all r2 c651) (all r9 c948)
+         (at-least 2 r9)))
+(define-primitive-concept c1266
+    (and c562
+         (at-most 9 r8)))
+(define-primitive-concept c1267
+    (and c860
+         (at-most 7 r10)))
+(define-primitive-concept c1268
+    (and c440 c912
+         (all r5 c348)
+         (at-most 5 r8)))
+(define-primitive-concept c1269
+    (and c577
+         (all r8 c690)
+         (at-most 6 r10)))
+(define-primitive-concept c1270
+    (and c850 c1025
+         (all r3 c328) (all r9 c620)
+         (at-least 4 r7)))
+(define-primitive-concept c1271
+    (and c395 c442
+         (at-least 4 r2)))
+(define-concept c1272
+    (and c952 c564
+         (all r3 c411) (all r2 c679)
+         (at-least 1 r10)))
+(define-primitive-concept c1273
+    (and c581
+         (at-least 4 r8)))
+(define-primitive-concept c1274
+    (and c76 c822))
+(define-primitive-concept c1275
+    (and c457))
+(define-concept c1276
+    (and c779
+         (at-least 3 r10)
+         (at-most 8 r1)))
+(define-concept c1277
+    (and c681
+         (all r4 c948)
+         (at-least 1 r9)
+         (at-most 7 r9)))
+(define-primitive-concept c1278
+    (and c262 c1010
+         (all r6 c636) (all r5 c536)
+         (at-least 2 r2)))
+(define-primitive-concept c1279
+    (and c440))
+(define-primitive-concept c1280
+    (and c373 c645
+         (all r4 c1019) (all r5 c323)
+         (at-least 2 r4)
+         (at-most 8 r10)))
+(define-primitive-concept c1281
+    (and c947
+         (all r5 c989)
+         (at-least 3 r5)
+         (at-most 9 r3)))
+(define-primitive-concept c1282
+    (and c948 c800
+         (all r7 c367) (all r2 c614)
+         (at-most 6 r4)))
+(define-primitive-concept c1283
+    (and c105 c654
+         (all r4 c455)
+         (at-least 5 r9)))
+(define-concept c1284
+    (and c397
+         (all r1 c319)
+         (at-least 4 r1)))
+(define-primitive-concept c1285
+    (and c753 c592
+         (all r8 c555) (all r9 c336)
+         (at-most 5 r9)))
+(define-primitive-concept c1286
+    (and c578
+         (all r2 c593) (all r10 c886)))
+(define-primitive-concept c1287
+    (and c481 c604
+         (all r9 c140) (all r8 c540)
+         (at-least 4 r2)
+         (at-most 5 r6)))
+(define-concept c1288
+    (and c724 c1011
+         (all r8 c416) (all r6 c370)
+         (at-least 1 r8)))
+(define-concept c1289
+    (and c81 c460
+         (all r8 c7)
+         (at-least 4 r4)))
+(define-primitive-concept c1290
+    (and c790
+         (all r10 c115) (all r6 c653)
+         (at-least 5 r1)
+         (at-most 9 r1)))
+(define-primitive-concept c1291
+    (and c336 c818
+         (all r1 c229) (all r6 c309)
+         (at-least 3 r3)
+         (at-most 7 r2)))
+(define-primitive-concept c1292
+    (and c529
+         (all r1 c311)))
+(define-primitive-concept c1293
+    (and c126 c994
+         (all r6 c414) (all r1 c922)))
+(define-concept c1294
+    (and c136 c631
+         (at-most 6 r1)))
+(define-primitive-concept c1295
+    (and c92 c950
+         (all r10 c327) (all r1 c325)))
+(define-primitive-concept c1296
+    (and c151 c888
+         (at-least 4 r10)))
+(define-primitive-concept c1297
+    (and c963 c475
+         (all r10 c605) (all r5 c313)
+         (at-least 1 r2)))
+(define-primitive-concept c1298
+    (and c489 c837
+         (all r1 c248)
+         (at-least 5 r1)))
+(define-concept c1299
+    (and c133 c852
+         (all r2 c496) (all r4 c789)))
+(define-primitive-concept c1300
+    (and c439
+         (all r7 c517)
+         (at-least 4 r2)))
+(define-concept c1301
+    (and c506 c712
+         (all r5 c41) (all r9 c414)))
+(define-primitive-concept c1302
+    (and c863 c783
+         (all r1 c388) (all r7 c695)
+         (at-least 2 r7)))
+(define-primitive-concept c1303
+    (and c691
+         (all r6 c1003)
+         (at-least 2 r4)))
+(define-primitive-concept c1304
+    (and c495
+         (all r3 c255) (all r7 c1021)
+         (at-most 6 r10)))
+(define-primitive-concept c1305
+    (and c1088
+         (all r5 c27) (all r2 c744)
+         (at-least 2 r8)
+         (at-most 9 r6)))
+(define-concept c1306
+    (and c930
+         (all r8 c284)
+         (at-least 3 r9)
+         (at-most 8 r2)))
+(define-concept c1307
+    (and c820 c883
+         (all r10 c315) (all r8 c800)
+         (at-most 9 r6)))
+(define-primitive-concept c1308
+    (and c870
+         (all r5 c1051)
+         (at-least 2 r2)))
+(define-primitive-concept c1309
+    (and c706 c402
+         (all r8 c537) (all r10 c592)
+         (at-least 5 r7)))
+(define-primitive-concept c1310
+    (and c781
+         (all r1 c859) (all r7 c677)
+         (at-least 5 r1)))
+(define-primitive-concept c1311
+    (and c455 c566
+         (all r9 c772) (all r8 c660)))
+(define-primitive-concept c1312
+    (and c850
+         (all r5 c904)
+         (at-least 1 r8)
+         (at-most 5 r5)))
+(define-concept c1313
+    (and c945
+         (all r7 c1009) (all r5 c565)
+         (at-least 4 r9)))
+(define-primitive-concept c1314
+    (and c1036 c743
+         (at-least 4 r3)
+         (at-most 5 r8)))
+(define-primitive-concept c1315
+    (and c381))
+(define-primitive-concept c1316
+    (and c625 c511
+         (all r1 c799) (all r6 c385)))
+(define-primitive-concept c1317
+    (and c1079
+         (at-least 3 r10)))
+(define-concept c1318
+    (and c677
+         (all r7 c173) (all r6 c613)))
+(define-primitive-concept c1319
+    (and c266 c876))
+(define-primitive-concept c1320
+    (and c538
+         (all r5 c1011) (all r4 c80)))
+(define-concept c1321
+    (and c563 c435
+         (all r1 c1081)
+         (at-least 1 r8)))
+(define-primitive-concept c1322
+    (and c865 c422
+         (all r2 c1066) (all r1 c295)
+         (at-least 4 r1)
+         (at-most 6 r8)))
+(define-primitive-concept c1323
+    (and c738))
+(define-primitive-concept c1324
+    (and c935 c483
+         (all r3 c774)
+         (at-least 4 r5)))
+(define-primitive-concept c1325
+    (and c119 c756
+         (all r9 c450) (all r2 c424)
+         (at-least 3 r6)
+         (at-most 6 r3)))
+(define-primitive-concept c1326
+    (and c537
+         (all r7 c223) (all r6 c676)
+         (at-least 3 r9)
+         (at-most 8 r10)))
+(define-primitive-concept c1327
+    (and c1040
+         (all r7 c122) (all r9 c251)
+         (at-least 1 r5)
+         (at-most 7 r8)))
+(define-primitive-concept c1328
+    (and c828
+         (all r9 c1078)
+         (at-most 6 r9)))
+(define-concept c1329
+    (and c606 c469))
+(define-primitive-concept c1330
+    (and c612
+         (at-most 5 r2)))
+(define-primitive-concept c1331
+    (and c818
+         (at-least 3 r8)))
+(define-primitive-concept c1332
+    (and c903
+         (at-least 4 r8)
+         (at-most 7 r5)))
+(define-concept c1333
+    (and c194 c584))
+(define-primitive-concept c1334
+    (and c238 c652
+         (all r2 c889)
+         (at-least 2 r6)))
+(define-concept c1335
+    (and c495
+         (all r4 c540)
+         (at-most 5 r8)))
+(define-primitive-concept c1336
+    (and c78 c1067
+         (at-least 3 r4)))
+(define-primitive-concept c1337
+    (and c78 c928
+         (all r5 c31) (all r10 c115)
+         (at-least 4 r8)))
+(define-primitive-concept c1338
+    (and c523
+         (at-most 7 r10)))
+(define-primitive-concept c1339
+    (and c710
+         (at-least 4 r6)))
+(define-concept c1340
+    (and c710
+         (all r1 c91) (all r3 c645)
+         (at-most 6 r7)))
+(define-primitive-concept c1341
+    (and c432 c952
+         (at-most 7 r9)))
+(define-primitive-concept c1342
+    (and c613
+         (all r8 c796) (all r6 c524)
+         (at-most 8 r10)))
+(define-primitive-concept c1343
+    (and c799 c914
+         (at-least 5 r6)
+         (at-most 6 r6)))
+(define-primitive-concept c1344
+    (and c723
+         (at-most 6 r5)))
+(define-primitive-concept c1345
+    (and c1073
+         (all r2 c76) (all r4 c1049)
+         (at-least 2 r6)))
+(define-primitive-concept c1346
+    (and c622
+         (at-most 7 r2)))
+(define-primitive-concept c1347
+    (and c435
+         (at-most 7 r9)))
+(define-concept c1348
+    (and c870
+         (all r3 c910)
+         (at-most 5 r4)))
+(define-primitive-concept c1349
+    (and c978
+         (all r7 c227) (all r9 c516)))
+(define-primitive-concept c1350
+    (and c1007
+         (all r5 c357) (all r3 c740)
+         (at-most 7 r1)))
+(define-primitive-concept c1351
+    (and c623
+         (all r10 c932)
+         (at-least 2 r1)))
+(define-primitive-concept c1352
+    (and c21 c674
+         (at-most 5 r5)))
+(define-primitive-concept c1353
+    (and c839 c903
+         (all r2 c783)
+         (at-least 3 r10)))
+(define-primitive-concept c1354
+    (and c617
+         (all r6 c1007) (all r1 c876)))
+(define-primitive-concept c1355
+    (and c1011
+         (all r8 c465)
+         (at-most 5 r1)))
+(define-concept c1356
+    (and c429
+         (all r10 c604)
+         (at-most 5 r6)))
+(define-primitive-concept c1357
+    (and c1006 c890
+         (at-least 2 r7)))
+(define-concept c1358
+    (and c669
+         (all r7 c101) (all r5 c652)
+         (at-most 9 r10)))
+(define-primitive-concept c1359
+    (and c562
+         (all r5 c413)
+         (at-most 5 r3)))
+(define-primitive-concept c1360
+    (and c672
+         (all r2 c91)
+         (at-least 4 r2)
+         (at-most 6 r3)))
+(define-primitive-concept c1361
+    (and c862
+         (all r1 c1077)
+         (at-least 4 r7)))
+(define-primitive-concept c1362
+    (and c1088
+         (at-least 5 r4)))
+(define-primitive-concept c1363
+    (and c543 c1091
+         (all r5 c932)
+         (at-least 3 r9)
+         (at-most 5 r8)))
+(define-primitive-concept c1364
+    (and c669))
+(define-concept c1365
+    (and c548
+         (all r5 c1033)))
+(define-concept c1366
+    (and c496
+         (all r6 c998)
+         (at-least 3 r6)
+         (at-most 6 r10)))
+(define-concept c1367
+    (and c95 c958
+         (at-most 5 r1)))
+(define-primitive-concept c1368
+    (and c510
+         (at-most 8 r6)))
+(define-primitive-concept c1369
+    (and c445 c1014))
+(define-concept c1370
+    (and c508 c1048
+         (all r4 c278) (all r7 c545)
+         (at-least 3 r6)
+         (at-most 7 r2)))
+(define-primitive-concept c1371
+    (and c380
+         (all r2 c56)))
+(define-primitive-concept c1372
+    (and c542
+         (all r2 c25)
+         (at-most 8 r4)))
+(define-primitive-concept c1373
+    (and c963
+         (all r2 c924)
+         (at-least 2 r10)
+         (at-most 6 r9)))
+(define-concept c1374
+    (and c436 c661
+         (at-least 1 r4)))
+(define-primitive-concept c1375
+    (and c673 c1079
+         (all r3 c262) (all r1 c730)
+         (at-least 5 r2)
+         (at-most 7 r7)))
+(define-primitive-concept c1376
+    (and c875
+         (all r6 c703) (all r1 c161)
+         (at-least 3 r8)))
+(define-primitive-concept c1377
+    (and c601
+         (at-most 9 r10)))
+(define-concept c1378
+    (and c44 c436
+         (all r2 c410)
+         (at-least 4 r6)
+         (at-most 9 r5)))
+(define-primitive-concept c1379
+    (and c718 c1054
+         (all r7 c427) (all r10 c184)
+         (at-most 5 r7)))
+(define-primitive-concept c1380
+    (and c320 c510
+         (all r8 c918)
+         (at-least 5 r4)
+         (at-most 7 r7)))
+(define-primitive-concept c1381
+    (and c471
+         (all r8 c848) (all r4 c364)))
+(define-primitive-concept c1382
+    (and c111 c384
+         (all r3 c127) (all r7 c337)
+         (at-most 6 r4)))
+(define-primitive-concept c1383
+    (and c512
+         (all r3 c973)))
+(define-primitive-concept c1384
+    (and c855 c480
+         (all r6 c238)
+         (at-least 5 r5)
+         (at-most 8 r3)))
+(define-concept c1385
+    (and c278 c461
+         (at-least 1 r10)
+         (at-most 7 r9)))
+(define-primitive-concept c1386
+    (and c424
+         (at-most 9 r2)))
+(define-concept c1387
+    (and c493
+         (all r8 c136) (all r3 c7)))
+(define-primitive-concept c1388
+    (and c326 c559
+         (all r10 c544)
+         (at-least 1 r1)
+         (at-most 7 r1)))
+(define-primitive-concept c1389
+    (and c730 c632
+         (at-least 4 r4)
+         (at-most 8 r5)))
+(define-primitive-concept c1390
+    (and c938
+         (at-most 9 r4)))
+(define-primitive-concept c1391
+    (and c181 c633
+         (all r5 c308) (all r7 c987)
+         (at-least 4 r3)))
+(define-primitive-concept c1392
+    (and c28 c968
+         (all r5 c143) (all r2 c1068)
+         (at-least 1 r4)))
+(define-primitive-concept c1393
+    (and c950 c757
+         (all r10 c630)
+         (at-least 5 r9)
+         (at-most 7 r1)))
+(define-primitive-concept c1394
+    (and c868
+         (all r2 c880) (all r4 c440)))
+(define-primitive-concept c1395
+    (and c547 c408
+         (all r4 c1004)))
+(define-primitive-concept c1396
+    (and c800
+         (all r5 c776) (all r9 c557)
+         (at-most 8 r5)))
+(define-primitive-concept c1397
+    (and c610
+         (all r2 c163) (all r3 c37)
+         (at-least 3 r8)
+         (at-most 5 r1)))
+(define-primitive-concept c1398
+    (and c922
+         (all r1 c53) (all r8 c276)
+         (at-least 1 r7)))
+(define-primitive-concept c1399
+    (and c836
+         (at-least 4 r4)))
+(define-concept c1400
+    (and c895 c790
+         (all r3 c620) (all r5 c862)
+         (at-most 7 r4)))
+(define-primitive-concept c1401
+    (and c991))
+(define-primitive-concept c1402
+    (and c420))
+(define-primitive-concept c1403
+    (and c474 c565
+         (at-most 9 r7)))
+(define-primitive-concept c1404
+    (and c718
+         (all r4 c652)
+         (at-least 4 r7)
+         (at-most 8 r5)))
+(define-primitive-concept c1405
+    (and c1075 c811
+         (all r10 c807)))
+(define-primitive-concept c1406
+    (and c932 c1064
+         (all r1 c929) (all r10 c885)
+         (at-least 1 r3)))
+(define-concept c1407
+    (and c434
+         (all r9 c591)
+         (at-least 4 r3)))
+(define-primitive-concept c1408
+    (and c880 c860
+         (all r10 c1057) (all r9 c391)
+         (at-least 2 r3)
+         (at-most 5 r1)))
+(define-primitive-concept c1409
+    (and c747
+         (at-most 9 r4)))
+(define-primitive-concept c1410
+    (and c378 c962
+         (at-most 6 r2)))
+(define-primitive-concept c1411
+    (and c386
+         (all r4 c18) (all r8 c919)
+         (at-least 3 r4)))
+(define-primitive-concept c1412
+    (and c932
+         (at-most 9 r10)))
+(define-primitive-concept c1413
+    (and c910
+         (all r10 c131)
+         (at-least 2 r10)))
+(define-primitive-concept c1414
+    (and c604
+         (at-least 4 r5)
+         (at-most 8 r3)))
+(define-primitive-concept c1415
+    (and c96 c928
+         (all r5 c666)))
+(define-primitive-concept c1416
+    (and c721 c694
+         (all r6 c630)))
+(define-primitive-concept c1417
+    (and c527 c977
+         (at-least 5 r2)
+         (at-most 5 r2)))
+(define-primitive-concept c1418
+    (and c466
+         (all r2 c898)
+         (at-least 2 r8)
+         (at-most 9 r5)))
+(define-primitive-concept c1419
+    (and c466
+         (all r4 c1068)
+         (at-least 1 r2)))
+(define-primitive-concept c1420
+    (and c766 c374
+         (all r4 c643) (all r10 c512)
+         (at-least 1 r1)
+         (at-most 8 r7)))
+(define-primitive-concept c1421
+    (and c675
+         (all r7 c29) (all r1 c893)
+         (at-most 7 r1)))
+(define-concept c1422
+    (and c460
+         (all r3 c973)
+         (at-least 4 r4)
+         (at-most 6 r2)))
+(define-primitive-concept c1423
+    (and c377
+         (all r5 c387)
+         (at-least 2 r10)
+         (at-most 7 r2)))
+(define-primitive-concept c1424
+    (and c451
+         (at-least 5 r8)
+         (at-most 9 r5)))
+(define-primitive-concept c1425
+    (and c316 c426
+         (all r3 c844)
+         (at-least 2 r5)))
+(define-primitive-concept c1426
+    (and c629
+         (all r2 c917) (all r6 c212)
+         (at-most 5 r8)))
+(define-primitive-concept c1427
+    (and c688
+         (all r6 c213)
+         (at-least 2 r10)))
+(define-primitive-concept c1428
+    (and c700 c612
+         (all r2 c690) (all r4 c102)))
+(define-primitive-concept c1429
+    (and c964 c541
+         (at-least 2 r4)
+         (at-most 6 r10)))
+(define-primitive-concept c1430
+    (and c877 c1031
+         (all r10 c895) (all r6 c808)
+         (at-least 3 r9)
+         (at-most 9 r8)))
+(define-primitive-concept c1431
+    (and c67 c993
+         (all r3 c760)
+         (at-least 1 r9)))
+(define-primitive-concept c1432
+    (and c306 c543
+         (all r5 c522)
+         (at-least 1 r7)
+         (at-most 6 r5)))
+(define-concept c1433
+    (and c407
+         (all r6 c973) (all r8 c440)
+         (at-least 4 r3)))
+(define-primitive-concept c1434
+    (and c685 c761
+         (all r6 c137)
+         (at-least 3 r9)))
+(define-concept c1435
+    (and c87 c839
+         (all r4 c639)
+         (at-most 5 r2)))
+(define-primitive-concept c1436
+    (and c846 c664
+         (all r9 c365) (all r3 c933)
+         (at-least 2 r7)
+         (at-most 9 r3)))
+(define-primitive-concept c1437
+    (and c190 c920
+         (all r3 c446) (all r5 c1056)
+         (at-most 6 r4)))
+(define-primitive-concept c1438
+    (and c803 c828
+         (at-least 5 r1)
+         (at-most 8 r8)))
+(define-primitive-concept c1439
+    (and c989
+         (all r2 c928) (all r3 c803)
+         (at-most 6 r6)))
+(define-primitive-concept c1440
+    (and c81 c896
+         (all r1 c827) (all r2 c1049)))
+(define-concept c1441
+    (and c944 c749
+         (all r5 c886) (all r8 c460)
+         (at-least 2 r4)))
+(define-primitive-concept c1442
+    (and c415
+         (all r8 c507) (all r10 c391)))
+(define-primitive-concept c1443
+    (and c836
+         (all r4 c528) (all r9 c189)
+         (at-least 3 r1)
+         (at-most 8 r1)))
+(define-primitive-concept c1444
+    (and c251 c843
+         (at-least 5 r9)))
+(define-primitive-concept c1445
+    (and c114 c1034
+         (all r6 c115)
+         (at-most 7 r9)))
+(define-primitive-concept c1446
+    (and c850 c801
+         (all r6 c129) (all r7 c431)
+         (at-least 2 r6)))
+(define-primitive-concept c1447
+    (and c380
+         (all r2 c489)))
+(define-primitive-concept c1448
+    (and c594
+         (all r9 c270)
+         (at-least 3 r1)))
+(define-primitive-concept c1449
+    (and c498
+         (all r7 c474)
+         (at-most 5 r8)))
+(define-primitive-concept c1450
+    (and c892 c419
+         (all r3 c151)
+         (at-least 3 r7)
+         (at-most 5 r7)))
+(define-concept c1451
+    (and c456
+         (all r8 c824)
+         (at-most 9 r7)))
+(define-primitive-concept c1452
+    (and c910
+         (all r4 c331)))
+(define-primitive-concept c1453
+    (and c1083
+         (all r3 c990) (all r5 c823)
+         (at-least 2 r3)
+         (at-most 7 r2)))
+(define-primitive-concept c1454
+    (and c290 c747
+         (all r3 c503) (all r2 c3)
+         (at-least 3 r2)))
+(define-concept c1455
+    (and c298 c840
+         (all r9 c1062)
+         (at-least 1 r8)))
+(define-primitive-concept c1456
+    (and c580 c531
+         (at-least 2 r4)
+         (at-most 6 r4)))
+(define-primitive-concept c1457
+    (and c43 c846
+         (all r1 c7) (all r9 c179)
+         (at-least 5 r6)))
+(define-primitive-concept c1458
+    (and c965))
+(define-primitive-concept c1459
+    (and c678 c738
+         (at-least 4 r2)
+         (at-most 9 r9)))
+(define-primitive-concept c1460
+    (and c151 c1022
+         (all r9 c903) (all r3 c599)
+         (at-least 1 r7)))
+(define-primitive-concept c1461
+    (and c943
+         (all r7 c147)))
+(define-concept c1462
+    (and c190 c507
+         (all r8 c980)
+         (at-least 3 r4)))
+(define-primitive-concept c1463
+    (and c520
+         (at-least 5 r9)))
+(define-primitive-concept c1464
+    (and c718 c1048
+         (at-least 3 r10)
+         (at-most 8 r3)))
+(define-primitive-concept c1465
+    (and c408
+         (all r2 c50)
+         (at-least 4 r4)
+         (at-most 8 r9)))
+(define-primitive-concept c1466
+    (and c169 c880
+         (all r9 c231) (all r8 c807)
+         (at-least 4 r5)
+         (at-most 7 r6)))
+(define-primitive-concept c1467
+    (and c692
+         (at-least 1 r2)
+         (at-most 7 r3)))
+(define-primitive-concept c1468
+    (and c872
+         (all r9 c364) (all r1 c870)
+         (at-least 5 r3)
+         (at-most 5 r1)))
+(define-primitive-concept c1469
+    (and c433
+         (all r7 c1062)
+         (at-most 7 r10)))
+(define-concept c1470
+    (and c681 c1033
+         (all r4 c1011)
+         (at-least 3 r5)))
+(define-primitive-concept c1471
+    (and c756 c705
+         (all r5 c24)
+         (at-least 2 r1)
+         (at-most 7 r2)))
+(define-primitive-concept c1472
+    (and c987 c822))
+(define-concept c1473
+    (and c1014 c711
+         (at-least 1 r10)))
+(define-concept c1474
+    (and c9 c578
+         (at-least 4 r10)
+         (at-most 7 r3)))
+(define-concept c1475
+    (and c1048
+         (all r4 c133) (all r7 c1055)
+         (at-least 4 r6)))
+(define-concept c1476
+    (and c1039 c470
+         (all r8 c765) (all r2 c799)
+         (at-least 4 r8)
+         (at-most 5 r7)))
+(define-concept c1477
+    (and c558
+         (all r4 c225)
+         (at-least 2 r8)))
+(define-concept c1478
+    (and c157 c637
+         (all r3 c472)
+         (at-least 2 r3)
+         (at-most 7 r7)))
+(define-primitive-concept c1479
+    (and c720 c585
+         (all r10 c173) (all r8 c518)))
+(define-primitive-concept c1480
+    (and c658))
+(define-primitive-concept c1481
+    (and c389 c589))
+(define-primitive-concept c1482
+    (and c556
+         (at-most 9 r4)))
+(define-primitive-concept c1483
+    (and c556 c416
+         (all r10 c263)
+         (at-least 1 r5)
+         (at-most 5 r3)))
+(define-concept c1484
+    (and c412 c387
+         (all r7 c212)))
+(define-primitive-concept c1485
+    (and c617
+         (all r9 c331)
+         (at-least 4 r5)))
+(define-primitive-concept c1486
+    (and c512 c864
+         (all r7 c603)
+         (at-most 6 r9)))
+(define-primitive-concept c1487
+    (and c923
+         (all r6 c148)
+         (at-least 5 r2)))
+(define-primitive-concept c1488
+    (and c478
+         (all r9 c429) (all r7 c757)
+         (at-most 7 r6)))
+(define-concept c1489
+    (and c1001
+         (all r1 c864)
+         (at-most 8 r5)))
+(define-concept c1490
+    (and c584 c456
+         (at-least 5 r1)
+         (at-most 9 r2)))
+(define-primitive-concept c1491
+    (and c1076 c626
+         (at-most 7 r8)))
+(define-primitive-concept c1492
+    (and c1072
+         (all r5 c1069) (all r8 c1052)))
+(define-primitive-concept c1493
+    (and c68 c781
+         (all r6 c4)
+         (at-least 2 r4)
+         (at-most 5 r7)))
+(define-primitive-concept c1494
+    (and c876 c1007
+         (all r3 c480) (all r9 c301)
+         (at-least 4 r7)
+         (at-most 7 r5)))
+(define-primitive-concept c1495
+    (and c1061
+         (all r3 c830) (all r4 c566)
+         (at-least 1 r7)))
+(define-primitive-concept c1496
+    (and c818
+         (all r9 c901) (all r1 c546)
+         (at-least 5 r7)
+         (at-most 9 r10)))
+(define-primitive-concept c1497
+    (and c605 c579
+         (at-least 4 r5)))
+(define-primitive-concept c1498
+    (and c447
+         (all r9 c367)
+         (at-least 1 r9)
+         (at-most 6 r6)))
+(define-primitive-concept c1499
+    (and c519
+         (all r10 c341) (all r4 c478)
+         (at-most 5 r7)))
+(define-concept c1500
+    (and c967
+         (at-most 7 r4)))
+(define-primitive-concept c1501
+    (and c191 c732))
+(define-primitive-concept c1502
+    (and c837 c526
+         (all r7 c699)
+         (at-least 4 r2)
+         (at-most 8 r1)))
+(define-primitive-concept c1503
+    (and c385
+         (all r9 c861)))
+(define-concept c1504
+    (and c948
+         (all r8 c871) (all r2 c323)
+         (at-least 2 r6)))
+(define-primitive-concept c1505
+    (and c422
+         (all r4 c1072)))
+(define-concept c1506
+    (and c1068 c468
+         (all r2 c1005)
+         (at-most 8 r10)))
+(define-primitive-concept c1507
+    (and c392
+         (all r8 c407)
+         (at-least 4 r10)
+         (at-most 7 r9)))
+(define-primitive-concept c1508
+    (and c676 c367
+         (all r2 c597) (all r6 c302)
+         (at-least 1 r2)))
+(define-primitive-concept c1509
+    (and c632
+         (at-least 2 r9)
+         (at-most 5 r9)))
+(define-primitive-concept c1510
+    (and c239 c422
+         (all r6 c992)
+         (at-most 5 r1)))
+(define-concept c1511
+    (and c898 c949
+         (at-most 7 r7)))
+(define-primitive-concept c1512
+    (and c623 c680
+         (all r6 c1026)
+         (at-least 4 r10)))
+(define-concept c1513
+    (and c300 c422
+         (at-least 4 r8)))
+(define-primitive-concept c1514
+    (and c558
+         (all r1 c820)
+         (at-least 1 r4)
+         (at-most 9 r10)))
+(define-primitive-concept c1515
+    (and c969
+         (at-least 2 r9)
+         (at-most 6 r7)))
+(define-concept c1516
+    (and c507
+         (all r6 c28)
+         (at-least 3 r1)
+         (at-most 7 r9)))
+(define-primitive-concept c1517
+    (and c394
+         (all r10 c92)))
+(define-primitive-concept c1518
+    (and c966 c793
+         (all r8 c639) (all r6 c1035)))
+(define-concept c1519
+    (and c602 c441))
+(define-primitive-concept c1520
+    (and c517
+         (all r8 c454)
+         (at-most 6 r3)))
+(define-primitive-concept c1521
+    (and c800 c801
+         (all r6 c105)
+         (at-least 2 r8)))
+(define-concept c1522
+    (and c533 c950
+         (at-least 3 r8)
+         (at-most 7 r8)))
+(define-primitive-concept c1523
+    (and c204 c741
+         (all r7 c930)
+         (at-least 1 r1)))
+(define-primitive-concept c1524
+    (and c813 c1056
+         (at-least 5 r4)))
+(define-primitive-concept c1525
+    (and c747))
+(define-primitive-concept c1526
+    (and c1011 c919
+         (all r8 c605) (all r3 c351)
+         (at-most 5 r5)))
+(define-primitive-concept c1527
+    (and c761
+         (all r8 c597)
+         (at-least 3 r2)
+         (at-most 7 r6)))
+(define-primitive-concept c1528
+    (and c680 c480
+         (all r7 c8)
+         (at-most 7 r7)))
+(define-primitive-concept c1529
+    (and c730 c1072
+         (at-most 8 r1)))
+(define-primitive-concept c1530
+    (and c452 c876
+         (all r7 c913) (all r4 c840)
+         (at-least 2 r2)
+         (at-most 7 r4)))
+(define-primitive-concept c1531
+    (and c40 c933
+         (all r5 c335) (all r9 c487)
+         (at-most 7 r5)))
+(define-primitive-concept c1532
+    (and c811 c548
+         (at-least 5 r9)
+         (at-most 6 r7)))
+(define-primitive-concept c1533
+    (and c417))
+(define-primitive-concept c1534
+    (and c1069 c729
+         (all r3 c564)
+         (at-most 8 r6)))
+(define-concept c1535
+    (and c933 c740
+         (all r1 c900)
+         (at-least 1 r7)))
+(define-primitive-concept c1536
+    (and c953
+         (at-most 6 r6)))
+(define-concept c1537
+    (and c421 c743
+         (all r9 c947) (all r7 c1051)
+         (at-least 1 r7)
+         (at-most 8 r1)))
+(define-primitive-concept c1538
+    (and c427
+         (all r9 c617)))
+(define-concept c1539
+    (and c624
+         (all r1 c257) (all r8 c870)
+         (at-least 3 r8)
+         (at-most 9 r3)))
+(define-primitive-concept c1540
+    (and c1005
+         (all r9 c670) (all r10 c137)))
+(define-primitive-concept c1541
+    (and c618 c813
+         (all r9 c521) (all r3 c969)
+         (at-most 9 r4)))
+(define-primitive-concept c1542
+    (and c1054 c706
+         (all r10 c686)
+         (at-most 8 r8)))
+(define-primitive-concept c1543
+    (and c127 c896
+         (at-most 8 r7)))
+(define-primitive-concept c1544
+    (and c843
+         (all r2 c397)
+         (at-least 1 r6)))
+(define-primitive-concept c1545
+    (and c943 c470
+         (at-least 1 r2)
+         (at-most 7 r5)))
+(define-primitive-concept c1546
+    (and c675
+         (all r4 c977)
+         (at-most 9 r8)))
+(define-primitive-concept c1547
+    (and c406 c387
+         (all r3 c449)
+         (at-most 8 r10)))
+(define-concept c1548
+    (and c499
+         (all r7 c582) (all r9 c946)
+         (at-least 3 r2)
+         (at-most 6 r10)))
+(define-concept c1549
+    (and c955 c452
+         (at-least 1 r5)))
+(define-primitive-concept c1550
+    (and c25 c489
+         (all r3 c588)
+         (at-least 4 r1)))
+(define-concept c1551
+    (and c815
+         (all r3 c242)
+         (at-least 1 r4)
+         (at-most 5 r8)))
+(define-primitive-concept c1552
+    (and c601
+         (all r9 c1072) (all r7 c5)
+         (at-most 6 r1)))
+(define-primitive-concept c1553
+    (and c857 c863
+         (at-least 2 r4)))
+(define-primitive-concept c1554
+    (and c168 c918
+         (all r9 c30)
+         (at-most 6 r10)))
+(define-primitive-concept c1555
+    (and c242 c640
+         (all r4 c510)
+         (at-least 3 r4)))
+(define-primitive-concept c1556
+    (and c798 c590))
+(define-concept c1557
+    (and c30 c365
+         (at-least 2 r4)))
+(define-primitive-concept c1558
+    (and c956))
+(define-concept c1559
+    (and c818 c693
+         (at-least 4 r9)))
+(define-primitive-concept c1560
+    (and c881
+         (at-most 6 r6)))
+(define-concept c1561
+    (and c539
+         (at-most 5 r1)))
+(define-primitive-concept c1562
+    (and c453 c733
+         (all r8 c156)
+         (at-least 3 r7)))
+(define-concept c1563
+    (and c399 c623
+         (all r2 c0) (all r9 c571)
+         (at-least 3 r3)))
+(define-concept c1564
+    (and c1042
+         (all r4 c802) (all r3 c89)
+         (at-least 5 r6)
+         (at-most 9 r2)))
+(define-primitive-concept c1565
+    (and c441
+         (all r4 c596) (all r9 c1022)
+         (at-least 2 r3)
+         (at-most 5 r6)))
+(define-primitive-concept c1566
+    (and c990
+         (all r4 c853)
+         (at-least 4 r6)))
+(define-primitive-concept c1567
+    (and c153 c832
+         (at-most 6 r8)))
+(define-concept c1568
+    (and c883
+         (all r9 c1021) (all r1 c1079)
+         (at-most 9 r7)))
+(define-primitive-concept c1569
+    (and c758 c771
+         (all r3 c992)
+         (at-least 1 r5)
+         (at-most 8 r5)))
+(define-primitive-concept c1570
+    (and c433
+         (all r8 c471) (all r6 c139)))
+(define-primitive-concept c1571
+    (and c167 c415
+         (all r8 c641)
+         (at-most 7 r9)))
+(define-primitive-concept c1572
+    (and c556 c513
+         (at-least 4 r6)))
+(define-primitive-concept c1573
+    (and c985
+         (at-least 4 r9)))
+(define-primitive-concept c1574
+    (and c807 c652
+         (all r8 c991) (all r1 c750)
+         (at-least 1 r10)
+         (at-most 6 r3)))
+(define-primitive-concept c1575
+    (and c713))
+(define-primitive-concept c1576
+    (and c709
+         (at-least 1 r1)))
+(define-primitive-concept c1577
+    (and c990 c449))
+(define-primitive-concept c1578
+    (and c317 c554
+         (at-most 5 r10)))
+(define-primitive-concept c1579
+    (and c498
+         (all r6 c589) (all r3 c958)
+         (at-least 4 r3)
+         (at-most 5 r10)))
+(define-primitive-concept c1580
+    (and c1015
+         (all r5 c852)))
+(define-primitive-concept c1581
+    (and c258 c586
+         (at-most 5 r8)))
+(define-primitive-concept c1582
+    (and c532 c799
+         (all r2 c352) (all r4 c248)
+         (at-least 4 r7)
+         (at-most 5 r7)))
+(define-concept c1583
+    (and c915 c509
+         (all r1 c236)
+         (at-least 5 r1)))
+(define-primitive-concept c1584
+    (and c404
+         (at-least 5 r3)))
+(define-primitive-concept c1585
+    (and c876 c873
+         (at-most 5 r6)))
+(define-concept c1586
+    (and c471 c749
+         (all r1 c309) (all r4 c1032)
+         (at-least 3 r3)
+         (at-most 5 r7)))
+(define-primitive-concept c1587
+    (and c672))
+(define-concept c1588
+    (and c835
+         (all r4 c430) (all r1 c790)
+         (at-least 3 r7)
+         (at-most 6 r1)))
+(define-primitive-concept c1589
+    (and c1066
+         (all r2 c356)))
+(define-concept c1590
+    (and c854
+         (all r1 c42) (all r4 c107)
+         (at-most 6 r9)))
+(define-primitive-concept c1591
+    (and c96 c477))
+(define-primitive-concept c1592
+    (and c783 c1066
+         (all r8 c637)
+         (at-least 2 r4)
+         (at-most 8 r6)))
+(define-concept c1593
+    (and c859 c587
+         (all r4 c942) (all r1 c115)))
+(define-concept c1594
+    (and c571
+         (at-least 5 r5)))
+(define-primitive-concept c1595
+    (and c876))
+(define-concept c1596
+    (and c913
+         (all r1 c579) (all r5 c762)
+         (at-least 4 r6)))
+(define-concept c1597
+    (and c991 c723
+         (all r1 c785) (all r4 c112)
+         (at-least 2 r9)))
+(define-primitive-concept c1598
+    (and c225 c610
+         (all r1 c984)
+         (at-least 5 r7)
+         (at-most 9 r1)))
+(define-primitive-concept c1599
+    (and c672 c909
+         (all r6 c772)))
+(define-primitive-concept c1600
+    (and c796
+         (all r4 c1037) (all r6 c671)
+         (at-least 1 r3)
+         (at-most 8 r5)))

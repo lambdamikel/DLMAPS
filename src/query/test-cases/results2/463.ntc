@@ -1,0 +1,1 @@
+(((firerule (and (?x (an age)) (?y (an age))) ((constrained ?x (new-ind age-of ?x) age) (constrained ?y (new-ind age-of ?y) age)) :how-many 1) (((constrained b age-of-b age) (constrained a age-of-a age))) res-equal-p))

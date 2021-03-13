@@ -1,0 +1,1 @@
+(((defquery is-string (?*x) (and (?*x (:predicate stringp)))) is-string res-equal-p))

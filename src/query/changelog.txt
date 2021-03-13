@@ -1,0 +1,176 @@
+What has changed in nRQL? 
+
+1.8.4m:
+
++ optimized handling of "existential vois", e.g. in (retrieve (?x) (and (?x woman) (?x ?y has-child)) 
++ added "without-timeout" in nrql-server-case.lisp; temporary solution to timeout problems 
+
+1.8.4n:
+
+o fixed an inefficency in define-query (unnecessary processing steps in prepare-query!) 
+o redefined functions: store-substrate-for-abox, restore-substrate
++ new function: store-substrate-for-current-abox
++ new functions: store-all-substrates, restore-all-substrates
++ new function: describe-current-substrate
+
+
+1.8.4o: 
+
+o changed process17.lisp to work for CLisp (dummy functionality, since CLisp supports no processes) (-> process18.lisp)
+o changed process-pool2.lisp to work for CLisp as well 
+o changed test-queries.lisp to work if #-:multiprocess-queries holds 
+
+1.8.4p: 
+
++ added true-query and false-query -> queries with empty body now possible
++ (or ) -> false-query, (and ) -> true-query, etc.
++ created sql-substrate (only first steps...) -> mySQL substrate, currently very inefficent 
+o various bugfixes related to heflin queries: (with-nrql-settings (:mode 0 / 1 / 2) ...) caused problems, 
+  incomplete modes were "too incomplete", since TBox classification was not correctly exploited in mode 1, ... 
+
+1.8.4q: 
+
+o changed some slot names to make nRQL code compatible with MiDeLore
+o more appropriate descriptions in with-verification -> run-nrql-tests 
+o persitency functions now in persistence.lisp; package definitions and sydcl changed etc.  
++ (requires-multiprocessing (t) <body>) option enabling skipping over test cases 
+
+1.8.4r: 
+
+o fixed a bug related to error-handling and process-pooling (queries did
+  not terminate if posed to an inconsistent abox and process-pooling and 
+  multiprocess-queries were enabled)
+
+1.8.4s: 
+
+o  the value of (datatype-role-range property (tbox (substrate parser)) 
+   for nonNegativeInteger datatype properties is CARDINAL, but internally, 
+   Racer uses integer! -> changed get-attribute-for-datatype-property to 
+   return integer for cardinals as well (temporary hack) 
+o fixed a bug: (retrieve-under-premise ((instance karla woman)) (?x) (?x woman)) 
+  returned only (((?x karla)))), not the other woman in family-1.racer
+o various changes regarding managment of the internal index stuctures 
+  (e.g., compute-abox-mirror was unecessary called). Much smarter now! 
+o changed behaviour of some API functions regarding query life cycle, e.g. 
+  get-all-answers now applies get-answer to the active queries and 
+  processed-queries, not to 
+o various serious bugfixes related to deadlock prevention 
+o fixed another bug - hashtable unecessary invalidated in mode 6
+- remove "augment-abox-p" stuff completely from code
++ mode 6 is now checking the ABox for consistency before querying 
+  since it should behave like mode 3 
++ ":warning-kb-has-changed-token" can now be disabled -> new API functions
+  "enable/disable-kb-has-changed-warning-token"
+
+1.8.4t: 
+
+o changed some default values in "with-nrql-settings"
+o fixed a bug in evaluate-racer-retrieve-individual-fillers:
+  caching problem was responsible for Mission Critical errors
+  (racer-add-role-assertions ...) was added, but cache was incomplete!
+  simply deleted racer-add-role-assertion 
++ added Racer API function "prepare-nrql-engine"
+
+1.8.4u:
+
++ enabeled constraint query atoms for OWL datatype properties; 
+  however, since this features has to add datatype role fillers
+  to an ABOx, it is currently disabled per default 
+  (see ts::*add-role-assertions-for-datatype-properties-p*) 
+o had to change compute-abox-mirror as well, syntactic rewriting, 
+  evaluate-racer-check-individuals-cd-related-p, etc. 
+o changed get-score in optimizer for cd-edge-retrieval-queries to
+  get "better" query evaluation plans 
++ allowing "forget-concept-assertion obj concept" as well 
+  "forget-role-assertion obj1 obj2 role" now in rule consequences!
+  this has been requested by Ranghild v.d. Straeten; however, the
+  implementation is more or less a quick hack. Thus, the feature
+  is not documented yet.
+
+
+1.8.4v:
+
+- removed add-current-set-of-rule-consequences
++ added choose-current-set-of-rule-consequences
++ added add-chosen-sets-of-rule-consequences
++ added get-current-set-of-rule-consequences
++ added get-current-tuple 
++ added get-current-set-of-rule-consequences
++ added get-next-n-remaining-sets-of-rule-consequences
++ added get-all-remaining-sets-of-rule-consequences
+- removed "pseudo nominals" functionality
++ replacment for pseudo nominal: 
+  added new operator for rules
+  (firerule (?x top) ((instance ?x (new-symbol nominal ?x))))
++ *server-timeout* now correctly handled (I hope) 
+
+1.8.4w:
+
++ added "without-signature-checks" 
++ the following now works: 
+  (firerule (and (?x (an age)) (?y (an age))) ((constraints (= (age ?x) (age ?y)))))
+  (firerule (and (?x (an age)) (?y (an age))) ((constrained ?x (new-ind age-of ?x) age)
+  etc.
+o bug fix: (retrieve (?x ?y) (?x ?y cdscdsc) for undefined role "cdscdsc" no longer
+  puts RacerPro into debugger mode... 
+o print-debug-info added 
+
+1.8.4x:
+
+o bug fix: xml-output, xml-native-output
+
+1.8.4y:
+o bug fix: (retrieve (?x) (?x (min |http://www.owl-ontologies.com/unnamed.owl#has-age| 20)))
+  now works, raised "unknown concept expression 20" (for datatype properties)
+
+1.8.4z:
+
+o bug fix: (thanks to Keno Selzer) "evaluate-racer-retrieve-related-individuals" stopped
+  enumeration of pairs if ONE variable was marked as existential-voi; however, 
+  abortion of the enumerator is only allowed if BOTH vois are purely existential 
+o changed optimizer score for negated "has-known-successors" atoms 
+o changed a bug in "describe-query/rule" -> didn't distinguish TBox from ABox queries
+o fixed a bug - data substrate mirroring didn't work as it should for OWL files 
+  (no nodes for datatype values in the substrate were created)
+o refactoring -> "nRQL" for MiDeLoRa 
+o bug fix: "applicable-rules" returned error if TBox has been changed 
+o bug fix in "compute-existential-vois"
++ added ":abox/:tbox" to output of describe-query/rule 
+
+1.8.5a:
+
++ added two API functions: 
+  dont/add-role-assertions-for-datatype-properites 
+
+1.8.5b:
+
+o bug fix: ":id" for rules didn't work properly (duplicate rule names possible)
+o bug fix: 
+
+  (FIRERULE
+  	... 
+       ( (:CONSTRAINTS
+            (STRING= (NEW-IND STRING-VALUE-OF-NAME-OF ?X)
+                     (told-value (|http://www.owl-ontologies.com/unnamed.owl#name|
+                                     ?X))))))
+
+  didn't work, problem with told-value in CONSTRAINTS 
+
+1.8.5c: 
+
++ new API function: optimizer-use-cardinality-heuristics 
+                    optimizer-dont-use-cardinality-heuristics
+o optimizer improved
+o changed some DL prover interface functions 
+
+
+1.9.0: 
+
+o internal changes (caused by changes in version numbers)
++ same-as (and negated same-as) now works for arbitrary arguments 
++ nrql-equal-role: (?x ?y nrql-equal-role) 
+
+1.9.1: 
+
+o bug fix: rcc-substrate (RCC labels interpreted as conjunctions instead of disjunctions)
+o bug fix: "(neg (project-to ..." didn't work in defined queries 

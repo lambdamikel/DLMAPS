@@ -1,0 +1,1 @@
+(((get-all-answers) ((:query-4 (((?a charles)))) (:query-3 (((?a alice) (?b charles))))) get-all-answers-equal-p))

@@ -1,0 +1,1 @@
+(((RETRIEVE (?X (TOLD-VALUE (AGE ?X))) (?X (= AGE 30))) (((?X A) ((:TOLD-VALUE (AGE ?X)) (30)))) RES-EQUAL-P))

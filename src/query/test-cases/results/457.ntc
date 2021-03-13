@@ -1,0 +1,1 @@
+(((RETRIEVE-UNDER-PREMISE ((INSTANCE A C)) (?X) (AND (?X C))) (((?X A))) RES-EQUAL-P))

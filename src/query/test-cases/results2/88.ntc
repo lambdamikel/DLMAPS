@@ -1,0 +1,1 @@
+(((racer-prepare-query (quote (?x)) (quote (not (and (?x ?x (:constraint age age <))))) :timeout *timeout* :abox (or *abox* (current-abox))) (:query-88 :ready-to-run) res-equal-p))

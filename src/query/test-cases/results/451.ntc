@@ -1,0 +1,1 @@
+(((RETRIEVE (?X ?Y) (?X ?Y R1)) (:QUERY-1 :RUNNING) RES-EQUAL-P))

@@ -1,0 +1,23 @@
+
+(define-primitive-role R-1)
+(define-primitive-role R-2)
+
+(define-primitive-concept C-0 TOP)
+(define-concept C-1 (and (all R-1 C-0) (all R-2 C-0)))
+(define-concept C-2 (and (all R-1 C-1) (all R-2 C-1)))
+(define-concept C-3 (and (all R-1 C-2) (all R-2 C-2)))
+(define-concept C-4 (and (all R-1 C-3) (all R-2 C-3)))
+(define-primitive-concept D-0 TOP)
+(define-concept D-1 (and (all R-1 D-0) (all R-2 D-0)))
+(define-concept D-2 (and (all R-1 D-1) (all R-2 D-1)))
+(define-concept D-3 (and (all R-1 D-2) (all R-2 D-2)))
+(define-concept D-4 (and (all R-1 D-3) (all R-2 D-3)))
+
+(define-concept C-5 (and (all R-1 C-4) (all R-2 C-4)))
+(define-concept C-6 (and (all R-1 C-5) (all R-2 C-5)))
+(define-concept C-7 (and (all R-1 C-6) (all R-2 C-6)))
+(define-concept C-8 (and (all R-1 C-7) (all R-2 C-7)))
+(define-concept D-5 (and (all R-1 D-4) (all R-2 D-4)))
+(define-concept D-6 (and (all R-1 D-5) (all R-2 D-5)))
+(define-concept D-7 (and (all R-1 D-6) (all R-2 D-6)))
+(define-concept D-8 (and (all R-1 D-7) (all R-2 D-7)))

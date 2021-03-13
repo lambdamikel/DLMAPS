@@ -1,0 +1,1 @@
+(((RETRIEVE (?*X) (?*X (((:PREDICATE STRINGP) (:PREDICATE NUMBERP))))) (((?*X C)) ((?*X G)) ((?*X E))) RES-EQUAL-P))

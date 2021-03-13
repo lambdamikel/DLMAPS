@@ -1,0 +1,19 @@
+This directory contains versions of DL KBs from various applications.  We
+do not have have complete information on the genesis of all the KBs, so
+please do not redistribute them.
+
+Most of the KBs have various versions.  In general 
+   <KB>.tkb is a KB without any individuals (except, maybe, numbers), 
+   <KB>-roles.tkb is that KB with all roles converted to primitive atomic
+		  roles, 
+   <KB>-classic.tkb is that KB with also some syntax changes so that it can
+		    be read by NeoClassic,
+   <KB>.akb is that KB with some individuals restored,
+   <KB>-roles.akb is the obvious combination, and
+   <KB>-classic.akb is the obvious combination.
+
+The .tree files are a dump of the child-parent relationships in the
+taxonomy.  If a later concept is equivalent to an earlier concept in the KB, it
+will not show up in the .tree file.
+
+Files with other extensions are closer to the original KB.

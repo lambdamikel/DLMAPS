@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns="http://www.owl-ontologies.com/unnamed.owl#"
+  xml:base="http://www.owl-ontologies.com/unnamed.owl">
+  <owl:Ontology rdf:about=""/>
+  <owl:Class rdf:ID="KB_882124_Class_7">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="person"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="#person">
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#nonNegativeInteger"/>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:ID="has-age"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="KB_882124_Class_5">
+    <rdfs:subClassOf rdf:resource="#person"/>
+  </owl:Class>
+  <owl:ObjectProperty rdf:ID="has-colleague">
+    <owl:inverseOf rdf:resource="#has-colleague"/>
+    <rdfs:range rdf:resource="#person"/>
+    <rdfs:domain rdf:resource="#person"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
+  </owl:ObjectProperty>
+  <owl:DatatypeProperty rdf:about="#has-age">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#nonNegativeInteger"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:domain rdf:resource="#person"/>
+  </owl:DatatypeProperty>
+  <person rdf:ID="ralf"/>
+  <person rdf:ID="michael">
+    <has-age rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+    >34</has-age>
+    <has-colleague rdf:resource="#ralf"/>
+  </person>
+</rdf:RDF>

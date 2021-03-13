@@ -1,0 +1,1 @@
+(((racer-prepare-query (quote (?x ?mother ?father)) (quote (and (?x ?mother has-mother) (?x ?father has-father) (?mother ?father (:constraint age age <)))) :timeout *timeout* :abox (or *abox* (current-abox))) (:query-84 :ready-to-run) res-equal-p))

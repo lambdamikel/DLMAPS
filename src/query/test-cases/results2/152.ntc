@@ -1,0 +1,1 @@
+(((racer-answer-query (quote (betty)) (quote (betty top)) :timeout *timeout* :abox (or *abox* (current-abox))) ((($?betty betty))) res-equal-p))

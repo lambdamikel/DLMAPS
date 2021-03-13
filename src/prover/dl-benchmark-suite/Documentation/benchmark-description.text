@@ -1,0 +1,141 @@
+
+
+THE DL BENCHMARK SUITE
+======================
+
+
+Acknowledgements
+----------------
+
+This file has been adapted from the DL'98 System Comparison 
+distribution. Thanks go to Ian Horrocks who provided the
+initial document used for the DL'98 System Comparison.
+
+
+Availability
+------------
+
+The complete test suite is contained in a single gziped tar archive
+at: http://kogs-www.informatik.uni-hamburg.de/~moeller/dl-benchmark-suite.html
+
+
+The Test Suite
+--------------
+
+Assuming that you have downloaded, unziped and untared the
+distribution file dl98-sys.tar.gz into the current directory, you will
+have the following files:
+
+Data            - directory containing test data files
+Results         - directory for results files
+dl-tests.lsp  - Lisp core program to run tests
+fact-tests.lsp  - Lisp interface to run tests with FaCT system
+race-tests.lsp  - Lisp interface to run tests with Kris system
+krss.ps         - Postscript file of KRSS specification document
+krss.tex        - Latex file of KRSS specification document
+
+All of the test data files use the KRSS syntax. The idea for 
+the first set of tests and two of the second set of tests 
+was borrowed from the Comparison of Theorem Provers for 
+Modal Logics at Tableaux'98 (2) and use test data developed 
+by Alain Heuerding and Stefan Schwendimann (3).
+
+
+The Test Data
+-------------
+
+There are 4 sets of tests:
+
+1. Concept satisfiability tests. 
+
+These measure the performance of the system when testing the satisfiability
+of large concept expressions without reference to a Tbox. In the directory
+Data/T98-sat there are 9 pairs of files, making 18 files in all, with each
+file containing 21 concept expressions of increasing size. The pairs have
+names such as k_branch_p.alc and k_branch_n.alc, with the expressions in
+the _p files being all incoherent (equivalent to bottom) while those in the
+_n files are all coherent. The idea of the test is to measure for each file
+the size of the largest expression whose satisfiability the system is able
+to test in less than 100 seconds. The correctness of the system is also
+tested by checking that the answer is as expected. For example if the
+satisfiability of the first expression is tested in 10s, that of the second
+in 50s and that of the third in 120s, then the result of the test is 2. If
+the system is able to test the satisfiability of the largest formula in
+less than 100s than the result is 21.
+
+2. Synthetic Tbox classification tests. 
+
+These measure the performance of the system when classifying a synthetic
+Tbox. It is important that for these tests the system performs a complete
+classification of all the defined concepts and does not simply load the
+data file; for example in both the FaCT and Kris systems it is necessary
+call the function "classify-tkb" to classify the Tbox.
+
+In the directory Data/T98-kb there are 9 pairs of files, with each file
+containing 21 Tboxes of increasing size. Each Tbox consists of a list of
+role and concept definitions enclosed in parentheses. A special concept
+TEST is defined so that it is always incoherent in the _p files and always
+coherent in the _n files.  The idea of the test is to measure for each file
+the size of the largest KB which the system is able to classify in less
+than 500 seconds.  The correctness of the system is also tested by checking
+that the coherence of the TEST concept is as expected.
+
+In the directory Data/DFKI-synthetic there are four groups of files.  Each
+group consists of three files, each file containing one Tbox.  The Tboxes
+are slightly modified versions of the Tboxes used in the synthetic testing
+done at DFKI (5).  The idea of the test is to measure the time taken to
+classify each Tbox, with a time limit of 1000 seconds.
+
+In the directory Data/DFKI-random there are 26 files, with each file
+containing one Tbox.  The Tboxes are slightly modified versions of the
+Tboxes used in the random testing done at DFKI (5).  The names of the files
+are kris<size>1.tbox, where <size> is one of 15, 30, 45, 60, 75, 90, 105,
+120, 135, 150, 200, 400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000,
+2500, 3000, 3500, 4000, 4500, 5000.  The idea of the test
+is to measure the time taken to classify each Tbox, with a time limit of
+1000 seconds. 
+
+
+3. Realistic Tbox classification tests. 
+
+These measure the performance of the system when classifying a realistic
+Tbox. It is again important that the system performs a complete
+classification of all the defined concepts. 
+
+In the directory Data/Appn-kb there are 2 test KBs derived from the GALEN
+medical terminology KB (4), and six other KBs from various sources that
+were used in the DFKI testing (5).  For most KBs there are two files, one
+for the KB itself and one listing the super-concepts of every concept in
+the classified KB, with the extensions .tkb and .tree respectively. The
+.tkb file contains a list of role and concept definitions. The .tree file
+contains a list of statements of the form (C (D1 ... Dn)), where C is the
+name of a concept in the KB and (D1 ... Dn) is a list of all its direct
+subsumers, i.e. concepts Di such that Di subsumes C and there is no concept
+Dj such that Dj subsumes C and Di subsumes Dj.  The idea of the test is to
+measure the time required to classify the KB. The correctness of the system
+is also tested by comparing the classified hierarchy with that defined in
+the .tree file. For some systems it may not be possible to classify all of
+the KBs within a reasonable time---a timeout of 1000s is suggested. In
+this case the result can be given as ">1000" and the correctness as "?".
+
+The set of application knowledge bases has been extensively 
+extended since the DL'98 System Comparison.
+
+4. Synthetic Abox tests. 
+
+These measure the performance of the system Abox when realising a synthetic
+Abox (inferring the most specific concept in the Tbox which each individual
+instantiates). It is important for these tests that the system realises
+every individual and does not simply load the data file. 
+In the directory Data/DL-abox there are 9 data files, with each
+file containing 21 tests of increasing size. Each test is a list of 3
+items, enclosed in parentheses, each item being itself a parenthesised
+list. The first item is a list of Tbox declarations, the second item is a
+list of Abox declarations and the third item is a list of Abox queries. The
+idea of the test is to measure for each file the size of the largest Abox
+which the system is able to realise in less than 100 seconds. The
+correctness of the system is also tested by the list of queries. The
+procedure is to first classify the Tbox, then measure the time taken to
+realise the Abox and finally to perform the queries, all of which should
+return "True".
+

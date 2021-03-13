@@ -1,0 +1,1 @@
+(((retrieve (?*x ?*y) (and (?*x ?*y 3) (?*y (((:predicate stringp) (:predicate numberp)))) (top ?*x))) nil res-equal-p))

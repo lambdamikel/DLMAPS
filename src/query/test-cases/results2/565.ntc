@@ -1,0 +1,1 @@
+(((racer-answer-query (quote (?x)) (quote (and (?x (a name)) (?x (an age)) (or (?x (or (string= name "alice smith") (string= name "betty doe"))) (?x (or (> age 50) (< age 100)))))) :timeout *timeout* :abox (or *abox* (current-abox))) (((?x alice)) ((?x betty)) ((?x eve)) ((?x james)) ((?x doris)) ((?x charles))) res-equal-p))

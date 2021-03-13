@@ -1,0 +1,1 @@
+(((retrieve (?*x ?*y) (and (?*x (:predicate (search "mich"))) (?*x ?*y ((:predicate (= 5)) (:predicate (= 3)))))) (((?*x c) (?*y d))) res-equal-p))

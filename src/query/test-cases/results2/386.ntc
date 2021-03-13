@@ -1,0 +1,1 @@
+(((retrieve (?a ?b) (and (:substitute (mother-with-male-child ?a ?b)) (?b uncle))) (((?a alice) (?b charles))) res-equal-p))

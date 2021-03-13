@@ -1,0 +1,1 @@
+(((racer-answer-query (quote (?x (:fillers (|http://a.com/ontology#p1| ?x)))) (quote (?x (at-least 3 |http://a.com/ontology#p1|))) :timeout *timeout* :abox (or *abox* (current-abox))) (((?x |http://a.com/ontology#i|) ((:told-value (|http://a.com/ontology#p1| ?x)) (3 2 1)))) res-equal-p))

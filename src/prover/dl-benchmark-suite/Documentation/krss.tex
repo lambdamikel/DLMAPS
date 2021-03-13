@@ -1,0 +1,1263 @@
+\documentclass[a4paper,11pt]{article}
+ 
+\usepackage[latin1]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{epsfig}
+\usepackage{ifthen} 
+
+\frenchspacing 
+\sloppy 
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\notationdefs}{
+%
+        \def\thing{\top}
+        \def\bottom{\bot}
+        \def\identity{\imath}
+%
+        \def\And{\sqcap}
+        \def\AND{\;\sqcap\;}
+        \def\Or{\sqcup}
+        \def\OR{\;\sqcup\;}
+        \def\Not{\neg}
+        \def\NOT{\neg\:}
+%
+        \def\all##1##2{\forall ##1 {:} ##2}
+        \def\All##1##2{\forall \, ##1 : ##2}
+        \def\some##1{\exists ##1}
+        \def\Some##1{\exists \, ##1}
+        \def\atmost##1##2{{\leq}##1 \, ##2}
+        \def\Atmost##1##2{{\leq}##1 \: ##2}
+        \def\atleast##1##2{{\geq}##1 \, ##2}
+        \def\Atleast##1##2{{\geq}##1 \: ##2}
+        \def\equal##1##2{{=}##1 \, ##2}
+        \def\Equal##1##2{{=}##1 \: ##2}
+        \def\undefined##1{\uparrow##1}
+        \def\Undefined##1{\uparrow\,##1}
+%
+        \def\qsome##1##2{\exists ##1 {.} ##2}
+        \def\Qsome##1##2{\exists \, ##1 . ##2}
+        \def\qatmost##1##2##3{{\leq}##1 \, ##2 {:} ##3}
+        \def\Qatmost##1##2##3{{\leq}##1 \: ##2 : ##3}
+        \def\qatleast##1##2##3{{\geq}##1 \, ##2 {:} ##3}
+        \def\Qatleast##1##2##3{{\geq}##1 \: ##2 : ##3}
+        \def\qequal##1##2##3{{=}##1 \, ##2 {:} ##3}
+        \def\Qequal##1##2##3{{=}##1 \: ##2 : ##3}
+%
+        \def\same##1##2{##1 \,{=}\, ##2}
+        \def\Same##1##2{##1 = ##2}
+        \def\notsame##1##2{##1 \,{\neq}\, ##2}
+        \def\Notsame##1##2{##1 \neq ##2}
+        \def\subset##1##2{##1 \,{\subseteq}\, ##2}
+        \def\Subset##1##2{##1 \subseteq ##2}
+        \def\asame##1##2{##1 \,{\stackrel{\downarrow}{\raisebox{0ex}[0.7ex][0ex]{=}}}\, ##2}
+        \def\Asame##1##2{##1 \stackrel{\downarrow}{\raisebox{0ex}[0.7ex][0ex]{=}} ##2}
+        \def\anotsame##1##2{##1 \,{\stackrel{\downarrow}{\raisebox{0ex}[0.7ex][0ex]{$\neq$}}}\, ##2}
+        \def\Anotsame##1##2{##1 \stackrel{\downarrow}{\raisebox{0ex}[0.7ex][0ex]{$\neq$}} ##2}
+%
+        \def\fills##1##2{##1 \,{:}\, ##2}
+        \def\Fills##1##2{##1 : ##2}
+        \def\set##1{\{ ##1 \}}
+        \def\Set##1{\{ \; ##1 \; \}}
+%
+        \def\inverse##1{##1^{-1}}
+        \def\Inverse##1{##1{}^{-1}}
+        \def\restrict##1##2{##1 \,{\mid} ##2}
+        \def\Restrict##1##2{##1 \mid\! ##2}
+        \def\compose{{\circ}}
+        \def\Compose{\circ}
+        \def\product##1##2{##1 {\times} ##2}
+        \def\Product##1##2{##1 \times ##2}
+        \def\trans##1{##1^+}
+        \def\Trans##1{##1{}^+}
+        \def\transref##1{##1^*}
+        \def\Transref##1{##1{}^*}
+%
+        \def\define##1##2{##1 \doteq ##2}
+        \def\Define##1##2{##1 \;\;\doteq\;\; ##2}
+        \def\defineprim##1##2{##1 \sqsubseteq ##2}
+        \def\Defineprim##1##2{##1 \;\;\sqsubseteq\;\; ##2}
+        \def\definedisjprim##1##2##3{##1 \sqsubseteq_{##2} ##3}
+        \def\Definedisjprim##1##2##3{##1 \;\;\sqsubseteq_{##2}\;\; ##3}
+%
+        \def\instance##1##2{##1 \in ##2}
+        \def\Instance##1##2{##1 \;\;\in\;\; ##2}
+        \def\related##1##2##3{\langle ##1, ##2 \rangle \in ##3}
+        \def\Related##1##2##3{\langle ##1, ##2 \rangle \;\;\in\;\; ##3}
+%
+        \def\rule##1##2{##1 \leadsto ##2}
+        \def\Rule##1##2{##1 \;\;\leadsto\;\; ##2}
+        \def\close##1##2{##1 \bigcirc ##2}
+        \def\Close##1##2{##1 \;\;\bigcirc\;\; ##2}
+%
+        \def\test##1{##1}
+        \def\prim##1##2{\sqsubseteq_{##1} ##2}
+        \def\disjprim##1##2##3{\sqsubseteq_{##1,##2} ##3}
+        \def\closed##1{\bigcirc ##1}
+%
+        \def\max##1{{\leq}##1}
+        \def\min##1{{\geq}##1}
+}
+
+\def\M#1{\relax\ifmmode #1\else$#1$\fi}
+\newcommand{\notationfont}{\sf}
+\newenvironment{notation}{\relax \ifmmode \def\@notation{\relax}\else \def\@notation{\end{math}}\begin{math}\fi\notationfont\notationdefs}{\@notation{}}
+\newenvironment{displaynotation}{\begin{quote}$\notationfont\notationdefs}{$\end{quote}}
+\newcommand{\syntax}[1]{\begin{notation}#1\end{notation}{}}
+\newcommand{\name}[1]{\begin{notation}\mbox{#1}\end{notation}{}}
+%% terminological.sty
+
+% Semantic macros
+\newcommand{\I}{{\cal I}}                  % grosses I
+\newcommand{\Interp}{\I}                   % Interpretation [J]
+\newcommand{\domain}{\Delta^{\Interp}}     % Domain
+\newcommand{\idomain}{\Delta_a^{\Interp}}     % Domain
+\newcommand{\cdomain}{\Delta_c^{\Interp}}     % Domain
+\newcommand{\Int}[1]{\syntax{#1}^{\I}} % Interpretation [J]
+
+\newcommand{\set}[1]    {\{ #1 \}}              % Mengenklammern 
+\newcommand{\card}[1]   {|{#1}|}                % Kardinalit
+\newcommand{\subarrow}  {\Longrightarrow}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\code} [1]
+% Font for parts of code
+{ {\tt #1} }
+
+
+\newcommand{\argu} [1]
+% Font for Argument names
+{$#1$}
+
+
+%\newenvironment{arglist}
+%{
+%\begin{list}
+%{}
+%{\setlength{\leftmargin}{60mm}
+%\setlength{\topsep}{0mm}}
+%{\end{list}
+%}}
+
+
+
+\newcommand{\fundoc}[9] 
+{
+%%%%% Header %%%%%%%
+\noindent
+\begin{minipage} {\textwidth}
+%\parbox[c]{\textwidth}{\hrulefill}
+{\underline {\large \bf{#1}} \hfill \emph{#2}}
+%\raisebox{2mm} {\parbox[c]{\textwidth}{\hrulefill}}
+\end{minipage}
+
+%%% Body %%%
+\begin{list} 
+{}
+{ \setlength{\leftmargin}{25mm}
+  \setlength{\labelsep}{2mm}
+  \setlength{\labelwidth}{30mm}
+  \setlength{\itemsep}{0mm}
+  \setlength{\topsep}{0mm}
+  \setlength{\partopsep}{0mm}
+  \setlength{\parsep}{0mm}
+}
+
+%\ifhenelse{\equal {#3} {} }
+%{} %then
+{\samepage
+  {\item[{\bf Description:}] #3}
+}
+
+\ifthenelse{\equal {#4} {} }
+{} %then
+{\samepage
+  {\item[{\bf Syntax:}] #4}
+}%else
+
+
+\ifthenelse{\equal {#6} {} }
+{} %then
+{\samepage
+  {\item[{\bf Values:}] #6}
+} %else
+
+\ifthenelse{\equal {#7} {} }
+{} %then
+{\samepage
+  {\item[{\bf Remarks:}] #7}
+} %else
+
+\end{list}
+\vspace{\bigskipamount}
+\pagebreak[0]
+}
+
+
+\newcommand{\functiondoc}[9] 
+{
+%%%%% Header %%%%%%%
+\noindent
+\begin{minipage} {\textwidth}
+\parbox[c]{\textwidth}{\hrulefill}
+{\Large \bf{#1}} 
+\hfill 
+\raisebox{2pt}{\mbox{\emph{#2}}}\\
+\raisebox{1.5mm} {\parbox[c]{\textwidth}{\hrulefill}}
+\end{minipage}
+
+%%% Body %%%
+\begin{list} 
+{}
+{ \setlength{\leftmargin}{25mm}
+  \setlength{\labelsep}{2mm}
+  \setlength{\labelwidth}{30mm}
+}
+
+%\ifhenelse{\equal {#3} {} }
+%{} %then
+{\samepage
+  {\item[{\bf Description:}] #3}
+}
+
+\ifthenelse{\equal {#4} {} }
+{} %then
+{\samepage
+  {\item[{\bf Syntax:}] #4}
+}%else
+
+\ifthenelse{\equal{#5}{}}
+{} %then
+{\samepage
+  {\item[{\bf Arguments:}] #5}
+} %else
+
+\ifthenelse{\equal {#6} {} }
+{} %then
+{\samepage
+  {\item[{\bf Values:}] #6}
+} %else
+
+\ifthenelse{\equal {#7} {} }
+{} %then
+{\samepage
+  {\item[{\bf Remarks:}] #7}
+} %else
+
+\ifthenelse{\equal {#8} {} }
+{} %then
+{\samepage
+  {\item[{\bf Examples:}] #8}
+} %else
+
+\ifthenelse{\equal{#9}{}}
+{} %then
+{\samepage
+  {\item[{\bf See also:}] #9}
+} %else
+
+\end{list}
+\vspace{1.1 \bigskipamount}
+\pagebreak[0]
+}
+
+
+%(defalias 'fun-doc 
+%(read-kbd-macro "\\fundoc {} RET
+% SPC what RET {function} RET
+% SPC Description RET {} RET
+% SPC Syntax RET {\\code{}} RET
+% SPC Arguments RET {} RET
+% SPC Values RET {} RET
+% SPC Remarks RET {} RET
+% SPC Examples RET {} RET
+% SPC See SPC also RET {} RET"))
+
+%(defalias '@fd 
+%(read-kbd-macro "<down> RET 2*<up> C-SPC C-e C-w M-x fun- doc RET
+%18*<up> <down> C-e <left> 6*<down> <left> C-y 6*<up> <left> C-y C-a
+%3*<right> 3*<left> C-s ( <right> <left> <backspace> C-s \\ <left>
+%C-SPC C-e 2*<left> C-w <right> 2*<backspace> 8*<down> <left> C-y C-x
+%C-s"))
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document} 
+\begin{titlepage} 
+
+\title {Documentation for the KRSS version of the RACE System}
+\author{Volker Haarslev \and Ralf M\"oller \and Anni-Yasmin Turhan}
+ 
+\date{\today}
+\end{titlepage}
+ 
+\maketitle 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+%\pagenumbering{roman} %fuer das Inhaltsverzeichnis mit roemischen Ziffern
+%\tableofcontents
+%\newpage
+%\pagenumbering{arabic} %ab jetzt arabische Zahlen fuer die Seitennummerierung
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\chapter{KRSS-RACE}
+\section{KRSS-RACE}
+\label{cha:KR}
+
+
+\subsection{intro}
+\label{sec:kri}
+
+KRSS:"A knowledge base is a sequence of statements in which there is
+exactly one definition of every occurring concept, role, attribute,
+individual, and rule name.  Concept, role, attribute, and individual
+names must be defined before their first use, so no cyclic definitions
+are allowed."
+\\
+In RACE\dots
+
+
+
+
+\subsubsection{Misc.}
+\label{sub:krmi}
+
+
+\begin{tabular}[h]{rl@{\hspace{5mm}}rl}
+\syntax{C} & concepts & \syntax{N} & name of any sort
+\\
+\syntax{R} & roles (including attributes) & \syntax{CN}& concept names
+\\
+ \syntax{A} & attributes & \syntax{RN}& role names (including attribute names)
+\\
+\syntax{I} & individuals & \syntax{AN}& attribute names
+\\ 
+\syntax{CI} & concrete individuals & \syntax{IN} & individual names
+\\
+ \syntax{S} & assertions &\syntax{AIN}& anonymous individual names
+\\
+&& \syntax{DIN}& distinct individual names
+\\
+&& \syntax{XN}& rule names
+\\
+&& \syntax{GN} & group names
+\end{tabular}
+
+\medskip
+KRSS:"All domains contain the rationals and strings over some alphabet of size at
+least 2, this is called the concrete part of the domain, $\cdomain$.
+The rest of the domain, $\idomain$, is called the abstract part of the
+domain."
+
+
+\syntax{QQ} and \syntax{RR} are queries and retrievals, respectively.
+The syntax of names, numbers, integers, and strings are the same as in
+LISP.
+\\
+Comment lines, starting with a `;', are allowed in knowledge bases.
+
+\pagebreak
+\subsection{Concept Terms}
+\label{sec:krct}
+
+\begin{table}[tbph]
+\begin{displaymath}
+\begin{array}{lll}
+\multicolumn{2}{c}{{\bf Syntax}} & {\bf Extension} \\
+{\bf Input} & {\bf Abstract} & \\[0.5ex]
+\syntax{TOP}     & \top  & \domain \\
+\syntax{BOTTOM}  & \bot  & \emptyset \\
+%\syntax{NUMBER}  &       & \mbox{the numbers} \\
+%\syntax{INTEGER} &       & \mbox{the integers} \\
+%\syntax{STRING}  &       & \mbox{the strings} \\[0.5ex]
+\syntax{(and~C_1~\ldots~C_n)} & \syntax{C_1 \And \cdots \And C_n} &
+        \Int{C_1} \cap \cdots \cap \Int{C_n} \\
+\syntax{(or~C_1~\ldots~C_n)} & \syntax{C_1 \Or \cdots \Or C_n} &
+        \Int{C_1} \cup \cdots \cup \Int{C_n} \\
+\syntax{(not~C)} & \syntax{\Not C} &
+        \domain \setminus \Int{C} \\
+\syntax{(all~R~C)} & \syntax{\all{R}{C}} & 
+        \set{ d \in \idomain \mid \Int{R}(d) \subseteq \Int{C}} \\
+\syntax{(some~R)} & \syntax{\some{R}} &
+        \set{ d \in \idomain \mid \Int{R}(d) \neq \emptyset} \\
+\syntax{(none~R)} & \syntax{\undefined{R}} & 
+        \set{ d \in \idomain \mid \Int{R}(d) = \emptyset} \\
+\syntax{\mbox{(at-least}~n~R)} & \syntax{\atleast{n}{R}} &
+        \set{ d \in \idomain \mid \card{\Int{R}(d)} \geq n} \\
+\syntax{\mbox{(at-most}~n~R)} & \syntax{\atmost{n}{R}} &
+        \set{ d \in \idomain \mid \card{\Int{R}(d)} \leq n} \\
+\syntax{(exactly~n~R)} &  \syntax{\equal{n}{R}} &
+        \set{ d \in \idomain \mid \card{\Int{R}(d)} = n} \\
+\syntax{(some~R~C)} & \syntax{\qsome{R}{C}} &
+        \set{ d \in \idomain \mid \Int{R}(d) \cap \Int{C} \neq \emptyset}  \\
+\syntax{\mbox{(at-least}~n~R~C)} & \syntax{\qatleast{n}{R}{C}} &
+        \set{ d \in \idomain \mid \card{\Int{R}(d) \cap \Int{C}} \geq n}  \\
+\syntax{\mbox{(at-most}~n~R~C)} &  \syntax{\qatmost{n}{R}{C}} &
+        \set{ d \in \idomain \mid \card{\Int{R}(d) \cap \Int{C}} \leq n}  \\
+\syntax{(exactly~n~R~C)} &  \syntax{\qequal{n}{R}{C}} &
+        \set{ d \in \idomain \mid \card{\Int{R}(d) \cap \Int{C}} = n}  \\
+\syntax{(equal~R_1~R_2)} & \syntax{\same{R_1}{R_2} \And \some{R_1}} &
+        \set{ d \in \idomain \mid \Int{R_1}(d) = \Int{R_2}(d) \land
+                                  \Int{R_1}(d) \neq \emptyset } \\
+\syntax{(\mbox{not-equal}~R_1~R_2)} & \syntax{\notsame{R_1}{R_2}} &
+        \set{ d \in \idomain \mid \Int{R_1}(d) \neq \Int{R_2}(d)} \\
+\syntax{(subset~R_1~R_2)} &  \syntax{\subset{R_1}{R_2}} &
+        \set{ d \in \idomain \mid \Int{R_1}(d) \subseteq \Int{R_2}(d)}  \\
+\syntax{(fillers~R~I_1~\ldots~I_n)} & 
+        \syntax{\fills{R}{I_1}} \sqcap \cdots \sqcap \syntax{\fills{R}{I_n}} &
+        \set{ d \in \idomain \mid \Int{R}(d) \supseteq 
+                \set{ \Int{I_1}, \ldots, \Int{I_n} } } \\
+\syntax{\mbox{(only-fillers}~R~I_1~\ldots~I_n)} & &
+        \set{ d \in \idomain \mid \Int{R}(d) = 
+                \set{ \Int{I_1}, \ldots, \Int{I_n} } } \\
+\syntax{(in~A~C)} & \syntax{\fills{A}{C}} &
+        \set{ d \in \idomain \mid \Int{A}(d) \in \Int{C}}  \\
+\syntax{(is~A~I)} & \syntax{\fills{A}{I}} &
+        \set{ d \in \idomain \mid \Int{A}(d) = \Int{I}}  \\
+\syntax{(set~I_1~\ldots~I_n)} & \syntax{\set{I_1, \ldots, I_n}} &
+        \set{\Int{I_1}, \ldots, \Int{I_n}} \\
+%\syntax{(minimum~CI)} & & \set{ d \in \cdomain : \mid d \geq \Int{CI} } \\
+%\syntax{(maximum~CI)} & & \set{ d \in \cdomain : \mid d \leq \Int{CI} } \\
+\syntax{(satisfies \ldots)} & & \mbox{ ??? }
+\end{array}
+\end{displaymath}
+
+\caption{Concept Syntax and Semantics}
+\label{concept-table}
+\end{table}
+
+
+
+\subsection{Role Declarations}
+\label{sec:krrd}
+
+Viele der Funktionen f{\"u}r Rollen hei{\ss}en so wie Funktionen
+f{\"u}r Concept terms.
+
+KRSS:"The extension of roles are set-valued functions from $\idomain$ to
+$\domain$.
+The extensions of attributes are single-valued, partial functions from
+$\idomain$ to $\domain$.
+(The extension of roles and attributes will sometimes also be treated as
+the equivalent subset of $\idomain \times \domain$.
+The extension of attributes are also sometimes treated as set-valued
+functions.)"
+
+\fundoc{top}
+% what
+{function ?}
+% Description
+{\syntax{\top}
+\hspace{7mm}
+ $\idomain \times \domain $}
+% Syntax
+{\code{top}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+\fundoc{bottom}
+% what
+{function ?}
+% Description
+{$\syntax{\bot} \hspace{7mm}
+\emptyset$}
+% Syntax
+{\code{bottom}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+
+\fundoc{identity}
+% what
+{function?}
+% Description
+{${\it id} \hspace{7mm}
+\set{ (d,d) \mid d \in \idomain}$}
+% Syntax
+{\code{identity}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+\fundoc{and}
+% what
+{function}
+% Description
+{\syntax{R_1 \And \cdots \And R_n} \hspace{7mm}
+$ \Int{R_1} \cap \cdots \cap \Int{R_n}$}
+% Syntax
+{\code{(and~R\argu{_1}~\ldots~R\argu{_n})}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+
+\fundoc{or}
+% what
+{function}
+% Description
+{$ \syntax{R_1 \Or \cdots \Or R_n} \hspace{7mm}
+ \Int{R_1} \cup \cdots \cup \Int{R_n}$}
+% Syntax
+{\code{(or~R\argu{_1}~\ldots~R\argu{_n})}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+\fundoc{not}
+% what
+{function}
+% Description
+{$\syntax{\Not R} \hspace{7mm}
+(\idomain \times \domain) \setminus \Int{R}$}
+% Syntax
+{\code{(not~R)}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+
+\fundoc{inverse}
+% what
+{function}
+% Description
+{$\syntax{\inverse{R}} \hspace{7mm}
+(\Int{R})^{-1} \cap (\idomain \times \domain)$}
+% Syntax
+{\code{(inverse~R)}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+
+\fundoc{restrict}
+% what
+{function}
+% Description
+{$\syntax{\restrict{R}{C}} \hspace{7mm}
+\Int{R} \cap (\idomain \times \Int{C})$}
+% Syntax
+{\code{(restrict~R~C)}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+
+\fundoc{compose}
+% what
+{function}
+% Description
+{$\syntax{R_1 \compose \cdots \compose R_n} \hspace{7mm}
+\Int{R_1} \circ \cdots \circ \Int{R_n}$}
+% Syntax
+{\code{(compose~R\argu{_1}~\ldots~R\argu{_n})}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+
+\fundoc{range}
+% what
+{function}
+% Description
+{$\idomain \times \Int{C}$}
+% Syntax
+{\code{(range~C)}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+
+
+\fundoc{domain}
+% what
+{function}
+% Description
+{$(\Int{C} \cap \idomain) \times \domain$}
+% Syntax
+{\code{(domain~C)}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+\fundoc{domain-range}
+% what
+{function}
+% Description
+{$\syntax{\product{C_1}{C_2}} \hspace{7mm}
+(\Int{C_1} \cap \idomain) \times \Int{C_2}$}
+% Syntax
+{\code{\mbox{(domain-range}~C\argu{_1}~C\argu{_2})}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+\fundoc{transitive-closure}
+% what
+{function}
+% Description
+{$\syntax{\trans{R}} \hspace{7mm}
+\bigcup_{n \geq 1} (\Int{R})^n$}
+% Syntax
+{\code{\mbox{(transitive-closure}~R)}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+\fundoc{transitive-reflexive-closure}
+% what
+{function}
+% Description
+{$\syntax{\transref{R}} \hspace{7mm}
+\set{ (d,d) \mid d \in \idomain}\cup \bigcup_{n \geq 1} (\Int{R})^n$}
+% Syntax
+{\code{\mbox{(transitive-reflexive-closure}~R)}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+\fundoc{satisfies}
+% what
+{function}
+% Description
+{ ??? }
+% Syntax
+{\code{(satisfies \ldots)}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+
+\subsection{Concept Axioms \& Statements}
+\label{sec:krca}
+
+\fundoc{define-concept}
+% what
+{function}
+% Description
+{$ \syntax{CN \doteq C} \hspace{7mm}
+  \Int{CN} = \Int{C}$}
+% Syntax
+{\code{\mbox{(define-concept}~CN~C)}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+\fundoc{define-primitive-concept}
+% what
+{function}
+% Description
+{$\syntax{CN \sqsubseteq C} \hspace{7mm}
+  \Int{CN} \subseteq \Int{C}$}
+% Syntax
+{\code{\mbox{(define-primitive-concept}~CN~C)}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+\fundoc{define-disjoint-primitive-concept}
+% what
+{function}
+% Description
+{Kann ersetzt werden durch \syntax{(\mbox{define-primitive-concept}~CN~C)} und
+    \syntax{(disjoint~CN~CN_1)}, \ldots, \syntax{(disjoint~CN~CN_m)},
+    wobei die \syntax{CN_i} disjoint primitive concepts sind, die
+    in dieser KB vor den Definitionen mit einem der \syntax{GN_j} 
+    stehen.}
+% Syntax
+{\code{\mbox{(define-disjoint-primitive-concept} CN~(GN\argu{_1}~\ldots~GN\argu{_n})~C)}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+\fundoc{define-role}
+% what
+{function}
+% Description
+{$\syntax{RN \doteq R} \hspace{7mm}
+  \Int{RN} = \Int{R}$}
+% Syntax
+{\code{\mbox{(define-role}~RN~R)}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+\fundoc{define-primitive-role}
+% what
+{function}
+% Description
+{$ \syntax{RN \sqsubseteq R} \hspace{7mm}
+  \Int{RN} \subseteq \Int{R}$}
+% Syntax
+{\code{\mbox{(define-primitive-role}~RN~R)}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+\fundoc{define-attribute}
+% what
+{function}
+% Description
+{$\syntax{AN \doteq A} \hspace{7mm}
+  \Int{AN} = \Int{A}$}
+% Syntax
+{\code{\mbox{(define-attribute}~AN~A)}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+\fundoc{define-primitive-attribute}
+% what
+{function}
+% Description
+{$\syntax{AN \sqsubseteq R} \hspace{7mm}
+  \Int{AN} \subseteq \Int{R}$}
+% Syntax
+{\code{\mbox{(define-primitive-attribute}~AN~R)}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+
+\fundoc{define-distinct-individual}
+% what
+{function}
+% Description
+{ ???}
+% Syntax
+{\code{\mbox{(define-distinct-individual}~DIN)}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+\fundoc{define-anonymous-individual}
+% what
+{function}
+% Description
+{???}
+% Syntax
+{\code{\mbox{(define-anonymous-individual}~AIN)}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+\fundoc{define-rule}
+% what
+{function}
+% Description
+{???}
+% Syntax
+{\code{\mbox{(define-rule}~XN~CN~C)}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+
+\fundoc{state}
+% what
+{function}
+% Description
+{$\Int{S}$}
+% Syntax
+{\code{(state~S)}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+
+\fundoc{close-role}
+% what
+{function}
+% Description
+{Kann transformiert werden in \syntax{(instance~IN~(at-most~n~R))},
+    wobei \syntax{n} der gr{\"o}{\ss}te Integer ist, so da{\ss}
+    \syntax{(instance~IN~(at-least~n~R))}}
+% Syntax
+{\code{\mbox{(close-role}~IN~R)}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+
+\fundoc{close-role-fillers}
+% what
+{function}
+% Description
+{Kann transformiert werden in \syntax{(instance~IN~
+    (\mbox{only-fillers}~R~I_1~\ldots~I_n))}, wobei die I\argu{_i}
+  Individuen sind, so da{\ss} gilt
+  \syntax{(instance~IN~(fillers~R~I_i))}.}
+% Syntax
+{\code{\mbox{(close-role-fillers}~IN~R)}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+
+\subsection{Assertions}
+\label{sec:kras}
+
+\fundoc{and}
+% what
+{function}
+% Description
+{$\Int{S_1} \land \cdots \land \Int{S_n}$}
+% Syntax
+{\code{(and~S\argu{_1}~\ldots~S\argu{_n})}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+\fundoc{or}
+% what
+{function}
+% Description
+{$\Int{S_1} \lor \cdots \lor \Int{S_n}$}
+% Syntax
+{\code{(or~S\argu{_1}~\ldots~S\argu{_n})}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+\fundoc{not}
+% what
+{function}
+% Description
+{$\neg \Int{S}$}
+% Syntax
+{\code{(not~S)}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+\fundoc{instance}
+% what
+{function}
+% Description
+{$\syntax{IN \in C} \hspace{7mm}
+  \Int{IN} \in \Int{C}$}
+% Syntax
+{\code{(instance~IN~C)}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+\fundoc{related}
+% what
+{function}
+% Description
+{$\langle IN, I \rangle \in R \hspace{7mm}
+  \langle \Int{IN},\Int{I} \rangle  \in \Int{R}$}
+% Syntax
+{\code{(related~IN~I~R)}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+\fundoc{equal}
+% what
+{function}
+% Description
+{$\Int{IN_1} = \Int{IN_2}$}
+% Syntax
+{\code{(equal~IN\argu{_1}~IN\argu{_2})}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+
+\subsection{Queries, Retrievals, and Validations}
+\label{sub:krqrv}
+
+
+\subsubsection{Queries}
+
+\fundoc{concept-subsumes?}
+% what
+{function}
+% Description
+{$\syntax{C_1} \subarrow \syntax{C_2}$}
+% Syntax
+{\code{\mbox{(concept-subsumes?}~C\argu{_1}~C\argu{_2})}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+\fundoc{role-subsumes?}
+% what
+{function}
+% Description
+{$\syntax{R_1} \subarrow \syntax{R_2}$}
+% Syntax
+{\code{\mbox{(role-subsumes?}~R\argu{_1}~R\argu{_2})}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+\fundoc{individual-instance?}
+% what
+{function}
+% Description
+{$\syntax{IN} \in \syntax{C}$}
+% Syntax
+{\code{\mbox{(individual-instance?}~IN~C)}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+\fundoc{individual-related?}
+% what
+{function}
+% Description
+{$\syntax{\langle IN, I \rangle \in R}$}
+% Syntax
+{\code{\mbox{(individual-related?}~IN~I~R)}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+\fundoc{individual-equal?}
+% what
+{function}
+% Description
+{$ \syntax{IN_1 = IN_2}$}
+% Syntax
+{\code{\mbox{(individual-equal?}~IN\argu{_1}~IN\argu{_2})}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+
+\fundoc{individual-not-equal?}
+% what
+{function}
+% Description
+{$\neg ( \syntax{IN_1 = IN_2} )$}
+% Syntax
+{\code{\mbox{(individual-not-equal?}~IN\argu{_1}~IN\argu{_2})}}
+% Arguments
+{}
+% Values
+{}
+% Remarks
+{}
+% Examples
+{}
+% See also
+{}
+        
+
+\subsubsection{Retrievals}
+Retrievals return sets (as lists) of concept names, role names, individual
+names, and concrete individuals.
+
+\noindent
+\code{\mbox{(concept-descendants}~C)}\\
+\code{\mbox{(concept-offspring}~C)}  \\
+\code{\mbox{(concept-ancestors}~C)}  \\
+\code{\mbox{(concept-parents}~C)}  \\
+\code{\mbox{(concept-instances}~C)}  \\
+\code{\mbox{(concept-direct-instances}~C)}  \\
+\code{\mbox{(role-descendants}~R)}  \\
+\code{\mbox{(role-offspring}~R)}  \\
+\code{\mbox{(role-ancestors}~R)}  \\
+\code{\mbox{(role-parents}~R)}  \\
+\code{\mbox{(individual-types}~IN)}  \\
+\code{\mbox{(individual-direct-types}~IN)}  \\
+\code{\mbox{(individual-fillers}~IN~R)}
+
+
+\subsubsection{Validations}
+
+Validations check to see if the query or retrieval returned the
+expected result.
+
+\noindent
+\code{\mbox{(validate-true}~QQ)}  \\
+\code{\mbox{(validate-not-true}~QQ)}  \\
+\code{\mbox{(validate-set}~RR~N\argu{_1}~\ldots~N\argu{_n})}
+
+
+\end{document}

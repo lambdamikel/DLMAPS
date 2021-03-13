@@ -1,0 +1,1 @@
+(((racer-prepare-query (quote (?x)) (quote (and (?x (a name)) (?x (an age)) (and (?x (or (string= name "alice smith") (string= name "betty doe"))) (?x (or (> age 50) (< age 100)))))) :timeout *timeout* :abox (or *abox* (current-abox))) (:query-80 :ready-to-run) res-equal-p))

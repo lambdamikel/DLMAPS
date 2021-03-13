@@ -1,0 +1,1 @@
+(((retrieve (?x ?y) (?x ?y (:constraint |http://www.owl-ontologies.com/unnamed.owl#name| |http://www.owl-ontologies.com/unnamed.owl#name| string=))) (((?x |http://www.owl-ontologies.com/unnamed.owl#a|) (?y |http://www.owl-ontologies.com/unnamed.owl#b|)) ((?x |http://www.owl-ontologies.com/unnamed.owl#b|) (?y |http://www.owl-ontologies.com/unnamed.owl#a|))) res-equal-p))

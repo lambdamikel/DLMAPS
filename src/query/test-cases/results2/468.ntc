@@ -1,0 +1,1 @@
+(((retrieve (?x (told-value (age ?x))) (?x (= age 60))) (((?x b) ((:told-value (age ?x)) ((+ 30 age-of-a))))) res-equal-p))

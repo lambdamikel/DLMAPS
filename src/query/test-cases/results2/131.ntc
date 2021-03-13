@@ -1,0 +1,1 @@
+(((racer-prepare-query (quote (?x ?y)) (quote (?x ?y (:constraint (age) (age) (= age-1 (+ age-2 30))))) :timeout *timeout* :abox (or *abox* (current-abox))) (:query-131 :ready-to-run) res-equal-p))

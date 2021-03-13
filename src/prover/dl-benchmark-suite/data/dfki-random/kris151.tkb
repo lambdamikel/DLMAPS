@@ -1,0 +1,63 @@
+(define-primitive-role r1)
+(define-primitive-role r2)
+(define-primitive-role r3)
+(define-primitive-role r4)
+(define-primitive-role r5)
+(define-primitive-role r6)
+(define-primitive-role r7)
+(define-primitive-role r8)
+(define-primitive-role r9)
+(define-primitive-role r10)
+
+(define-primitive-concept c0 TOP)
+
+(define-primitive-concept c1
+    (and (all r5 c0)
+         (at-least 5 r8)
+         (at-most 8 r3)))
+(define-primitive-concept c2
+    (and (all r5 c0)
+         (at-most 7 r3)))
+(define-primitive-concept c3 TOP)
+(define-primitive-concept c4
+    (and c2
+         (all r6 c2)))
+(define-concept c5
+    (and c1 c2))
+(define-primitive-concept c6
+    (and c1 c2
+         (all r2 c3)
+         (at-most 7 r1)))
+(define-concept c7
+    (and c2
+         (all r3 c0) (all r8 c2)
+         (at-least 2 r5)
+         (at-most 9 r3)))
+(define-primitive-concept c8
+    (and c2 c1
+         (at-most 8 r10)))
+(define-primitive-concept c9
+    (and c2
+         (at-least 4 r10)
+         (at-most 9 r10)))
+(define-concept c10
+    (and c1
+         (all r5 c1)
+         (at-least 1 r6)
+         (at-most 5 r3)))
+(define-concept c11
+    (and c3
+         (all r7 c3)))
+(define-primitive-concept c12
+    (and c3
+         (at-least 3 r10)
+         (at-most 5 r8)))
+(define-primitive-concept c13
+    (and c9
+         (at-most 5 r8)))
+(define-primitive-concept c14
+    (and c2 c8
+         (at-most 6 r4)))
+(define-primitive-concept c15
+    (and c5
+         (at-most 7 r1)))

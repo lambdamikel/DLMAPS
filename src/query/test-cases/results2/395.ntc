@@ -1,0 +1,1 @@
+(((prepare-abox-rule (and (?x woman) (?y man) (?x ?y married)) ((instance (new-ind child-of ?x ?y) human) (instance ?x mother) (instance ?y father) (related (new-ind child-of ?x ?y) ?x has-mother) (related (new-ind child-of ?x ?y) ?y has-father))) (:rule-2 :ready-to-run) res-equal-p))

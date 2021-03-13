@@ -1,0 +1,1 @@
+(((FIRERULE (AND (A (AN AGE)) (B (AN AGE))) ((CONSTRAINTS (= (AGE B) (+ 30 (AGE A)))))) (((CONSTRAINTS (= AGE-OF-B (+ 30 AGE-OF-A))))) RES-EQUAL-P))

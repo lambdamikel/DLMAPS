@@ -1,0 +1,1 @@
+(((racer-prepare-query (quote (?x)) (quote (not (and (?x ?m has-mother) (?x ?f has-father)))) :timeout *timeout* :abox (or *abox* (current-abox))) (:query-106 :ready-to-run) res-equal-p))

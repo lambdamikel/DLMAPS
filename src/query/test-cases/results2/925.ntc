@@ -1,0 +1,1 @@
+(((racer-answer-tbox-query (quote (?x)) (quote (and (top ?x))) :timeout *timeout* :tbox (or *tbox* (current-tbox))) (((?x *top*)) ((?x *bottom*)) ((?x aunt)) ((?x mother)) ((?x brother)) ((?x uncle)) ((?x father)) ((?x male)) ((?x sister)) ((?x person)) ((?x man)) ((?x parent)) ((?x woman)) ((?x female)) ((?x human)) ((?x grandmother))) res-equal-p))

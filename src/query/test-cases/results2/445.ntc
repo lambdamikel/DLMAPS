@@ -1,0 +1,1 @@
+(((get-next-tuple :last) ((?x h) (?y i)) res-equal-p))

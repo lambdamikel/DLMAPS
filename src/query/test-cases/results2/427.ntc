@@ -1,0 +1,1 @@
+(((retrieve (?*x) (and (?*x (age (:predicate (< 38)))))) (((?*x michael))) res-equal-p))

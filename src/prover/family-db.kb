@@ -1,0 +1,69 @@
+(in-package :prover)
+
+(full-reset)
+
+(in-abox test nil :type 'db-abox)
+
+
+(implies top (all has-child person))
+(implies (some has-child top) parent)
+
+(implies (some has-sibling top) (or sister brother))
+(implies top (all has-sibling (or sister brother)))
+
+(implies top (all has-sister (some has-gender female)))
+
+(implies top (all has-brother (some has-gender male)))
+
+(implies person (and human (some has-gender (or female male))))
+(disjoint female male)
+(implies woman (and person (some has-gender female)))
+(implies man (and person (some has-gender male)))
+
+(equivalent parent (and person (some has-child person)))
+(equivalent mother (and woman parent)) 
+(equivalent father (and man parent))
+
+(equivalent grandmother 
+	    (and mother 
+		 (some has-child 
+		       (some has-child person))))
+(equivalent aunt (and woman (some has-sibling parent)))
+(equivalent uncle (and man (some has-sibling parent)))
+
+(equivalent brother (and man (some has-sibling person)))
+(equivalent sister (and woman (some has-sibling person)))
+
+(db-instance alice mother)
+(db-related alice betty has-child)
+(db-related alice charles has-child)
+
+(db-instance betty mother)
+(db-related betty doris has-child)
+(db-related betty eve has-child)
+
+(db-instance charles brother)
+(db-related charles betty has-sibling)
+(db-instance charles (at-most 1 has-sibling))
+
+(db-related doris eve has-sister)
+
+(db-related eve doris has-sister)
+
+(delete-all-nodes)
+
+(princ (node-table *cur-abox*))
+
+(princ (edge-table *cur-abox*))
+
+#|
+
+(taxonomy *cur-tbox* :language +alchf-rplus+ :blocking-enabled-p t)
+
+(visualize-taxonomy)
+
+(prepare-abox-for-querying-and-sat-p *cur-abox*)
+
+(concept-instances sister)
+|#
+

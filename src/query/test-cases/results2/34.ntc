@@ -1,0 +1,1 @@
+(((racer-prepare-query (quote (?x)) (quote (or (?x c) (not (?x c)))) :timeout *timeout* :abox (or *abox* (current-abox))) (:query-34 :ready-to-run) res-equal-p))

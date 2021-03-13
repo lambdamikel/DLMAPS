@@ -1,0 +1,1 @@
+(((def-and-prep-query test (?a ?*a) (and (?a test) (:substitute (is-string ?*a)))) (:query-2 :ready-to-run) res-equal-p))

@@ -1,0 +1,37 @@
+(
+(
+;;; TBox definition
+
+(
+(DEFINE-PRIMITIVE-ROLE R1)
+(DEFINE-PRIMITIVE-CONCEPT C2)
+(DEFINE-PRIMITIVE-CONCEPT C4)
+(DEFINE-CONCEPT C6 (AND (NOT C2) C4))
+(DEFINE-CONCEPT C8 (SOME R1 C6))
+(DEFINE-CONCEPT C10 (AND C2 C4))
+(DEFINE-CONCEPT C12 (SOME R1 C10))
+(DEFINE-CONCEPT TEST (AND (NOT C8) C12))
+)
+
+;;; ABox definition
+
+(
+(instance {V}21080 TEST)
+(instance {V}21080 (NOT C8))
+(instance {V}21080 (ALL R1 (NOT C6)))
+(related {V}21080 {V}21081 R1)
+(instance {V}21081 C4)
+(instance {V}21081 {PRIM}C2)
+(instance {V}21081 {PRIM}C4)
+(instance {V}21081 C2)
+(instance {V}21081 (NOT C6))
+)
+
+;;; Instance checking
+
+(
+(individual-instance? {V}21080 C12)
+(individual-instance? {V}21081 C10)
+)
+)
+)

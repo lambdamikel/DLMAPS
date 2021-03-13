@@ -1,0 +1,1 @@
+(((retrieve (?*x ?*y) (and (?*x ?*y (:satisfies (:predicate string=))))) (((?*x c) (?*y g)) ((?*x g) (?*y c))) res-equal-p))

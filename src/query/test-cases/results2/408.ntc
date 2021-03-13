@@ -1,0 +1,1 @@
+(((retrieve (?*x ?x ?*y) (and (?x (and (string= has-name "hamburg") (some in-country germany))) (top ?*x) (not (?*y country)) (?*x ?*y :pp))) (((?*x hamburg) (?x hamburg) (?*y europe))) res-equal-p))

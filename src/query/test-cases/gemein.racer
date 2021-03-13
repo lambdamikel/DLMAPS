@@ -1,0 +1,56 @@
+(in-knowledge-base gemein gemein)
+
+(define-primitive-role r)
+
+(define-primitive-role s :parent r)
+
+(related a b r)
+
+(instance a (some s top))
+
+(instance a (at-most 1 r))
+
+
+
+
+(define-primitive-attribute f)
+
+(define-primitive-attribute g :parent f)
+
+(related u v f)
+
+(instance u (some g top))
+
+
+
+
+(define-primitive-attribute f1)
+
+(define-primitive-role r1 :transitive t)
+
+(define-primitive-attribute g1 :parents (f1 r1))
+
+(related h i f1)
+
+(related i j f1)
+
+(instance h (some g1 top))
+
+(instance i (some g1 top))
+
+
+
+
+(define-concrete-domain-attribute h1 :type cardinal)
+
+(related a1 b1 r)
+
+(related a1 b2 r)
+
+(instance b1 (= h1 10))
+
+(instance b2 (= h1 10))
+
+
+
+

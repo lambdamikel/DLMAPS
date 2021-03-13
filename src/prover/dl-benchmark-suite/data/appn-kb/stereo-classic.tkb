@@ -1,0 +1,2410 @@
+;;; Further modified by 
+;;; 1/ removing parents from roles
+;;; 2/ changing disjoint concepts to CLASSIC syntax
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Stereo configurator knowledge base
+;;; Modified to remove CLASSIC-specific constructs, 
+;;;   including rules, which removes much of the functionality of the KB,
+;;;   and one-of
+;;; This verion also removes the individual systems,
+;;; and turns the makers into concepts
+;;; Modified to use KRSS syntax.
+;;;
+;;; This knowledge base was originally used in a demonstration application
+;;; for the CLASSIC system.   It was used with additional files
+;;; containing meta information including what to prune for
+;;; printing and explanations along with other files containing interface code.
+;;;
+;;; Contact Deborah McGuinness (dlm@research.att.com) for more information.
+;;; 
+;;; Copyright (c) 1994, AT&T Bell Labs. All Rights Reserved.
+;;; Use for experimental or research purposes is permitted if acknowledgement
+;;; is provided in publications.
+;;; Redistribution is not permitted without permission from AT&T.
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; The roles
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; roles that apply to many objects
+(define-primitive-attribute price)
+(define-primitive-attribute maker )
+(define-primitive-attribute model-number )
+(define-primitive-role height)
+(define-primitive-role width)
+(define-primitive-role depth)
+(define-primitive-attribute thx-certified )
+(define-primitive-role descr)                   
+(define-primitive-role info-from) 
+
+;; connects a stereo component to a stereo-system
+(define-primitive-role component-of)
+;; used to specify how many racks a stereo system has, for display purposes.
+(define-primitive-role rack)
+;; The components a stereo system is required to have, based on 
+;; at-least restrs. These components cannot be removed.
+(define-primitive-role required-components)
+
+;; roles on a stereo system
+(define-primitive-role preamplifier)
+(define-primitive-role equalizer)
+(define-primitive-role amplifier)
+(define-primitive-role tuner)
+(define-primitive-role receiver)
+(define-primitive-role turntable)
+(define-primitive-role speaker)
+(define-primitive-role main-speaker)
+(define-primitive-role center-speaker)
+(define-primitive-role surround-speaker)
+(define-primitive-role subwoofer)
+
+(define-primitive-role primary-main-speaker)
+(define-primitive-role secondary-main-speaker)
+(define-primitive-role main-left-speaker)
+(define-primitive-role main-right-speaker)
+(define-primitive-role secondary-main-left-speaker)
+(define-primitive-role secondary-main-right-speaker)
+(define-primitive-role surround-left-speaker)
+(define-primitive-role  surround-right-speaker)
+(define-primitive-role audio-recording-device)
+(define-primitive-role cassette-deck)
+(define-primitive-role dat)
+(define-primitive-role md)
+(define-primitive-role reel-to-reel)
+(define-primitive-role cd-player)
+(define-primitive-role headphones)
+(define-primitive-role tv)
+(define-primitive-role vcr)
+(define-primitive-role laserdisc)
+(define-primitive-role sound-processor)
+(define-primitive-role integrated-amplifier)
+
+;; roles on cds
+;; number of cds a cd-player can hold
+(define-primitive-attribute cds )
+
+;; roles on cassette-decks
+;; number of cassettes a cassette-player can hold
+(define-primitive-attribute cassettes )
+
+(define-primitive-attribute auto-reverse )
+(define-primitive-attribute headphone-jack )
+
+;; roles on sound processors
+(define-primitive-attribute pro-logic)
+(define-primitive-attribute surround)
+;; roles on receivers
+(define-primitive-attribute channel)
+(define-primitive-attribute speaker-jacks )
+(define-primitive-attribute audio-input )
+(define-primitive-attribute audio-output )
+(define-primitive-attribute video-input )
+(define-primitive-attribute video-output )
+(define-primitive-attribute s-video-input )
+(define-primitive-attribute s-video-output )
+;; (they go along with video
+;; they dont belong in a role hierarchy)
+(define-primitive-attribute digital-input )
+(define-primitive-attribute digital-output )
+
+(define-primitive-attribute measured-eight-ohm-power )
+(define-primitive-attribute measured-six-ohm-power )
+(define-primitive-attribute measured-four-ohm-power )
+(define-primitive-attribute eight-ohm-power )
+(define-primitive-attribute eight-ohm-surround-power )
+(define-primitive-attribute eight-ohm-center-power )
+(define-primitive-attribute four-ohm-power )
+(define-primitive-attribute two-ohm-power )
+(define-primitive-attribute ab-switch-value )
+;; roles on tuners
+(define-primitive-attribute presets )
+;; roles on vcrs
+
+;; roles on tvs
+(define-primitive-attribute diagonal )
+(define-primitive-attribute S-input )
+(define-primitive-attribute S-output )
+(define-primitive-attribute antenna-input )
+(define-primitive-attribute antenna-output )
+
+
+;; dat roles
+(define-primitive-attribute pro-deck )
+(define-primitive-attribute consumer-deck )
+;; consumer decks have scms - serial copy maintenance system - copy protection
+;; roles on equalizers
+(define-primitive-attribute band )
+;; roles on companies
+(define-primitive-attribute phone )
+
+(define-primitive-attribute tv-repair-history )
+(define-primitive-attribute vcr-repair-history )
+
+		 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; the basic concepts
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(define-primitive-concept repair-history TOP)
+(define-primitive-concept bad repair-history)
+(define-primitive-concept ok repair-history)
+(define-primitive-concept good repair-history)
+(define-disjoint-primitive company
+	(and (all vcr-repair-history repair-history)
+	     (all tv-repair-history repair-history)
+	     (all phone INTEGER))  classic-thing-type)
+
+(define-disjoint-primitive consumer-thing
+	(and (all price (and INTEGER (minimum 0)))
+	     (at-least 1 price)
+	     (all maker company) (at-least 1 maker))
+	     classic-thing-type)
+
+(define-primitive-concept electrical-consumer-thing
+			     consumer-thing)
+
+;; used for instantiating components in the graphical interface
+(define-primitive-concept actual-component electrical-consumer-thing)
+
+;; used for recognizing components which have tiff files associated with them.
+;;(define-primitive-concept component-with-picture actual-component)
+
+;; receiver related things
+(define-primitive-concept amplifying-device electrical-consumer-thing)
+(define-primitive-concept preamplifying-device electrical-consumer-thing)
+(define-primitive-concept tuning-device electrical-consumer-thing)
+
+(define-primitive-concept amplifier amplifying-device)
+(define-primitive-concept preamplifier preamplifying-device)
+(define-concept av-preamplifier
+			     (and preamplifier
+			       (all video-input (minimum 1))))
+;			       (all video-output (minimum 1))))
+;; typically you have video output but not necessarily
+(define-primitive-concept pro-logic-preamplifier
+			      (and av-preamplifier (fillers pro-logic 1)))
+(define-concept non-av-preamplifier
+			     (and preamplifier
+			       (all video-input (maximum 0))
+			       (all video-output (maximum 0))))
+(define-primitive-concept integrated-amplifier
+			     (and amplifying-device preamplifying-device))
+(define-concept av-integrated-amplifier
+			     (and integrated-amplifier
+			       (all video-input (minimum 1))))
+(define-concept pro-logic-integrated-amplifier
+			     (and av-integrated-amplifier
+			       (all video-input (minimum 1))))
+(define-concept non-av-integrated-amplifier
+			     (and integrated-amplifier
+			       (all video-input (maximum 0))
+			       (all video-output (maximum 0))))
+(define-concept mono-amplifier 
+		   (and amplifier
+		     (fillers channel 1)))
+
+
+(define-primitive-concept tuner tuning-device)
+(define-primitive-concept receiver 
+			     (and amplifying-device preamplifying-device
+			       tuning-device
+			       (all audio-input (minimum 1))
+			       (all audio-output (minimum 1))
+			       ))
+
+(define-concept av-receiver 
+			     (and receiver
+			       (all video-input (minimum 1))))
+(define-concept pro-logic-receiver 
+			      (and av-receiver (fillers pro-logic 1)))
+(define-concept non-av-receiver 
+			     (and receiver
+			       (all video-input (maximum 0))
+			       (all video-output (maximum 0))))
+
+;; speaker related things
+(define-primitive-concept speaker electrical-consumer-thing)
+(define-concept low-priced-speaker 
+		   (and speaker (all price (maximum 400))))
+(define-concept mid-priced-speaker 
+		   (and speaker (all price (and (minimum 201) (maximum 1000)))))
+(define-concept high-priced-speaker 
+		   (and speaker (all price (minimum 401))))
+
+;; consider disjointness by individuals.  No individual can be both a main
+;; speaker and a surround speaker in the same system
+(define-disjoint-primitive subwoofer  speaker speaker-type)
+
+;; We want main-speaker and surround-speaker to be disjoint from 
+;; center-speaker and subwoofer, but we want certain speakers to be 
+;; able to be either main-speakers or surround-speakers.
+(define-disjoint-primitive main-or-surround-speaker
+	 speaker speaker-type)
+
+(define-disjoint-primitive surround-speaker
+	main-or-surround-speaker
+	main-or-surround-speaker-type)
+;;;	(and main-or-surround-speaker (same-as (eight-ohm-power)
+;;;					       (eight-ohm-surround-power))))
+
+(define-disjoint-primitive surround-left-speaker surround-speaker
+	left-right-surround-type)
+(define-disjoint-primitive surround-right-speaker surround-speaker
+	left-right-surround-type) 
+
+(define-disjoint-primitive two-way-speaker speaker
+	tweeter-woofer )
+(define-disjoint-primitive three-way-speaker speaker
+	tweeter-woofer) 
+
+;; main speakers
+(define-disjoint-primitive main-speaker main-or-surround-speaker 
+	main-or-surround-speaker-type)
+				      
+(define-disjoint-primitive main-left-speaker main-speaker
+	left-right-main-type) 
+(define-disjoint-primitive main-right-speaker main-speaker
+	left-right-main-type) 
+(define-disjoint-primitive secondary-main-left-speaker main-speaker
+	left-right-main-type) 
+(define-disjoint-primitive secondary-main-right-speaker  main-speaker
+	left-right-main-type)
+
+(define-disjoint-primitive center-speaker
+  (and speaker)  speaker-type)
+;;;  (and speaker (same-as (eight-ohm-power) (eight-ohm-center-power))))
+
+(define-primitive-concept shielded-speaker speaker)
+
+;; audio recording device related things
+
+(define-primitive-concept audio-recording-device electrical-consumer-thing)
+(define-primitive-concept cassette-deck audio-recording-device)
+(define-concept dual-cassette-deck 
+			     (and cassette-deck
+			       (fillers cassettes 2)))
+(define-concept single-cassette-deck 
+			     (and cassette-deck
+			       (fillers cassettes 1)))
+(define-primitive-concept dat audio-recording-device)
+
+;; cds and other audio
+(define-primitive-concept cd-player electrical-consumer-thing)
+(define-concept multiple-cd-player 
+			     (and cd-player (all cds (minimum 2))))
+(define-concept single-cd-player 
+			     (and cd-player (fillers cds 1)))
+(define-primitive-concept carousel-cd-player multiple-cd-player)
+(define-primitive-concept magazine-cd-player multiple-cd-player)
+(define-primitive-concept turntable electrical-consumer-thing)
+(define-primitive-concept headphones electrical-consumer-thing)
+(define-primitive-concept equalizer electrical-consumer-thing)
+
+;; video related things
+(define-primitive-concept tv electrical-consumer-thing)
+(define-concept big-screen-tv (and tv (all diagonal (minimum 32))))
+(define-primitive-concept vcr electrical-consumer-thing)
+(define-primitive-concept hifi-vcr vcr)
+(define-primitive-concept mono-vcr vcr)
+
+(define-primitive-concept laserdisc electrical-consumer-thing)
+(define-primitive-concept sound-processor electrical-consumer-thing)
+(define-primitive-concept boombox electrical-consumer-thing)
+
+
+;; stereo systems
+(define-primitive-concept stereo-system
+        (and electrical-consumer-thing
+	  (at-least 1 rack) ;; all stereo systems have at-least 1 rack
+	  (all receiver receiver)
+	  (all speaker speaker)
+	  (all main-speaker main-speaker)
+	  (all main-left-speaker main-left-speaker)
+	  (all main-right-speaker main-right-speaker)
+	  (at-least 1 main-left-speaker)
+	  (at-least 1 main-right-speaker)
+	  (all secondary-main-left-speaker secondary-main-left-speaker)
+	  (all secondary-main-right-speaker secondary-main-right-speaker)
+	  (all surround-speaker surround-speaker)
+	  (all surround-left-speaker surround-left-speaker)
+	  (all surround-right-speaker surround-right-speaker)
+	  (all cd-player cd-player)
+	  (all preamplifier preamplifier)
+	  (all amplifier amplifier)
+	  (all integrated-amplifier integrated-amplifier)
+	  (all laserdisc laserdisc)
+	  (all equalizer equalizer)
+	  (all tuner tuner)
+	  (all audio-recording-device audio-recording-device)
+	  (all subwoofer subwoofer)
+	  (all headphones headphones)
+	  (all cassette-deck cassette-deck) 
+	  (all turntable turntable)))
+
+;; for now - use these to set common prices like amplifiers
+;; use a rule on low-priced-audio-only-system to put it under 
+;; low-priced-system and then have the right price rules attached
+(define-primitive-concept high-priced-system stereo-system)
+	;; note that systems like high-combination-systems are
+	;; high-priced-systems by way of rules
+(define-primitive-concept mid-priced-system stereo-system)
+(define-primitive-concept low-priced-system stereo-system)
+
+;; These are the concepts under stereo-system that we want the user 
+;; to know about, and to be able to add and retract to their 
+;; individual stereo system.
+(define-primitive-concept interesting-stereo-system stereo-system)
+
+(define-primitive-concept guided-stereo-system 
+			     (and interesting-stereo-system
+			       (at-most 1 receiver)
+			       (at-most 2 cassette-deck)
+			       (at-most 1 headphones)
+			       (at-most 1 laserdisc)
+			       (at-most 1 equalizer)
+			       (at-most 1 tuner)
+			       (at-most 1 cd-player)
+			       (at-most 1 preamplifier)
+			       (at-most 1 integrated-amplifier)
+			       (at-most 1 turntable)
+			       (at-most 1 tv)
+			       (at-most 2 vcr)
+			       ;; speaker info
+			       (at-most 1 main-right-speaker)
+			       (at-most 1 main-left-speaker)
+			       (at-most 1 secondary-main-left-speaker)
+			       (at-most 1 secondary-main-right-speaker)
+			       (at-most 2 secondary-main-speaker)
+			       (at-most 1 main-left-speaker)
+			       (at-most 1 main-right-speaker)
+			       (at-most 2 primary-main-speaker)
+			       (at-most 4 main-speaker)
+			       (at-most 1 surround-right-speaker)
+			       (at-most 1 surround-left-speaker)
+			       (at-most 2 surround-speaker)
+			       (at-most 8 speaker)
+			       (at-most 2 center-speaker)
+			       (at-most 1 center-speaker)
+			       (at-most 2 subwoofer)
+				(at-most 1 subwoofer)
+			       ))
+
+(define-concept non-four-ohm-receiver-stereo-system
+		   (and stereo-system
+		     (at-least 1 receiver)
+		     (all receiver (fillers four-ohm-power 0))))
+
+(define-concept non-four-ohm-int-amp-stereo-system
+		   (and stereo-system
+		     (at-least 1 integrated-amplifier)
+		     (all integrated-amplifier (fillers four-ohm-power 0))))
+
+
+(define-concept four-ohm-thing
+		   (and electrical-consumer-thing (all four-ohm-power (minimum 5))))
+(define-concept eight-ohm-thing
+		   (and electrical-consumer-thing (all eight-ohm-power (minimum 5))))
+
+(define-concept gt1-four-ohm-speaker-stereo-system
+		   (and stereo-system))
+;		     (testc gt1-four-ohm-speaker)))
+
+
+;; non-av-stuff means no center speakers
+;;  and no surround speakers
+
+(define-concept non-av-receiver-system
+		   (and stereo-system
+		     (at-least 1 receiver)
+			(all receiver non-av-receiver)))
+(define-concept non-av-integrated-amp-system
+		   (and stereo-system
+		     (at-least 1 integrated-amplifier)
+			(all integrated-amplifier 
+			non-av-integrated-amplifier)))
+(define-concept non-av-preamplifier-system
+		   (and stereo-system
+		     (at-least 1 preamplifier)
+			(all preamplifier non-av-preamplifier)))
+
+;
+;; you have to have as many channels on your amplifying-device 
+;; as the number of speakers you have.
+
+
+;;; the guided system rules
+
+;; AB-switch rules - if you have secondary speakers, you need AB 
+(define-concept gt1-secondary-speaker-system
+		   (and stereo-system 
+			;guided-stereo-system
+			(at-least 1 secondary-main-speaker)))
+
+(define-concept dual-rack-stereo-system
+	(and stereo-system
+	  (at-least 2 rack))) ;; used for display purposes
+
+(define-primitive-concept audio-system
+			     stereo-system)
+
+(define-primitive-concept home-theater-system
+	(and stereo-system
+	  (all vcr vcr)
+	  (all tv tv)
+	  (at-least 1 tv)
+	  (all surround-speaker surround-speaker)
+	  (all surround-left-speaker surround-left-speaker)
+	  (all surround-right-speaker surround-right-speaker)
+	  (all center-speaker center-speaker)
+	  (at-most 2 center-speaker)))
+
+
+(define-concept combination-system
+	(and audio-system home-theater-system
+	  interesting-stereo-system))
+
+(define-concept low-combination-system
+		   (and combination-system ;; guided-stereo-system
+		     (all price (and ;;(minimum 200)
+				 (maximum 2000 )))))
+
+(define-concept mid-combination-system
+		   (and combination-system ;; guided-stereo-system
+		     (all price (and (minimum 2001) (maximum 6000)))))
+(define-concept high-combination-system
+		   (and combination-system ;; guided-stereo-system
+		     (all price (minimum 6001))))
+
+(define-primitive-concept audio-only-system 
+			     (and audio-system
+			       interesting-stereo-system
+			       (at-most 0 tv)
+			       (at-most 0 vcr)
+			       (at-most 0 center-speaker)
+			       (at-most 0 surround-speaker)
+			       (at-most 5 speaker)
+			       ; only 4 main and subwoofer possible
+			       ))
+
+(define-concept low-audio-only-system 
+		   (and audio-only-system ;; guided-stereo-system
+		     (all price (and 
+				 ;(minimum 200)
+				 (maximum 700)))))
+
+(define-concept mid-audio-only-system 
+		   (and audio-only-system ;; guided-stereo-system
+		     (all price (and (minimum 701) (maximum 3000)))))
+
+(define-concept high-audio-only-system 
+		   (and audio-only-system ;; guided-stereo-system
+		     (all price (minimum 3001))))
+
+(define-primitive-concept home-theater-only-system 
+			     (and home-theater-system
+			       interesting-stereo-system
+			       (at-most 0 cassette-deck)
+			       (at-most 0 turntable)
+			       ))
+
+(define-concept low-home-theater-only-system 
+		   (and home-theater-only-system ;; guided-stereo-system
+		     (all price (and ;;(minimum 200)
+				 (maximum 1400)))))
+(define-concept mid-home-theater-only-system 
+		   (and home-theater-only-system ;; guided-stereo-system
+		     (all price (and (minimum 1401) (maximum 4500)))))
+
+(define-concept high-home-theater-only-system 
+		   (and home-theater-only-system ;; guided-stereo-system
+		     (all price (minimum 4501) )))
+
+(define-primitive-concept typical-stereo-system
+	(and stereo-system
+		(at-most 4 speaker)
+		(at-most 2 cassette-deck)
+		(at-most 1 cd-player)))
+
+(define-primitive-concept extended-stereo-system
+	(and stereo-system
+		(at-most 8 speaker)
+		(at-most 2 cassette-deck)
+		(at-most 1 cd-player)
+		(at-least 1 tv) (all tv tv)
+		(at-least 1 vcr) (all vcr vcr)
+		(all laserdisc laserdisc)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Some individuals
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; NB: Phone numbers have been modified
+
+
+(define-primitive-concept aakg-acoustics (and company))
+(define-primitive-concept adcom (and company))
+(define-primitive-concept acoustic-research 
+	       (and company
+		 (fillers phone 178212300)))
+(define-primitive-concept aiwa 
+	       (and company
+		 (fillers phone 015123600)))
+(define-primitive-concept bic 
+	       (and company
+		 (fillers phone 169282011)))
+(define-primitive-concept bose
+	       (and company
+		 (fillers phone 088797300)))
+(define-primitive-concept boston-acoustics 
+	       (and company
+		 (fillers phone 175929000)))
+(define-primitive-concept creek (and company))
+(define-primitive-concept dahlquist 
+	       (and company
+		 (fillers phone 162345757)))
+(define-primitive-concept denon 
+	       (and company
+		 (fillers phone 015757810)))
+(define-primitive-concept design-acoustics (and company))
+(define-primitive-concept emerson
+	       (and company))
+(define-primitive-concept fisher 
+	       (and company))
+(define-primitive-concept fosgate-audionics 
+	       (and company
+		 (fillers phone 016544046)))
+(define-primitive-concept general-electric 
+	       (and company))
+(define-primitive-concept goldstar
+	       (and company
+		 (fillers phone 018162000)))
+(define-primitive-concept harmon-kardon 
+	       (and company
+		 (fillers phone 188939992)))
+(define-primitive-concept hitachi
+	       (and company))
+(define-primitive-concept infinity
+	       (and company))
+(define-primitive-concept jvc 
+	       (and company
+		 (fillers phone 017943900)))
+(define-primitive-concept kenwood 
+	       (and company
+		 (fillers phone 136399000)))
+(define-primitive-concept koss 
+	       (and company
+		 (fillers phone 149645000)))
+(define-primitive-concept lenbrook 
+	       (and company
+		 (fillers phone 168316333)))
+(define-primitive-concept linn 
+	       (and company
+		 (fillers phone 178497103)))
+(define-primitive-concept magnavox
+	       (and company))
+(define-primitive-concept marantz 
+	       (and company
+		 (fillers phone 082994000)))
+(define-primitive-concept mcintosh 
+	       (and company 
+		 (fillers phone 077233512)))
+(define-primitive-concept mirage (and company))
+(define-primitive-concept mitsubishi
+	       (and company
+		 (fillers phone 142202500)))
+(define-primitive-concept mtx-soundcraftsmen 
+	       (and company
+		 (fillers phone 145566191)))
+(define-primitive-concept nad 
+	       (and company
+		 (fillers phone 168316333)))
+(define-primitive-concept nakamichi 
+	       (and company
+		 (fillers phone 105388150)))
+(define-primitive-concept nht 
+	       (and company
+		 (fillers phone 006489993)))
+(define-primitive-concept onkyo 
+	       (and company
+		 (fillers phone 018257950)))
+(define-primitive-concept panasonic 
+	       (and company
+		 (fillers phone 013487000)))
+(define-primitive-concept phillips 
+	       (and company
+		 (fillers phone 155214316)))
+(define-primitive-concept pioneer 
+	       (and company
+		 (fillers phone 004211404)))
+(define-primitive-concept quad 
+	       (and company
+		 (fillers phone 085261646)))
+(define-primitive-concept quasar
+	       (and company
+		 (fillers phone 084685600)))
+(define-primitive-concept rca
+	       (and company
+		 (fillers phone 172675000 )))
+(define-primitive-concept radio-shack
+	       (and company
+		 (fillers phone 173903011)))
+(define-primitive-concept realistic
+	       (and company
+		 (fillers phone 173903011)))
+
+(define-primitive-concept samsung
+	       (and company))
+
+(define-primitive-concept sanyo
+	       (and company))
+
+(define-primitive-concept sansui company)
+(define-primitive-concept sears
+	       (and company))
+(define-primitive-concept sharp
+	       (and company))
+(define-primitive-concept sherwood company)
+(define-primitive-concept sony
+	       (and company
+		 (fillers phone 019307669)))
+(define-primitive-concept sylvania
+	       (and company))
+(define-primitive-concept tannoy company)
+(define-primitive-concept teac company)
+(define-primitive-concept technics company)
+(define-primitive-concept thomson-consumer-electronics
+	       (and company
+		 (fillers phone 172675000 )))
+;; same as rca
+(define-primitive-concept toshiba
+	       (and company))
+(define-primitive-concept vision-acoustics company)
+(define-primitive-concept vpi company)
+(define-primitive-concept yamaha company)
+(define-primitive-concept zenith
+	       (and company))
+
+;;; a few individuals used in concept descriptions
+
+(define-primitive-concept model TOP)
+(define-primitive-concept dx-702 model)
+(define-primitive-concept dp-2030 model)
+(define-primitive-concept dpr-3060 model)
+(define-primitive-concept cdp-491 model)
+(define-primitive-concept integra-dx-706 model)
+(define-primitive-concept es-cdp-x222es model)
+(define-primitive-concept dcd-970 model)
+(define-primitive-concept dcm-440 model)
+(define-primitive-concept sl-pd927 model)
+(define-primitive-concept cdc935 model)
+(define-primitive-concept pd-m901 model)
+(define-primitive-concept cdp-c345 model)
+(define-primitive-concept cdp-c910 model)
+(define-primitive-concept pd-tm2 model)
+(define-primitive-concept dra-545r model)
+(define-primitive-concept avr-800 model)
+(define-primitive-concept avr-1000 model)
+(define-primitive-concept avr-2000 model)
+(define-primitive-concept avr-3000 model)
+(define-primitive-concept rx-309tn model)
+(define-primitive-concept rx-v470 model)
+(define-primitive-concept kr-v5560 model)
+(define-primitive-concept kr-v7050 model)
+(define-primitive-concept sr-73 model)
+(define-primitive-concept sr-92 model)
+(define-primitive-concept vsx-451 model)
+(define-primitive-concept vsx-52-elite model)
+(define-primitive-concept tx-910 model)
+(define-primitive-concept tx-sv303pro model)
+(define-primitive-concept tx-sv313pro model)
+(define-primitive-concept tx-903 model)
+(define-primitive-concept tx-sv525pro model)
+(define-primitive-concept rv5010r model)
+(define-primitive-concept rv5030r model)
+(define-primitive-concept rv6010r model)
+(define-primitive-concept rx4010r model)
+(define-primitive-concept str-d515 model)
+(define-primitive-concept str-d311 model)
+(define-primitive-concept str-d611 model)
+(define-primitive-concept str-d911 model)
+(define-primitive-concept rx-460 model)
+(define-primitive-concept dsp-a2070 model)
+(define-primitive-concept f737 model)
+(define-primitive-concept f727 model)
+(define-primitive-concept f717 model)
+
+(define-primitive-concept source TOP)
+(define-primitive-concept charles source)
+(define-primitive-concept onkyo-literature source)
+
+
+;;;;;;;;;;; the components have now been changed to concepts
+
+;; some cd-players
+
+(define-concept onkyo-dx-702 
+	       (and single-cd-player actual-component (fillers price 185)
+		 (all maker onkyo)
+		 (all model-number dx-702)
+))
+(define-concept kenwood-dp-2030
+	       (and single-cd-player actual-component (fillers price 150)
+		 (all maker kenwood)
+		 (all model-number dp-2030)))
+(define-concept kenwood-dpr-3060
+	       (and carousel-cd-player actual-component (fillers price 190)
+		 (all maker kenwood)
+		 (all model-number dpr-3060)))
+(define-concept sony-cdp-491
+	       (and single-cd-player actual-component (fillers price 145)
+		(all model-number cdp-491)
+		 (all maker sony)
+))
+(define-concept onkyo-integra-dx-706 
+	       (and single-cd-player actual-component (fillers price 750)
+		 (all maker onkyo)
+		 (all model-number integra-dx-706)
+))
+(define-concept sony-es-cdp-x222es
+	       (and single-cd-player actual-component (fillers price 370)
+		 (all maker sony)
+		 (all model-number es-cdp-x222es)
+))
+(define-concept denon-dcd-970
+	       (and single-cd-player actual-component (fillers price 335)
+		 (all maker denon)
+		 (all model-number dcd-970)
+))
+(define-concept denon-dcm-440
+	       (and carousel-cd-player actual-component (fillers price 380)
+		 (all maker denon)
+		 (all model-number dcm-440)
+		 ))
+(define-concept technics-sl-pd927
+	       (and carousel-cd-player actual-component (fillers price 269)
+		 (all maker technics)
+		 (all model-number sl-pd927)
+		 (fillers cds 5)
+))
+(define-concept phillips-cdc935
+	       (and carousel-cd-player actual-component (fillers price 250)
+		 (all maker phillips)
+		 (all model-number cdc935)
+		 (fillers cds 5)
+))
+(define-concept pioneer-pd-m901
+	       (and magazine-cd-player actual-component (fillers price 315)
+		 (all maker pioneer)
+		 (all model-number pd-m901)
+		 (fillers cds 6)
+))
+(define-concept sony-cdp-c345
+	       (and carousel-cd-player actual-component (fillers price 230)
+		 (all maker sony)
+		 (all model-number cdp-c345)
+		 (fillers cds 5)
+		 ))
+(define-concept sony-cdp-c910
+	       (and magazine-cd-player actual-component (fillers price 350)
+		 (all maker sony)
+		 (all model-number cdp-c910)
+		 (fillers cds 10)
+))
+(define-concept pioneer-pd-tm2
+	       (and magazine-cd-player actual-component (fillers price 365)
+		 (all maker pioneer)
+		 (all model-number pd-tm2)
+		 (fillers cds 18)
+))
+
+;; some receivers
+(define-concept denon-DRA-545R
+	       (and receiver actual-component
+		 (fillers price 370) (all maker denon)
+		 (all model-number dra-545r)
+		 (fillers eight-ohm-power 60)
+		 (fillers video-input 2)
+		 (fillers video-output 2)
+		 (fillers ab-switch-value 0)  ;; I guessed here
+;; no mention of audio in or out
+		 ))
+(define-concept denon-AVR-800
+	       (and pro-logic-receiver av-receiver actual-component
+		 (fillers price 500) (all maker denon)
+		 (all model-number avr-800)
+		 (fillers eight-ohm-power 60)
+		 (fillers eight-ohm-center-power 60)
+		 (fillers eight-ohm-surround-power 15)
+		 (fillers video-input 2)
+		 (fillers video-output 2)
+		 (fillers audio-input 5)
+		 (fillers audio-output 2)
+		 (fillers ab-switch-value 0)
+		 ))
+(define-concept denon-AVR-1000
+	       (and pro-logic-receiver av-receiver actual-component
+		 (fillers price 700) (all maker denon)
+		 (all model-number avr-1000)
+		 (fillers eight-ohm-power 70)
+		 (fillers eight-ohm-center-power 70)
+		 (fillers eight-ohm-surround-power 20)
+		 (fillers video-input 3)
+		 (fillers video-output 2)
+		 (fillers audio-input 6)
+		 (fillers audio-output 6)
+		 (fillers ab-switch-value 0)
+		 ))
+(define-concept denon-AVR-2000
+	       (and pro-logic-receiver av-receiver actual-component
+		 (fillers price 900) (all maker denon)
+		 (all model-number avr-2000)
+		 (fillers eight-ohm-power 80)
+		 (fillers eight-ohm-center-power 80)
+		 (fillers eight-ohm-surround-power 25)
+		 (fillers video-input 3)
+		 (fillers video-output 2)
+		 (fillers s-video-input 2)
+		 (fillers s-video-output 2)
+		 (fillers audio-input 6)
+		 (fillers audio-output 10)
+		 (fillers ab-switch-value 0)
+		 ))
+(define-concept denon-AVR-3000
+	       (and pro-logic-receiver av-receiver actual-component
+		 (fillers price 1400) (all maker denon)
+		 (all model-number avr-3000)
+		 (fillers eight-ohm-power 110)
+		 (fillers eight-ohm-center-power 110)
+		 (fillers eight-ohm-surround-power 35)
+		 (fillers video-input 5)
+		 (fillers video-output 3)
+		 (fillers s-video-input 4)
+		 (fillers s-video-output 3)
+		 (fillers audio-input 9)
+		 (fillers audio-output 10)
+		 (fillers ab-switch-value 1)
+		 ))
+(define-concept fisher-737
+               (and pro-logic-receiver av-receiver actual-component
+                 (fillers price 500) (all maker fisher)
+                 (all model-number f737)
+		 (fillers eight-ohm-power 80)
+                 (fillers eight-ohm-center-power 80)
+                 (fillers eight-ohm-surround-power 20)
+		 (fillers channel 5)
+		;; doesnt mention video ins and outs
+		;; 1 unswitched and 2 switched AC outlets
+		;; AV switching - charles - do we care about these two?
+                 (fillers audio-input 5)
+                 (fillers ab-switch-value 1)
+                 ))
+
+(define-concept fisher-727
+               (and pro-logic-receiver av-receiver actual-component
+                 (all model-number f727)
+		 (fillers price 400) (all maker fisher)
+                 (fillers eight-ohm-power 100)
+                 (fillers eight-ohm-center-power 20)
+                 (fillers eight-ohm-surround-power 10)
+                 (fillers channel 5)
+                ;; 2 switched AC outlets
+                 (fillers audio-input 5)
+                 (fillers video-input 2)
+                 (fillers ab-switch-value 1)
+                 ))
+
+(define-concept fisher-717
+               (and receiver actual-component
+                 (fillers price 300) (all maker fisher)
+                 (all model-number f717)
+		 (fillers eight-ohm-power 80)
+                 (fillers eight-ohm-center-power 0)
+                 (fillers eight-ohm-surround-power 0)
+                 (fillers channel 2)
+                ;; 2 switched AC outlets
+                 (fillers audio-input 5)
+                 (fillers ab-switch-value 1)
+                 ))
+
+
+
+(define-concept jvc-rx-309tn  ;;updated 9/17/94
+	       (and receiver actual-component (fillers price 280)
+		 (all maker jvc)
+		 (all model-number rx-309tn)
+		 (fillers ab-switch-value 1)	;;NOT made up
+		 (fillers channel 2)
+		 (fillers video-input 0)
+		 (fillers video-output 0)
+		 (fillers eight-ohm-power 100)
+		 (fillers eight-ohm-surround-power 0)
+		 (fillers eight-ohm-center-power 0)
+;		 (fillers surround 0)
+		 (fillers pro-logic 0)))
+(define-concept jvc-rx-v470
+	       (and pro-logic-receiver actual-component (fillers price 400)
+		 (all maker jvc)
+		 (all model-number rx-v470)
+		 (fillers audio-input 5)
+		 (fillers audio-output 4)
+		 (fillers video-input 2)
+		 (fillers video-output 3)
+		 (fillers eight-ohm-power 100)
+		 (fillers measured-eight-ohm-power 110)
+		 (fillers measured-six-ohm-power 127)
+		 (fillers measured-four-ohm-power 0)
+		 (fillers four-ohm-power 0)
+		 (fillers eight-ohm-surround-power 20)
+		 (fillers eight-ohm-center-power 65)
+;		 (fillers surround 1)
+		 (fillers pro-logic 1)))
+
+
+(define-concept kenwood-kr-v5560
+               (and av-receiver actual-component pro-logic-receiver
+                 (fillers price 300)
+                 (all maker kenwood)
+                 (all model-number kr-v5560)
+		 (fillers channel 5)
+                 (fillers pro-logic 1)
+                 (fillers ab-switch-value 1)
+                 (fillers eight-ohm-power 70)   
+                 (fillers eight-ohm-center-power 70)
+                 (fillers eight-ohm-surround-power 20)
+                 (fillers audio-input 4)
+                 (fillers video-input 2)
+;;               (fillers width 17)
+;;               (fillers height 10)
+;;               (fillers depth 17)
+		 (all info-from charles)
+        ))
+
+(define-concept kenwood-rc1000 
+	       (and receiver (fillers price 549) (all maker kenwood)))
+(define-concept kenwood-KR-V7050
+		   (and pro-logic-receiver actual-component
+		     (fillers price 429) (all maker kenwood)
+		     (all model-number kr-v7050)
+		     (fillers eight-ohm-power 65)
+		     (fillers eight-ohm-center-power 65)
+		     (fillers eight-ohm-surround-power 20)
+		     (fillers video-input 2)
+		     (fillers video-output 2)
+		     (fillers width 18)
+		     (fillers height 6)
+		     (fillers depth 16)
+		     ))
+
+(define-concept marantz-sr-73
+		   (and pro-logic-receiver av-receiver actual-component
+		     (fillers price 649)
+		     (all maker marantz)
+		     (all model-number sr-73)
+		     (fillers audio-input 4)
+		     (fillers audio-output 2) ;?
+		     (fillers video-input 3)
+		     (fillers video-output 4)
+		     (fillers eight-ohm-power 75)
+		     (fillers measured-eight-ohm-power 81)
+		     (fillers measured-four-ohm-power 121)
+		     (fillers four-ohm-power 120)
+		     (fillers eight-ohm-surround-power 35)
+		     (fillers eight-ohm-center-power 75)
+		     (fillers width 17)
+		     (fillers height 6)
+		     (fillers depth 14)
+		  ))
+(define-concept marantz-sr-92
+		   (and pro-logic-receiver av-receiver actual-component 
+		     (fillers price 1149)
+		     (all maker marantz)
+		     (all model-number sr-92)		     
+;		     (fillers audio-input 4)
+;		     (fillers audio-output 2)  
+		     (fillers video-input 4)
+;		     (fillers video-output 4)
+		     ;; charles - what does 5 pre-out/main-in loops mean?
+		     (fillers eight-ohm-power 110)
+		     (fillers eight-ohm-surround-power 35)
+		     (fillers eight-ohm-center-power 75)))
+
+(define-concept pioneer-vsx-451
+	       (and pro-logic-receiver actual-component (fillers price 320)
+		 (all maker pioneer)
+		 (all model-number vsx-451)		     
+	         (fillers audio-input 7)
+		 (fillers audio-output 4)
+		 (fillers video-input 3)
+		 (fillers video-output 3)
+		 (fillers eight-ohm-power 80)
+		 (fillers measured-eight-ohm-power 86)
+		 (fillers measured-six-ohm-power 86)
+		 (fillers measured-four-ohm-power 0)
+		 (fillers four-ohm-power 0)
+		 (fillers eight-ohm-surround-power 20)
+		 (fillers eight-ohm-center-power 25)
+))
+(define-concept pioneer-vsx-52-elite
+	       (and pro-logic-receiver actual-component (fillers price 715)
+		 (all maker pioneer)
+		 (all model-number vsx-52-elite)		     
+	         (fillers audio-input 8)
+		 (fillers audio-output 4)
+		 (fillers video-input 4)
+		 (fillers video-output 4)
+		 (fillers eight-ohm-power 100)
+		 (fillers measured-eight-ohm-power 116)
+		 (fillers measured-six-ohm-power 130)
+		 (fillers measured-four-ohm-power 0)
+		 (fillers four-ohm-power 0)
+		 (fillers eight-ohm-surround-power 20)
+		 (fillers eight-ohm-center-power 65)
+))
+(define-concept onkyo-tx-910  ;;updated 9/17/94
+               (and receiver actual-component (fillers price 240)
+                 (all maker onkyo)
+		 (all model-number tx-910)		     
+	         (fillers channel 2)
+		 (fillers ab-switch-value 1)
+                 (fillers audio-input 6)
+                 (fillers video-input 0)
+                 (fillers video-output 0)
+                 (fillers eight-ohm-power 45)
+		;; or 105 x2 maximum into 3 ohms
+                 (fillers four-ohm-power 0)
+                 (fillers eight-ohm-surround-power 0)
+                 (fillers eight-ohm-center-power 0)
+;                (fillers surround 0)
+                 (fillers pro-logic 0)))
+(define-concept onkyo-tx-sv303pro
+	       (and pro-logic-receiver actual-component (fillers price 390)
+		 (all maker onkyo)
+		 (all model-number tx-sv303pro)		     
+	         (fillers audio-input 6)
+		 (fillers audio-output 3)
+		 (fillers video-input 2)
+		 (fillers video-output 2)
+		 (fillers eight-ohm-power 80)
+		 (fillers measured-eight-ohm-power 91)
+		 (fillers measured-six-ohm-power 109)
+		 (fillers measured-four-ohm-power 0)
+		 (fillers four-ohm-power 0)
+		 (fillers eight-ohm-surround-power 12)
+		 (fillers eight-ohm-center-power 0)
+;		 (fillers surround 1)
+		 (fillers pro-logic 1)
+))
+(define-concept onkyo-tx-sv313pro
+	       (and pro-logic-receiver actual-component (fillers price 360)
+		 (all maker onkyo)
+		 (all model-number tx-sv313pro)		     
+	         (fillers audio-input 5)
+		 (fillers audio-output 3)
+		 (fillers video-input 2)
+		 (fillers video-output 2)
+		 (fillers eight-ohm-power 60)
+		 (fillers measured-eight-ohm-power 77)
+		 (fillers measured-six-ohm-power 88)
+		 (fillers measured-four-ohm-power 0)
+		 (fillers four-ohm-power 0)
+		 (fillers eight-ohm-surround-power 15)
+		 (fillers eight-ohm-center-power 15)
+;		 (fillers surround 1)
+		 (fillers pro-logic 1)))
+
+(define-concept onkyo-tx-903
+	       (and receiver actual-component (fillers price 235)
+		 (all maker onkyo)
+		 (all model-number tx-903)		     
+	         (fillers audio-input 4)
+		 (fillers audio-output 2)
+		 (fillers video-input 0)
+		 (fillers video-output 0)
+		 (fillers eight-ohm-power 60)
+		 (fillers measured-eight-ohm-power 65)
+		 (fillers measured-six-ohm-power 78)
+		 (fillers measured-four-ohm-power 92)
+		 (fillers eight-ohm-surround-power 0)
+		 (fillers eight-ohm-center-power 0)
+;		 (fillers surround 0)
+		 (fillers pro-logic 0)
+))
+(define-concept onkyo-tx-sv525pro
+	       (and receiver actual-component (fillers price 445)
+		 (all maker onkyo)
+		 (all model-number tx-sv525pro)		     
+	         (fillers audio-input 4)
+		 (fillers audio-output 4)
+		 (fillers video-input 3)
+		 (fillers video-output 2)
+		 (fillers eight-ohm-power 80)
+		 (fillers measured-eight-ohm-power 95)
+		 (fillers measured-six-ohm-power 111)
+		 (fillers measured-four-ohm-power 137)
+		 (fillers eight-ohm-surround-power 20)
+		 (fillers eight-ohm-center-power 55)
+;		 (fillers surround 1)
+		 (fillers pro-logic 1)))
+
+(define-concept sherwood-rv5010r
+	       (and pro-logic-receiver actual-component (fillers price 240)
+		 (all maker sherwood)
+		 (all model-number rv5010r)
+	         (fillers audio-input 6)
+		 (fillers audio-output 3)
+		 (fillers video-input 2)
+		 (fillers video-output 2)
+		 (fillers eight-ohm-power 85)
+		 (fillers measured-eight-ohm-power 95)
+		 (fillers measured-six-ohm-power 73)
+		 (fillers measured-four-ohm-power 86)
+		 (fillers eight-ohm-surround-power 15)
+		 (fillers eight-ohm-center-power 0)
+))
+(define-concept sherwood-rv5030r
+	       (and pro-logic-receiver actual-component (fillers price 330)
+		 (all maker sherwood)
+		 (all model-number rv5030r)
+	         (fillers audio-input 6)
+		 (fillers audio-output 3)
+		 (fillers video-input 2)
+		 (fillers video-output 3)
+		 (fillers eight-ohm-power 85)
+		 (fillers measured-eight-ohm-power 87)
+		 (fillers measured-six-ohm-power 98)
+		 (fillers measured-four-ohm-power 0)
+		 (fillers four-ohm-power 0)
+		 (fillers eight-ohm-surround-power 20)
+		 (fillers eight-ohm-center-power 65)
+;		 (fillers surround 1)
+		 (fillers pro-logic 1)))
+
+(define-concept sherwood-rv-6010r
+	       (and pro-logic-receiver actual-component (fillers price 380)
+		 (all maker sherwood)
+		 (all model-number rv6010r)
+	         (fillers audio-input 7)
+		 (fillers audio-output 3)
+		 (fillers video-input 2)
+		 (fillers video-output 2)
+		 (fillers eight-ohm-power 105)
+		 (fillers measured-eight-ohm-power 113)
+		 (fillers measured-six-ohm-power 86)
+		 (fillers measured-four-ohm-power 106)
+		 (fillers eight-ohm-surround-power 18)
+		 (fillers eight-ohm-center-power 30)
+))
+(define-concept sherwood-rx4010r
+	       (and receiver actual-component (fillers price 160)
+		 (all maker sherwood)
+		 (all model-number rx4010r)
+	         (fillers audio-input 4)
+		 (fillers audio-output 1)
+		 (fillers video-input 0)
+		 (fillers video-output 0)
+		 (fillers eight-ohm-power 65)
+		 (fillers measured-eight-ohm-power 66)
+		 (fillers measured-six-ohm-power 61)
+		 (fillers measured-four-ohm-power 61)
+		 (fillers eight-ohm-surround-power 0)
+		 (fillers eight-ohm-center-power 0)
+;		 (fillers surround 0)
+		 (fillers pro-logic 0)
+))
+(define-concept sony-str-d515
+               (and av-receiver actual-component pro-logic-receiver
+                 (fillers price 250)
+                 (all maker sony)
+                 (all model-number str-d515)
+	         (fillers channel 5)
+                 (fillers pro-logic 1)
+                 (fillers ab-switch-value 1)
+                 (fillers eight-ohm-power 70)   
+                 (fillers eight-ohm-center-power 20)
+                 (fillers eight-ohm-surround-power 20)
+                 (fillers audio-input 3)
+                 (fillers video-input 2)
+;;               (fillers width 17)
+;;               (fillers height 10)
+;;               (fillers depth 17)
+		 (all info-from charles)
+        ))
+
+(define-concept sony-str-d311
+	       (and receiver actual-component (fillers price 165)
+		 (all maker sony)
+		 (all model-number str-d311)
+	         (fillers channel 2)
+		 (fillers audio-input 4)
+		 (fillers audio-output 3)
+		 (fillers video-input 0)
+		 (fillers video-output 0)
+		 (fillers eight-ohm-power 70)
+		 (fillers measured-eight-ohm-power 77)
+		 (fillers measured-six-ohm-power 87)
+		 (fillers measured-four-ohm-power 0)
+		 (fillers four-ohm-power 0)
+		 (fillers eight-ohm-surround-power 0)
+		 (fillers eight-ohm-center-power 0)
+;		 (fillers surround 0)
+		 (fillers pro-logic 0)
+		 (fillers ab-switch-value 0)))
+
+(define-concept sony-str-d611
+	       (and receiver actual-component (fillers price 280)
+		 (all maker sony)
+		 (all model-number str-d611)
+	         (fillers audio-input 4)
+		 (fillers audio-output 2)
+		 (fillers video-input 2)
+		 (fillers video-output 2)
+		 (fillers eight-ohm-power 70)
+		 (fillers measured-eight-ohm-power 79)
+		 (fillers measured-six-ohm-power 89)
+		 (fillers measured-four-ohm-power 0)
+		 (fillers four-ohm-power 0)
+		 (fillers eight-ohm-surround-power 20)
+		 (fillers eight-ohm-center-power 20)
+;		 (fillers surround 1)
+		 (fillers pro-logic 1)))
+
+(define-concept sony-str-d911
+	       (and receiver actual-component (fillers price 390)
+		 (all maker sony)
+		 (all model-number str-d911)
+	         (fillers audio-input 6)
+		 (fillers audio-output 4)
+		 (fillers video-input 2)
+		 (fillers video-output 2)
+		 (fillers eight-ohm-power 100)
+		 (fillers measured-eight-ohm-power 113)
+		 (fillers measured-six-ohm-power 129)
+		 (fillers measured-four-ohm-power 0)
+		 (fillers four-ohm-power 0)
+		 (fillers eight-ohm-surround-power 25)
+		 (fillers eight-ohm-center-power 80)
+;		 (fillers surround 1)
+		 (fillers pro-logic 1)))
+
+(define-concept yamaha-rx-460  ;; updated 9/17/94
+	       (and receiver actual-component (fillers price 225)
+		 ;; stereo buyers guide says $299
+		 (all maker yamaha)
+		 (all model-number rx-460)
+	         (fillers audio-input 4)
+		 ;; stereo buyers guide says 6 aud input
+		 (fillers audio-output 2)
+		 (fillers video-input 0)
+		 (fillers video-output 0)
+		 (fillers ab-switch-value 1)  ;; from stereo buyers guide 94
+		 (fillers channel 2)
+		 (fillers eight-ohm-power 55)
+		 ;; or 130 x 2 into 2 ohms
+		 (fillers measured-eight-ohm-power 67)
+		 (fillers measured-six-ohm-power 72)
+		 (fillers measured-four-ohm-power 0)
+		 (fillers four-ohm-power 0)
+		 (fillers eight-ohm-surround-power 0)
+		 (fillers eight-ohm-center-power 0)
+;		 (fillers surround 0)
+		 (fillers pro-logic 0)))
+
+(define-concept yamaha-rx-v470
+	       (and receiver actual-component (fillers price 500)
+		 (all maker yamaha)
+		 (all model-number rx-v470)
+	         (fillers audio-input 4)
+		 (fillers audio-output 2)
+		 (fillers video-input 2)
+		 (fillers video-output 2)
+		 (fillers eight-ohm-power 50)
+		 (fillers measured-eight-ohm-power 61)
+		 (fillers measured-six-ohm-power 70)
+		 (fillers measured-four-ohm-power 0)
+		 (fillers four-ohm-power 0)
+		 (fillers eight-ohm-surround-power 15)
+		 (fillers eight-ohm-center-power 50)
+;		 (fillers surround 1)
+		 (fillers pro-logic 1)))
+
+
+(define-concept yamaha-dsp-a2070
+		   (and receiver actual-component
+		     (fillers price 2000)
+		     (all maker yamaha)
+		     (all model-number dsp-a2070)
+		     (fillers audio-input 10)
+;;		     (fillers audio-output 2)
+		     (fillers video-input 7)
+;;		     (fillers video-output 2)
+;;		     (fillers eight-ohm-power 50)
+;;		     (fillers measured-eight-ohm-power 61)
+;;		     (fillers measured-six-ohm-power 70)
+;;		     (fillers measured-four-ohm-power 0)
+;;		     (fillers four-ohm-power 0)
+;;		     (fillers eight-ohm-surround-power 15)
+;;		     (fillers eight-ohm-center-power 50)
+;		     (fillers surround 1)
+		     (fillers pro-logic 1)))
+
+;; some amplifiers
+
+(define-concept adcom-gfa-5800
+	       (and amplifier actual-component (fillers price 1500)
+		 (all maker adcom)
+		 (fillers eight-ohm-power 250)
+		 (fillers four-ohm-power 0)
+		 (fillers channel 2)))
+(define-concept adcom-gfa-535II
+	       (and amplifier actual-component (fillers price 350)
+		 (all maker adcom)
+		 (fillers eight-ohm-power 60)
+		 (fillers four-ohm-power 100)
+		 (fillers ab-switch-value 0)	; I made this up for testing
+		 (fillers channel 2)
+		 (fillers width 17)
+		 (fillers height 6)
+		 (fillers depth 13))) ;; 2 sets of speaker output
+(define-concept adcom-gfa-545II
+	       (and amplifier actual-component (fillers price 550)
+		 (all maker adcom)
+		 (fillers eight-ohm-power 100)
+		 (fillers four-ohm-power 150)
+		 (fillers channel 2)
+		 (fillers width 17)
+		 (fillers height 6)
+		 (fillers depth 13)))
+(define-concept adcom-gfa-555II
+	       (and amplifier actual-component (fillers price 850)
+		 (all maker adcom)
+		 (fillers eight-ohm-power 200)
+		 (fillers four-ohm-power 350)
+		 (fillers channel 2)))
+(define-concept denon-poa-5000
+	       (and amplifier actual-component (fillers price 1500)
+		 (all maker denon)
+		 (fillers eight-ohm-power 100)
+		 (fillers four-ohm-power 0)
+		 (fillers eight-ohm-surround-power 50)
+		 (fillers channel 6)
+		 )) 
+(define-concept denon-poa-2800
+	       (and amplifier actual-component (fillers price 850)
+		 (all maker denon)
+		 (fillers eight-ohm-power 200)
+		 (fillers channel 2)
+		 )) 
+(define-concept denon-poa-800
+	       (and amplifier actual-component (fillers price 350)
+		 (all maker denon)
+		 (fillers eight-ohm-power 50) ;; or 120 x 1 into 8 ohms
+		 (fillers channel 2)
+		 )) 
+
+(define-concept fosgate-audionics-model4200
+	       (and amplifier actual-component (fillers price 1899)
+		 (all maker fosgate-audionics)
+		 (fillers eight-ohm-power 125)  ;; by 4 (400 by 2)
+		 (fillers four-ohm-power 200)  ;; by 4 (600 by 2)
+		 (fillers channel 4)
+		 (fillers thx-certified 1)))
+(define-concept fosgate-audionics-model-4125
+	       (and amplifier actual-component (fillers price 1099)
+		 (all maker fosgate-audionics)
+		 (fillers eight-ohm-power 70)  ;; by 4 (200 by 2)
+		 (fillers four-ohm-power 110)  ;; by 4 (270 by 2)
+		 (fillers channel 4)
+		 (fillers thx-certified 1)))
+(define-concept fosgate-audionics-m-60
+	       (and amplifier actual-component (fillers price 219)
+		 (all maker fosgate-audionics)
+		 (fillers eight-ohm-power 35)  
+		 (fillers four-ohm-power 60)
+		 (fillers channel 1)
+		 (fillers width 9)
+		 (fillers height 3)
+		 (fillers depth 8)))  ;; designed for center channel
+(define-concept kenwood-KM-X1
+	       (and amplifier actual-component (fillers price 899)
+		 (all maker kenwood)
+		 (fillers eight-ohm-power 100)  ;; by 6, 130 by 3  
+		 (fillers thx-certified 1)
+		 (fillers channel 6)
+		 (fillers width 18)
+		 (fillers height 7)
+		 (fillers depth 15)))
+(define-concept linn-klout
+	       (and amplifier actual-component (fillers price 3695)
+		 (fillers channel 2)
+		 (all maker linn)
+		 (fillers eight-ohm-power 80)
+		 (fillers four-ohm-power 160)))
+(define-concept linn-lk100
+	       (and amplifier actual-component (fillers price 1095)
+		 (all maker linn)
+		 (fillers eight-ohm-power 50)
+		 (fillers four-ohm-power 0)
+		 (fillers channel 2)))
+(define-concept linn-powertek
+	       (and amplifier actual-component (fillers price 795)
+		 (all maker linn)
+		 (fillers eight-ohm-power 50)
+		 (fillers four-ohm-power 0)
+		 (fillers channel 2)
+		 (fillers width 18)
+		 (fillers height 4)
+		 (fillers depth 14)))
+(define-concept marantz-ma-24
+	       (and amplifier actual-component (fillers price 1500)
+		 (all maker marantz)
+		 (fillers eight-ohm-power 30)
+		 (fillers four-ohm-power 0)
+		 (fillers two-ohm-power 120)
+		 (fillers channel 1)
+		 (fillers width 9)
+		 (fillers height 6)
+		 (fillers depth 15)))
+(define-concept marantz-sm-80
+	       (and amplifier actual-component (fillers price 700)
+		 (all maker marantz)
+		 (fillers eight-ohm-power 120)
+		 (fillers four-ohm-power 175)
+		 (fillers channel 2)
+		 (fillers thx-certified 1)
+		 (fillers width 18)
+		 (fillers height 6)
+		 (fillers depth 15)))
+(define-concept marantz-ma-500
+	       (and amplifier actual-component (fillers price 299)
+		 (all maker marantz)
+		 (fillers eight-ohm-power 125)
+		 (fillers four-ohm-power 180)
+		 (fillers channel 1)
+		 (fillers thx-certified 1)
+		 (fillers width 4)
+		 (fillers height 6)
+		 (fillers depth 18)))
+
+(define-concept onkyo-integra-M-588F
+	       (and amplifier actual-component (fillers price 2000)
+		 (all maker onkyo)
+		 (fillers eight-ohm-power 200)
+		 (fillers two-ohm-power 750)
+		 (fillers channel 2)
+		 (fillers width 18)
+		 (fillers height 8)
+		 (fillers depth 17)))
+
+(define-concept onkyo-integra-M-504
+	       (and amplifier actual-component (fillers price 850)
+		 (all maker onkyo)
+		 (fillers eight-ohm-power 165)
+		 (fillers two-ohm-power 530)
+		 (fillers channel 2)
+		 (fillers width 19)
+		 (fillers height 8)
+		 (fillers depth 17)))
+
+(define-concept onkyo-M-501
+	       (and amplifier actual-component (fillers price 380)
+		 (all maker onkyo)
+		 (fillers eight-ohm-power 150)
+		 (fillers two-ohm-power 400)
+		 (fillers channel 2)
+		 (fillers width 18)
+		 (fillers height 6)
+		 (fillers depth 14)))
+
+;; some preamplifiers
+(define-concept acoustic-research-limited-preamp
+	       (and preamplifier actual-component
+		 (fillers price 2200)
+		 (all maker acoustic-research)
+		 (fillers audio-input 5)
+		 (all audio-output (minimum 2))
+		 (fillers width 19)
+		 (fillers height 4)
+		 (fillers depth 13)))
+(define-concept denon-avp-5000
+	       (and av-preamplifier actual-component
+		 (fillers price 2500)
+		 (all maker denon)
+		 (fillers audio-input 11)
+		 (fillers audio-output 12)
+		 (fillers video-input 4)
+		 (fillers video-output 6)
+		 (fillers s-video-input 4)
+		 (fillers pro-logic 1)
+		 (fillers digital-input 6)
+		 (fillers digital-output 1)))
+
+(define-concept kenwood-kc-x1
+	       (and av-preamplifier pro-logic-preamplifier actual-component
+		 (fillers price 999)
+		 (all maker kenwood)
+		 (fillers audio-input 5)
+		 (fillers audio-output 6)
+		 (fillers video-input 4)
+		 (fillers s-video-input 2)
+		 (fillers width 18)
+		 (fillers height 7)
+		 (fillers depth 15)))
+
+;; charles - if 7 inputs - is this 7 audio inputs or 7 line-level inputs?
+;; should I be encoding number of line-level outputs?
+(define-concept linn-kairn
+	       (and preamplifier actual-component
+		 (fillers price 2795)
+		 (all maker linn)
+		 (fillers audio-input 7)  ;; with phono input ; without
+		                        ;; phono it costs 2195
+		 (fillers audio-output 3)
+		 (fillers width 13)
+		 (fillers height 4)
+		 (fillers depth 13)))
+
+(define-concept linn-pretek
+	       (and preamplifier actual-component
+		 (fillers price 795)
+		 (all maker linn)
+		 (fillers audio-input 7)
+		 (fillers width 18)
+		 (fillers height 4)
+		 (fillers depth 14)))
+(define-concept marantz-sc22
+	       (and preamplifier actual-component
+		 (fillers price 999)
+		 (all maker marantz)
+		 (fillers audio-input 4)
+		 (fillers width 10)
+		 (fillers height 4)
+		 (fillers depth 9)))
+(define-concept marantz-av-500
+	       (and av-preamplifier actual-component
+		 (fillers price 899)
+		 (all maker marantz)
+		 (fillers audio-input 8)
+		 (fillers audio-output 4)
+		 (fillers video-input 4)
+		 (fillers video-output 3)
+		 (fillers s-video-input 4)
+		 (fillers s-video-output 3)
+		 (fillers pro-logic 1)
+		 (fillers width 18)
+		 (fillers height 4)
+		 (fillers depth 14)))
+
+(define-concept nad-model-106
+	       (and preamplifier actual-component
+		 (fillers price 599)
+		 (all maker nad)
+		 (fillers width 16)
+		 (fillers height 4)
+		 (fillers depth 11)))
+
+(define-concept nad-model-1600
+	       (and preamplifier actual-component
+		 (fillers price 449)
+		 (all maker nad)))
+(define-concept pioneer-c-91
+	       (and av-preamplifier actual-component
+		 (fillers price 1300)
+		 (all maker pioneer)
+		 (fillers audio-input 5)
+		 (fillers video-input 5)
+		 (fillers s-video-input 3)
+		 (fillers s-video-output 3)))
+(define-concept pioneer-c-72
+	       (and av-preamplifier actual-component
+		 (fillers price 850)
+		 (all maker pioneer)
+		 (fillers audio-input 5)
+		 (fillers video-input 5)
+		 (fillers s-video-input 5)
+		 (fillers s-video-output 3)))
+(define-primitive-concept quad-34
+		   (and preamplifier actual-component
+		     (fillers price 1000)
+		     (all maker quad)))
+
+;; some integrated-amplifiers
+
+(define-concept denon-av-1500
+               (and av-integrated-amplifier actual-component
+                 (fillers price 750)
+                 (all maker denon)
+;                (fillers channel 5)
+                 (fillers pro-logic 1)
+                 (fillers ab-switch-value 1)
+                 (fillers eight-ohm-power 70)   ;; or 75 x 2 into 8 ohms
+                 (fillers eight-ohm-center-power 70)
+                 (fillers eight-ohm-surround-power 20)
+                 (fillers audio-input 3)
+                 (fillers video-input 3)
+                 (fillers width 17)
+                 (fillers height 10)
+                 (fillers depth 17)))
+
+(define-concept denon-av-2500
+               (and av-integrated-amplifier actual-component
+                 (fillers price 1000)
+                 (all maker denon)
+;                (fillers channel 5)
+                 (fillers pro-logic 1)
+                 (fillers ab-switch-value 1)
+                 (fillers eight-ohm-power 85)   ;; or 75 x 2 into 8 ohms
+                 (fillers eight-ohm-center-power 85)
+                 (fillers eight-ohm-surround-power 25)
+                 (fillers audio-input 3)
+                 (fillers video-input 3)
+                 (fillers width 17)
+                 (fillers height 12)
+                 (fillers depth 17)))
+
+
+(define-concept linn-intek
+	       (and integrated-amplifier actual-component
+		 (fillers price 1095)
+		 (all maker linn)
+		 (fillers channel 2)
+		 (fillers ab-switch-value 1) ;; check with charles
+		;; stereo buyers guide says "switched/unswitched speaker outputs"
+		 (fillers eight-ohm-power 50)
+		 (fillers four-ohm-power 0)
+		 (fillers eight-ohm-surround-power 0)
+		 (fillers eight-ohm-center-power 0) ))
+(define-concept mcintosh-c-40
+	       (and integrated-amplifier actual-component
+		 (fillers price 3000)
+		 (all maker mcintosh)
+		 (fillers ab-switch-value 0)  ;; check with charles
+		;; ster buyers guide says "switchable AC outlets"
+		 (fillers channel 2)
+		 (fillers eight-ohm-power 20)
+		 (fillers four-ohm-power 0)
+		 (fillers eight-ohm-surround-power 0)
+		 (fillers eight-ohm-center-power 0) ))
+(define-concept onkyo-integra-a-sv810pro
+	       (and av-integrated-amplifier actual-component
+		 (fillers price 1100)
+		 (all maker onkyo)
+		 (fillers channel 5)
+		 (fillers pro-logic 1)
+		 (fillers eight-ohm-power 85)
+		 (fillers eight-ohm-surround-power 35)
+		 (fillers eight-ohm-center-power 85)  ;; or 180 x 2 into 3 ohms
+		 (fillers audio-input 10)
+		 (fillers video-input 6)  
+		 (fillers video-output 5)
+		 (fillers s-video-input 5)
+		 (fillers s-video-output 3)
+		 (fillers ab-switch-value 0)  ;; from onkyo literature
+		 (fillers width 18)
+		 (fillers height 7)
+		 (fillers depth 17) ))
+(define-concept onkyo-a-809
+	       (and integrated-amplifier actual-component
+		 (fillers price 660)
+		 (all maker onkyo)
+		 (fillers channel 2)
+		 (fillers eight-ohm-power 105)
+		 (fillers two-ohm-power 303)
+		 (fillers ab-switch-value 0)  ;; from onkyo literature
+		 (fillers width 18)
+		 (fillers height 7)
+		 (fillers depth 17)))
+(define-concept onkyo-a-807
+	       (and integrated-amplifier actual-component
+		 (fillers price 550)
+		 (all maker onkyo)
+		 (fillers channel 2)
+		 (fillers ab-switch-value 0)  ;; from onkyo literature
+		 (fillers eight-ohm-power 80)
+		 (fillers two-ohm-power 210)))
+(define-concept onkyo-a-803
+	       (and integrated-amplifier actual-component
+		 (fillers price 350)	;; from stereo buyers guide 94 
+					;; the rest from onkyo lit
+		 (all maker onkyo)
+		 (fillers audio-input 6)
+		 (fillers channel 2)
+		 (fillers ab-switch-value 0)  ;; from onkyo literature
+		 ;; although stereo-buyers-guide 94 says
+		 ;; "4 way speaker selector"
+		 (fillers eight-ohm-power 60)
+		 (all info-from onkyo-literature )))
+(define-concept pioneer-vsa-7500
+	       (and av-integrated-amplifier actual-component
+		 (fillers price 1125)
+		 (all maker pioneer)
+		 (fillers channel 5)
+		 (fillers pro-logic 1)
+		 (fillers eight-ohm-power 70)   ;; or 75 x 2 into 8 ohms
+		 (fillers eight-ohm-center-power 70)
+		 (fillers eight-ohm-surround-power 22)
+		 (fillers audio-input 6)
+		 (fillers video-input 6)
+		 (fillers width 17)
+		 (fillers height 7)
+		 (fillers depth 17)))
+(define-concept pioneer-elite-a-71
+	       (and integrated-amplifier actual-component
+		 (fillers price 1100)
+		 (all maker pioneer)
+		 (fillers channel 2)
+		 (fillers eight-ohm-power 120)
+		 (fillers ab-switch-value 1)  ;; correct 9/17/94
+		 (fillers audio-input 7)
+		 (fillers headphone-jack 1)
+		 (fillers width 18)
+		 (fillers height 7)
+		 (fillers depth 19)))
+(define-concept pioneer-elite-a-51
+	       (and integrated-amplifier actual-component
+		 (fillers price 850)
+		 (all maker pioneer)
+		 (fillers channel 2)
+		 (fillers eight-ohm-power 100)
+		 (fillers ab-switch-value 1)  ;; correct 9/17/94
+		 (fillers audio-input 8)
+		 (fillers headphone-jack 1)
+		 (fillers width 17)
+		 (fillers height 7)
+		 (fillers depth 18)))
+
+(define-concept pioneer-a-301
+	       (and integrated-amplifier actual-component
+		 (fillers price 325)
+		 (all maker pioneer)
+		 (fillers channel 2)
+		 (fillers eight-ohm-power 40)
+		 (fillers four-ohm-power 50)
+		 (fillers two-ohm-power 100)
+		 (fillers ab-switch-value 1)  ;; correct 9/17/94
+		 ;; "output for 2 speaker pairs"
+		 (fillers audio-input 6)
+		 (fillers headphone-jack 1)
+		 (fillers width 17)
+		 (fillers height 5)
+		 (fillers depth 14)))
+
+;; some tuners
+(define-concept adcom-GFT-555II
+	       (and tuner actual-component (fillers price 350)
+		 (all maker adcom)
+		 (fillers presets 16)))
+
+(define-concept creek-T42
+		   (and
+		     ;fm-tuner
+		     tuner actual-component (fillers price 525)
+		 (all maker creek)))
+
+(define-concept denon-tu-680NAB
+	       (and tuner actual-component (fillers price 600)
+		 (all maker denon)
+		 (fillers presets 30)))
+(define-concept denon-tu-650RD
+	       (and tuner actual-component (fillers price 375)
+		 (all maker denon)
+		 (fillers presets 30)))
+(define-concept denon-tu-280
+	       (and tuner actual-component (fillers price 250)
+		 (all maker denon)
+		 (fillers presets 30)))
+(define-concept kenwood-KR-3050
+	       (and tuner actual-component (fillers price 269)
+		 (all maker kenwood)
+		 (fillers presets 30)))
+
+(define-concept linn-kremlin
+		   (and 
+		     ;fm-tuner
+		     tuner
+		     actual-component (fillers price 3700)
+		 (all maker linn)
+		 (fillers presets 80)))
+
+(define-concept mcintosh--mr-7083
+	       (and tuner actual-component (fillers price 1750)
+		 (all maker mcintosh)
+		 (fillers presets 16)))
+(define-concept nad-model-402
+	       (and tuner actual-component (fillers price 249)
+		 (all maker nad)
+		 (fillers presets 24)))
+(define-concept quad-66
+		   (and
+		     ; fm-tuner
+		     tuner actual-component (fillers price 1050)
+		 (all maker quad)
+		 (fillers presets 19)))
+
+(define-concept quad-fm4
+  (and tuner actual-component (fillers price 849)
+		 (all maker quad)
+		 (fillers presets 8)
+		 ))
+
+(define-concept sony-ST-S730ES
+	       (and tuner actual-component (fillers price 570)
+		 (all maker sony)
+		 (fillers presets 30)))
+(define-concept sony-ST-S550ES
+	       (and tuner actual-component (fillers price 300)
+		 (all maker sony)
+		 (fillers presets 30)
+		 ))
+;; some turntables
+(define-concept denon-dp-59L
+	       (and turntable actual-component (fillers price 750)
+		 (all maker denon)
+		 ))
+(define-concept denon-dp-47F
+	       (and turntable actual-component (fillers price 500)
+		 (all maker denon)
+		 ))
+(define-concept denon-dp-23F
+	       (and turntable actual-component (fillers price 325)
+		 (all maker denon)
+		 ))
+(define-concept denon-dp-7F
+	       (and turntable actual-component (fillers price 250)
+		 (all maker denon)
+		 ))
+(define-concept jvc-AL-A155TN
+	       (and turntable actual-component (fillers price 120)
+		 (all maker jvc)
+		 ))
+(define-concept kenwood-KD-491FC
+	       (and turntable actual-component (fillers price 130)
+		 (all maker kenwood)
+		 ))
+(define-concept kenwood-KD-291RC
+	       (and turntable actual-component (fillers price 80)
+		 (all maker kenwood)
+		 ))
+(define-concept linn-sondek-LP12
+	       (and turntable actual-component (fillers price 2645)
+		 (all maker linn)
+		 ))
+(define-concept linn-LP12
+	       (and turntable actual-component (fillers price 1745)
+		 (all maker linn)
+		 ))
+(define-concept linn-axis
+	       (and turntable actual-component (fillers price 1195)
+		 (all maker linn)
+		 ))
+(define-concept linn-basik
+	       (and turntable actual-component (fillers price 595)
+		 (all maker linn)
+		 ))
+(define-concept onkyo-CP-101A
+	       (and turntable actual-component (fillers price 160)
+		 (all maker onkyo)
+		 ))
+(define-concept VPI-TNT-series3
+	       (and turntable actual-component (fillers price 5000)
+		 (all maker vpi)
+		 ))
+(define-concept VPI-TNT-series2
+	       (and turntable actual-component (fillers price 3500)
+		 (all maker vpi)
+		 ))
+(define-concept VPI-HW-19MKIV
+	       (and turntable actual-component (fillers price 1800)
+		 (all maker vpi)
+		 ))
+
+;; some speakers
+
+;; two way speakers
+;; can fill any positional speaker role
+
+(define-concept tannoy-611
+		   (and two-way-speaker actual-component main-speaker
+		     (fillers price 325)
+		     (all maker tannoy)
+		     (fillers eight-ohm-power 250) ;; a guess
+		     (all info-from charles)))
+
+(define-concept tannoy-613
+		   (and three-way-speaker actual-component main-speaker
+		     (fillers price 440)
+		     (all maker tannoy)
+		     (fillers eight-ohm-power 250) ;; a guess
+		     (all info-from charles)))
+
+(define-concept boston-acoustics-300L
+	       (and two-way-speaker actual-component main-speaker
+		 (fillers price 1000) ;; each - 2k a pair
+		 (all maker boston-acoustics)
+		 (fillers eight-ohm-power 250)  ;; watts
+		 (fillers height 11)
+		 (fillers width 9)
+		 (fillers depth 14)))
+
+(define-concept boston-acoustics-500L
+	       (and three-way-speaker actual-component main-speaker
+		 (fillers price 2500) ;; each - 5K a pair
+		 (all maker boston-acoustics)
+		 (fillers eight-ohm-power 350)  ;; watts
+		 (fillers height 48)
+		 (fillers width 9)
+		 (fillers depth 19)))
+
+(define-concept boston-acoustics-t1030
+	       (and three-way-speaker actual-component main-speaker
+		 (fillers price 600)  ;; each - 1200 a pair
+		 (all maker boston-acoustics)
+		 (fillers eight-ohm-power 150)  ;; watts
+		 (fillers height 43)
+		 (fillers width 11)
+		 (fillers depth 13)))
+(define-concept dahlquist-dq-30i
+	       (and three-way-speaker actual-component main-speaker
+		 (fillers price 1000)  ;; each - 2000 a pair
+		 (all maker dahlquist)
+		 (fillers eight-ohm-power 0)  
+		 (fillers four-ohm-power 150)  ;; watts - I had to guess here
+		                          ;; they do say match at 100 amps
+		                          ;; per channel
+		 (fillers height 49)
+		 (fillers width 18)
+		 (fillers depth 15)))
+
+
+(define-concept infinity-1001
+	       (and two-way-speaker actual-component main-speaker
+		 (fillers price 100)  ;; each - 200 a pair
+		 (all maker infinity)
+		 (fillers eight-ohm-power 30)
+		 (all info-from charles)))
+(define-concept infinity-2001
+	       (and two-way-speaker actual-component main-speaker
+		 (fillers price 200)  ;; each - 400 a pair
+		 (all maker infinity)
+		 (fillers eight-ohm-power 60)
+		 (all info-from charles)))
+
+(define-concept vision-acoustics-300L
+	       (and two-way-speaker actual-component main-speaker
+		 (fillers price 1250)  ;; each - 2K a pair
+		 (all maker vision-acoustics)
+		 (fillers eight-ohm-power 250)  ;; not sure - I made this up
+		 (fillers height 19)
+		 (fillers width 12)
+		 (fillers depth 10)))
+
+
+;; inwall speakers
+;; shouldnt be main speakers.
+;; To simplify the modeling, avoid these for now.
+
+
+(define-concept boston-acoustics-325
+	       (and two-way-speaker actual-component (fillers price 200)
+		 (all maker boston-acoustics)
+		 (fillers eight-ohm-power 25)  ;; watts
+))
+
+(define-concept boston-acoustics-350
+	       (and two-way-speaker actual-component (fillers price 300)
+		 (all maker boston-acoustics)
+		 (fillers eight-ohm-power 50)  ;; watts
+		 (fillers height 10)
+		 (fillers width 7)
+		 (fillers depth 3)))
+
+
+(define-concept boston-acoustics-powervent-300
+	       (and subwoofer actual-component (fillers price 400)
+		 (all maker boston-acoustics)
+		 (fillers eight-ohm-power 100)  ;; watts
+		 (fillers height 14)
+		 (fillers width 8)
+		 (fillers depth 24)))
+
+(define-concept mirage-ps-12180
+		   (and subwoofer actual-component
+		     (fillers price 750)
+		     (all maker mirage)
+		     (fillers eight-ohm-power 180)))
+;; cheap speakers from charles - he doesnt say if they should be
+;; surround speakers
+(define-concept mirage-90i
+                   (and two-way-speaker actual-component 
+			surround-speaker  ;; this was added 
+                     (fillers price 100) ;; each
+                     (all maker mirage)
+                     (fillers eight-ohm-power 90))) ;; a guess
+
+(define-concept boston-acoustics-hd5
+               (and two-way-speaker actual-component
+		     surround-speaker  ;; this was added 
+                  (fillers price 75) ;; each 
+                 (all maker boston-acoustics)
+                 (fillers eight-ohm-power 90)  ;; a guess
+        ))
+
+;; surround speakers
+
+(define-concept bic-venturi-v525
+	       (and surround-speaker actual-component (fillers price 178)
+		 (all maker bic)
+		 (fillers eight-ohm-surround-power 16)
+;		 (fillers eight-ohm-power 16)
+		 (fillers height 12)
+		 (fillers width 7)
+		 (fillers depth 8)
+))
+
+(define-concept realistic-minimus-77
+	       (and surround-speaker actual-component (fillers price 160)
+		 (all maker realistic)
+		 (fillers eight-ohm-surround-power 14)
+;		 (fillers eight-ohm-power 14)
+		 (fillers height 9)
+		 (fillers width 6)
+		 (fillers depth 5)
+))
+
+(define-concept boston-acoustics-hd5v
+	       (and surround-speaker actual-component (fillers price 170)
+		 (all maker boston-acoustics)
+		 (fillers eight-ohm-surround-power 23)
+;		 (fillers eight-ohm-power 23)
+		 (fillers height 10)
+		 (fillers width 7)
+		 (fillers depth 8)
+))
+
+(define-concept design-acoustics-ps-cv
+	       (and center-speaker actual-component (fillers price 120)
+		 (all maker design-acoustics)
+;		 (fillers eight-ohm-power 15)
+		 (fillers eight-ohm-center-power 15)
+		 (fillers height 11)
+		 (fillers width 7)
+		 (fillers depth 7)
+))
+
+(define-concept nht-1c
+	       (and center-speaker actual-component (fillers price 170)
+		 (all maker nht)
+		 (fillers eight-ohm-center-power 24)
+;		 (fillers eight-ohm-power 24)
+		 (fillers height 12)
+		 (fillers width 8)
+		 (fillers depth 10)
+))
+
+
+;; some cassette-decks
+
+
+;; 3 head
+(define-concept denon-drm-740
+		   (and single-cassette-deck actual-component
+		     (fillers price 400)
+		     (all maker denon)))
+(define-concept aiwa-ad-f810
+	       (and single-cassette-deck actual-component (fillers price 400)
+		 (all maker aiwa)
+		 (fillers auto-reverse 0)
+		 (fillers headphone-jack 1)
+))
+(define-concept sony-tc-k670
+	       (and single-cassette-deck actual-component (fillers price 280)
+		 (all maker sony)
+		 (fillers auto-reverse 0)
+		 (fillers headphone-jack 1)
+))
+(define-concept sony-tc-rx311
+	       (and single-cassette-deck actual-component (fillers price 195)
+		 (all maker sony)
+		 (fillers auto-reverse 1)
+		 (fillers headphone-jack 1)))
+
+(define-concept jvc-td-v541tn
+	       (and single-cassette-deck actual-component (fillers price 380)
+		 (all maker jvc)
+		 (fillers auto-reverse 0)
+		 (fillers headphone-jack 1)
+))
+(define-concept technics-rs-bx606
+	       (and single-cassette-deck actual-component (fillers price 400)
+		 (all maker technics)
+		 (fillers auto-reverse 0)
+		 (fillers headphone-jack 1)
+))
+(define-concept pioneer-ct-s609r
+	       (and single-cassette-deck actual-component (fillers price 240)
+		 (all maker pioneer)
+		 (fillers auto-reverse 1)
+		 (fillers headphone-jack 1)
+))
+(define-concept sansui-d-x211hx-r
+	       (and single-cassette-deck actual-component (fillers price 200)
+		 (all maker sansui)
+		 (fillers auto-reverse 1)
+		 (fillers headphone-jack 1)
+))
+(define-concept nad-6340
+	       (and single-cassette-deck actual-component (fillers price 399)
+		 (all maker nad)
+		 (fillers auto-reverse 0)
+		 (fillers headphone-jack 0)
+))
+
+;; ***want to have dolby or noise reduction info??
+(define-concept kenwood-kxw-1060
+		   (and dual-cassette-deck actual-component
+		     (fillers price 100)
+		     (all maker kenwood)
+		     (fillers auto-reverse 0)))
+
+(define-concept sony-tc-wr875
+	       (and dual-cassette-deck actual-component (fillers price 500)
+		 (all maker sony)
+		 (fillers auto-reverse 1)
+		 (fillers headphone-jack 1)
+))
+(define-concept sony-tc-wr775
+	       (and dual-cassette-deck actual-component (fillers price 285)
+		 (all maker sony)
+		 (fillers auto-reverse 1)
+		 (fillers headphone-jack 1)
+))
+(define-concept jvc-td-w505tn
+	       (and dual-cassette-deck actual-component (fillers price 210)
+		 (all maker jvc)
+		 (fillers auto-reverse 1)
+		 (fillers headphone-jack 1)
+))
+
+(define-concept 
+   tea-w-600r
+   (and single-cassette-deck 
+     actual-component 
+     (fillers price 150)
+     (all maker teac)
+     (fillers auto-reverse 1)
+     (fillers headphone-jack 1)))
+
+(define-concept tea-w-700r
+	       (and dual-cassette-deck actual-component (fillers price 150)
+		 (all maker teac)
+		 (fillers auto-reverse 1)
+		 (fillers headphone-jack 1)))
+
+
+
+;; tvs/monitors	
+(define-concept sony-kv32xbr35
+	       (and tv actual-component (fillers price 1780) (all maker sony)
+		 (fillers height 26) (fillers width 35) (fillers depth 24)
+		 (fillers diagonal 32)
+		 (fillers speaker-jacks 0)
+		 (fillers audio-input 3)
+		 (fillers audio-output 4)
+		 (fillers video-input 3)
+		 (fillers video-output 2)
+		 (fillers S-input 1)
+		 (fillers S-output 1)
+		 (fillers antenna-input 2)
+		 (fillers antenna-output 1)
+		 ))
+
+(define-concept sony-kv27xbr26
+	       (and tv actual-component (fillers price 1085) (all maker sony)
+		 (fillers diagonal 27)
+		 (fillers audio-input 3)
+		 (fillers audio-output 4)
+		 (fillers video-input 3)
+		 (fillers video-output 2)
+		 (all S-input (minimum 1))))
+
+(define-concept samsungtxb2725
+	       (and tv actual-component (fillers price 380) (all maker samsung)
+		 (fillers diagonal 27)
+		 (fillers audio-input 3)
+		 (fillers audio-output 2)
+		 (fillers video-input 3)
+		 (fillers video-output 1)
+		 (all S-input (minimum 1))))
+
+(define-concept panasonic-ct-27s15
+	       (and tv actual-component (fillers price 590) (all maker panasonic)
+		 (fillers diagonal 27)
+		 (fillers audio-input 2)
+		 (fillers audio-output 1)
+		 (fillers video-input 2)
+		 (fillers video-output 0)
+		 (all S-input (minimum 1))))
+
+(define-concept panasonic-ct-27sf10
+	       (and tv actual-component (fillers price 670) (all maker panasonic)
+		 (fillers diagonal 27)
+		 (fillers audio-input 2)
+		 (fillers audio-output 1)
+		 (fillers video-input 2)
+		 (fillers video-output 0)
+		 (all S-input (minimum 1))))
+
+(define-concept quasar-sp2705j
+	       (and tv actual-component (fillers price 585) (all maker quasar)
+		 (fillers diagonal 27)
+		 (fillers audio-input 2)
+		 (fillers audio-output 1)
+		 (fillers video-input 2)
+		 (fillers video-output 0)))
+
+(define-concept goldstar-gct2754s
+	       (and tv actual-component (fillers price 699) (all maker goldstar)
+		 (fillers diagonal 27)
+		 (fillers audio-input 2)
+		 (fillers audio-output 1)
+		 (fillers video-input 2)
+		 (fillers video-output 1)
+		 (all S-input (minimum 1))))
+
+
+(define-concept mitsubishi-cs-27301
+	       (and tv actual-component (fillers price 705) (all maker mitsubishi)
+		 (fillers diagonal 27)
+		 (fillers audio-input 1)
+		 (fillers audio-output 1)
+		 (fillers video-input 1)
+		 (fillers video-output 1)
+		 (all S-input (minimum 1))))
+
+
+;; BIG TVs
+(define-concept mits-cs35701
+               (and tv actual-component (fillers price 1700) (all maker mitsubishi)
+                 (fillers diagonal 35)
+                 (fillers audio-input 2)
+                 (fillers audio-output 2)
+                 (fillers video-input 2)
+                 (fillers video-output 2)
+                 (all S-input (minimum 1))
+
+        ))
+(define-concept mits-cs40503
+               (and tv actual-component (fillers price 3000) (all maker mitsubishi)
+                 (fillers diagonal 40)
+                 (fillers audio-input 3)
+                 (fillers audio-output 3)
+                 (fillers video-input 3)
+                 (fillers video-output 3)
+                 (all S-input (minimum 1))
+        ))
+
+
+		
+;; vcrs
+(define-concept panasonic-pv-4214
+	       (and mono-vcr actual-component (fillers price 320)
+		 (all maker panasonic)
+))
+(define-concept rca-vr526
+	       (and mono-vcr actual-component (fillers price 280)
+		 (all maker rca)
+))
+(define-concept rca-vr526a
+	       (and mono-vcr actual-component (fillers price 270)
+		 (all maker rca)))
+
+(define-concept ge-vg4029
+	       (and mono-vcr actual-component (fillers price 245)
+		 (all maker general-electric)))
+
+(define-concept emerson-vcr968
+	       (and mono-vcr actual-component (fillers price 190)
+		 (all maker emerson)))
+
+(define-concept sony-slv-595hf
+	       (and hifi-vcr actual-component (fillers price 470)
+		 (all maker sony)))
+(define-concept zenith-vrs427hf
+	       (and hifi-vcr actual-component (fillers price 385)
+		 (all maker zenith)))
+(define-concept fisher-fvh-4900
+	       (and hifi-vcr actual-component (fillers price 325)
+		 (all maker fisher)))
+(define-concept rca-vr667hf
+	       (and hifi-vcr actual-component (fillers price 390)
+		 (all maker rca)))
+;; some equalizers
+(define-concept koss-eq-30
+ (and equalizer actual-component (fillers price 300)
+   (all maker koss)
+   (fillers band 3)
+   ))
+(define-concept mcintosh-mq-108
+ (and equalizer actual-component (fillers price 300)
+   (all maker mcintosh)
+   (fillers band 7)
+   ))
+(define-concept mtx-soundcraftsmen-e440
+ (and equalizer actual-component (fillers price 549)
+   (all maker mtx-soundcraftsmen)
+   (fillers band 21)
+   ))
+(define-concept onkyo-integra-eq-35
+ (and equalizer actual-component (fillers price 350)
+   (all maker onkyo)
+   (fillers band 12)
+   ))
+(define-concept onkyo-integra-eq-201
+ (and equalizer actual-component (fillers price 250)
+   (all maker onkyo)
+   (fillers band 7)
+   ))
+(define-concept onkyo-integra-eq-101
+ (and equalizer actual-component (fillers price 160)
+   (all maker onkyo)
+   (fillers band 7)
+   ))
+
+;; some laserdiscs
+(define-concept pioneer-cd-701
+ (and laserdisc actual-component (fillers price 900)
+   (all maker pioneer)
+   (all info-from charles)))
+(define-concept pioneer-cd-501
+ (and laserdisc actual-component (fillers price 600)
+   (all maker pioneer)
+   (all info-from charles)))
+(define-concept pioneer-cd-97
+ (and laserdisc actual-component (fillers price 300)
+   (all maker pioneer)
+   (all info-from charles)))
+
+;;some headphones
+(define-concept aiwa-hp-x1000
+ (and headphones actual-component (fillers price 150)
+   (all maker aiwa)
+   (fillers eight-ohm-power 1)))
+(define-concept aiwa-hp-x500
+ (and headphones actual-component (fillers price 100)
+   (all maker aiwa)
+   (fillers eight-ohm-power 1)
+   ))
+(define-concept aiwa-hp-x80
+ (and headphones actual-component (fillers price 70)
+   (all maker aiwa)
+   (fillers eight-ohm-power 1)
+   ))
+(define-concept akg-acoustics
+ (and headphones actual-component (fillers price 999)
+   (all maker aakg-acoustics)
+   (fillers eight-ohm-power 1)
+   ))
+

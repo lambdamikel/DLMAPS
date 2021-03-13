@@ -1,0 +1,1 @@
+(((racer-answer-query (quote (betty ?y)) (quote (and (betty man) (not (?y betty (inv has-child))))) :timeout *timeout* :abox (or *abox* (current-abox))) nil res-equal-p))

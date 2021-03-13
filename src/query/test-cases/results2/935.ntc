@@ -1,0 +1,1 @@
+(((racer-answer-tbox-query (quote (?x)) (quote (?x woman)) :timeout *timeout* :tbox (or *tbox* (current-tbox))) (((?x woman))) res-equal-p))

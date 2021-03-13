@@ -1,0 +1,1 @@
+(((retrieve (?x *michael) (and (bind-individual *michael) (*michael ?*x has-collegue) (?x professor) (?*x (age (:predicate (< 40)))))) (((?x ralf) ($?*michael michael))) res-equal-p))

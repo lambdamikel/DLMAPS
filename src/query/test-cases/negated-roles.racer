@@ -1,0 +1,1 @@
+(in-tbox negated-roles)(define-primitive-attribute r)(in-abox negated-roles)(instance a (and a (all r (not b))))(instance b (and b))(instance c (and c))(related b c r)(related b d r)

@@ -1,0 +1,1 @@
+(((RETRIEVE (?X) (?X (= AGE 30))) (((?X A))) RES-EQUAL-P))

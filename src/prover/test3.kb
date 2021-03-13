@@ -1,0 +1,18 @@
+(in-package :prover)
+
+
+(full-reset)
+
+(implies person (some has-mother mother))
+(implies mother person)
+
+(instance i person)
+
+(abox-consistent-p *cur-abox* :keep-det-assertions-p t)
+
+(instance x x)
+
+(abox-consistent-p *cur-abox*)
+
+(visualize *abox*)
+

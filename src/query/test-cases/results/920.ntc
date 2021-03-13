@@ -1,0 +1,1 @@
+(((RACER-ANSWER-QUERY (QUOTE ((:ANNOTATIONS (|http://www.owl-ontologies.com/unnamed.owl#annot1| ?X)))) (QUOTE (?X (AN |http://www.owl-ontologies.com/unnamed.owl#annot1|))) :TIMEOUT *TIMEOUT* :ABOX (OR *ABOX* (CURRENT-ABOX))) ((((:TOLD-VALUE (|http://www.owl-ontologies.com/unnamed.owl#annot1| ?X)) ("erwer")))) RES-EQUAL-P))

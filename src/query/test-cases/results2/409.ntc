@@ -1,0 +1,1 @@
+(((retrieve (?*x ?*y) (?*x ?*y :ppi)) (((?*x b) (?*y c)) ((?*x a) (?*y b)) ((?*x a) (?*y c))) res-equal-p))

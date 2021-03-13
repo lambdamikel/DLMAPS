@@ -1,0 +1,3620 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Stereo configurator knowledge base
+;;;
+;;; This knowledge base was originally used in a demonstration application
+;;; for the CLASSIC system.   It is used with additional files
+;;; containing meta information including what to prune for
+;;; printing and explanations along with other files containing interface code.
+;;;
+;;; Contact Deborah McGuinness (dlm@research.att.com) for more information.
+;;; 
+;;; Copyright (c) 1994, AT&T Bell Labs. All Rights Reserved.
+;;; Use for experimental or research purposes is permitted if acknowledgement
+;;; is provided in publications.
+;;; Redistribution is not permitted without permission from AT&T.
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+(use-package :user)
+(shadow '(on test n y all))
+(use-package :classic)
+
+;;; First pass at the stereo kb.
+
+(cl-startup)
+;; Turn off the debugging and warning messages:
+(cl-set-classic-debug-level 0)
+(cl-set-classic-warn-mode nil)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; The roles
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; roles that apply to many objects
+(cl-define-primitive-role 'price :attribute t)
+(cl-define-primitive-role 'maker :attribute t)
+(cl-define-primitive-role 'model-number :attribute t)
+(cl-define-primitive-role 'height)
+(cl-define-primitive-role 'width)
+(cl-define-primitive-role 'depth)
+(cl-define-primitive-role 'thx-certified :attribute t)
+(cl-define-primitive-role 'descr)                   ;; catchall - used for speakers
+                                                    ;; inwall, outdoor, etc.
+(cl-define-primitive-role 'info-from) 
+(cl-set-comment @info-from "gives information source")
+
+;; connects a stereo component to a stereo-system
+(cl-define-primitive-role 'component-of :inverse 'has-component)
+;; used to specify how many racks a stereo system has, for display purposes.
+(cl-define-primitive-role 'rack)
+;; The components a stereo system is required to have, based on 
+;; at-least restrs. These components cannot be removed.
+(cl-define-primitive-role 'required-components :inverse 'required-component-of)
+
+;; roles on a stereo system
+(cl-define-primitive-role 'preamplifier)
+(cl-define-primitive-role 'equalizer)
+(cl-define-primitive-role 'amplifier)
+(cl-define-primitive-role 'tuner)
+(cl-define-primitive-role 'receiver)
+(cl-define-primitive-role 'turntable)
+(cl-define-primitive-role 'speaker)
+(cl-define-primitive-roles 
+ '(main-speaker center-speaker surround-speaker subwoofer)
+ :parent 'speaker)
+
+;(cl-define-primitive-roles '(main-left-speaker main-right-speaker
+;			     secondary-main-left-speaker
+;			     secondary-main-right-speaker)
+;			   :parent 'main-speaker)
+
+(cl-define-primitive-roles '(primary-main-speaker secondary-main-speaker)
+			   :parent 'main-speaker)
+(cl-define-primitive-roles '(main-left-speaker main-right-speaker)
+			   :parent 'primary-main-speaker)
+(cl-define-primitive-roles '(secondary-main-left-speaker
+			     secondary-main-right-speaker)
+			   :parent 'secondary-main-speaker)
+(cl-define-primitive-roles '(surround-left-speaker surround-right-speaker)
+			   :parent 'surround-speaker)
+(cl-define-primitive-role 'audio-recording-device)
+(cl-define-primitive-roles '(cassette-deck dat md reel-to-reel) 
+			   :parent 'audio-recording-device)
+(cl-define-primitive-role 'cd-player)
+(cl-define-primitive-role 'headphones)
+(cl-define-primitive-role 'tv)
+(cl-define-primitive-role 'vcr)
+(cl-define-primitive-role 'laserdisc)
+(cl-define-primitive-role 'sound-processor)
+(cl-define-primitive-role 'integrated-amplifier)
+
+;; roles on cds
+(cl-define-primitive-role 'cds :attribute t)      ;; number of cds a cd-player can hold
+
+;; roles on cassette-decks
+(cl-define-primitive-role 'cassettes :attribute t);; number of cassettes a 
+                                                  ;; cassette-player can hold
+(cl-define-primitive-role 'auto-reverse :attribute t)
+(cl-define-primitive-role 'headphone-jack :attribute t)
+
+;; roles on sound processors
+(cl-define-primitive-role 'pro-logic :attribute t)
+(cl-set-comment @pro-logic " dolby surround with a center channel.
+The role is filled with 1 or 0 depending if receiver has pro logic") 
+(cl-define-primitive-role 'surround :attribute t)
+(cl-set-comment @surround " dolby surround sound.  The role is filled with 1 or 0 depending on if receiver has surround processing capability")
+;; roles on receivers
+(cl-define-primitive-role 'channel :attribute t)
+(cl-define-primitive-role 'speaker-jacks :attribute t)
+(cl-define-primitive-role 'audio-input :attribute t)
+(cl-define-primitive-role 'audio-output :attribute t)
+(cl-define-primitive-role 'video-input :attribute t)
+(cl-define-primitive-role 'video-output :attribute t)
+(cl-define-primitive-role 's-video-input :attribute t)
+(cl-set-comment @s-video-input "separates luminance from chrominance and goes along with video")
+(cl-define-primitive-role 's-video-output :attribute t)
+(cl-set-comment @s-video-output "separates luminance from chrominance and goes along with video")
+;; (they go along with video
+;; they don't belong in a role hierarchy)
+(cl-define-primitive-role 'digital-input :attribute t)
+(cl-define-primitive-role 'digital-output :attribute t)
+(cl-define-primitive-role 'measured-8-ohm-power :attribute t)
+(cl-define-primitive-role 'measured-6-ohm-power :attribute t)
+(cl-define-primitive-role 'measured-4-ohm-power :attribute t)
+(cl-define-primitive-role '8-ohm-power :attribute t)
+(cl-define-primitive-role '8-ohm-surround-power :attribute t)
+(cl-define-primitive-role '8-ohm-center-power :attribute t)
+(cl-define-primitive-role '4-ohm-power :attribute t)
+(cl-define-primitive-role '2-ohm-power :attribute t)
+(cl-define-primitive-role 'ab-switch-value :attribute t)
+;; roles on tuners
+(cl-define-primitive-role 'presets :attribute t)
+;; roles on vcrs
+
+;; roles on tvs
+(cl-define-primitive-role 'diagonal :attribute t)
+(cl-define-primitive-role 'S-input :attribute t)
+(cl-define-primitive-role 'S-output :attribute t)
+(cl-define-primitive-role 'antenna-input :attribute t)
+(cl-define-primitive-role 'antenna-output :attribute t)
+
+(cl-define-primitive-role 'consumer-reports-overall-score :attribute t)
+(cl-define-primitive-role 'consumer-reports-clarity :attribute t)
+(cl-define-primitive-role 'consumer-reports-color-fidelity :attribute t)
+(cl-define-primitive-role 'consumer-reports-black-level :attribute t)
+(cl-define-primitive-role 'consumer-reports-brightness :attribute t)
+(cl-define-primitive-role 'consumer-reports-geometric-distortion :attribute t)
+(cl-define-primitive-role 'consumer-reports-interlace :attribute t)
+(cl-define-primitive-role 'consumer-reports-color-correction :attribute t)
+(cl-define-primitive-role 'consumer-reports-adjacent-channel :attribute t)
+(cl-define-primitive-role 'consumer-reports-tone-quality :attribute t)
+(cl-define-primitive-role 'consumer-reports-frequency-response :attribute t)
+(cl-define-primitive-role 'consumer-reports-separation :attribute t)
+(cl-define-primitive-role 'consumer-reports-set-operation :attribute t)
+(cl-define-primitive-role 'consumer-reports-remote-operation :attribute t)
+
+;; dat roles
+(cl-define-primitive-role 'pro-deck :attribute t)
+(cl-define-primitive-role 'consumer-deck :attribute t)
+;; consumer decks have scms - serial copy maintenance system - copy protection
+;; roles on equalizers
+(cl-define-primitive-role 'band :attribute t)
+;; roles on companies
+(cl-define-primitive-role 'phone :attribute t)
+
+(cl-define-primitive-role 'tv-repair-history :attribute t)
+(cl-define-primitive-role 'vcr-repair-history :attribute t)
+
+		 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; the basic concepts
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(cl-define-disjoint-primitive-concept 
+ 'phone-number 'classic-thing 'classic-thing-type)
+(cl-define-disjoint-primitive-concept  
+ 'company 
+ '(and (all vcr-repair-history (one-of bad ok good))
+(all tv-repair-history (one-of bad ok good))
+   (all phone phone-number))
+   'classic-thing-type)
+
+(cl-define-disjoint-primitive-concept  'consumer-thing
+			      '(and 
+				(all price (and integer (min 0)))
+				(at-least 1 price)
+				(all maker company) (at-least 1 maker))
+			      'classic-thing-type)
+
+(cl-define-primitive-concept 'electrical-consumer-thing
+			     'consumer-thing)
+
+;; used for instantiating components in the graphical interface
+(cl-define-primitive-concept 'actual-component 'electrical-consumer-thing)
+
+;; used for recognizing components which have tiff files associated with them.
+;;(cl-define-primitive-concept 'component-with-picture 'actual-component)
+
+;; receiver related things
+(cl-define-primitive-concept 'amplifying-device 'electrical-consumer-thing)
+(cl-define-primitive-concept 'preamplifying-device 'electrical-consumer-thing)
+(cl-define-primitive-concept 'tuning-device 'electrical-consumer-thing)
+
+(cl-define-primitive-concept 'amplifier 'amplifying-device)
+(cl-define-primitive-concept 'preamplifier 'preamplifying-device)
+(cl-define-concept 'av-preamplifier
+			     '(and preamplifier
+			       (all video-input (min 1))))
+;			       (all video-output (min 1))))
+;; typically you have video output but not necessarily
+(cl-define-primitive-concept 'pro-logic-preamplifier
+			      '(and av-preamplifier (fills pro-logic 1)))
+(cl-define-concept 'non-av-preamplifier
+			     '(and preamplifier
+			       (all video-input (max 0))
+			       (all video-output (max 0))))
+(cl-define-primitive-concept 'integrated-amplifier
+			     '(and amplifying-device preamplifying-device))
+(cl-define-concept 'av-integrated-amplifier
+			     '(and integrated-amplifier
+			       (all video-input (min 1))))
+;			       (all video-output (min 1))))
+(cl-define-concept 'pro-logic-integrated-amplifier
+			     '(and av-integrated-amplifier
+			       (all video-input (min 1))))
+;			       (all video-output (min 1))))
+(cl-define-concept 'non-av-integrated-amplifier
+			     '(and integrated-amplifier
+			       (all video-input (max 0))
+			       (all video-output (max 0))))
+(cl-define-concept 'mono-amplifier 
+		   '(and amplifier
+		     (fills channel 1)))
+
+
+(cl-define-primitive-concept 'tuner 'tuning-device)
+(cl-define-primitive-concept 'receiver 
+			     '(and amplifying-device preamplifying-device
+			       tuning-device
+			       (all audio-input (min 1))
+			       (all audio-output (min 1))
+			       ))
+
+(cl-define-concept 'av-receiver 
+			     '(and receiver
+			       (all video-input (min 1))))
+;			       (all video-output (min 1))))
+(cl-define-concept 'pro-logic-receiver 
+			      '(and av-receiver (fills pro-logic 1)))
+(cl-define-concept 'non-av-receiver 
+			     '(and receiver
+			       (all video-input (max 0))
+			       (all video-output (max 0))))
+
+;; speaker related things
+(cl-define-primitive-concept 'speaker 'electrical-consumer-thing)
+(cl-define-concept 'low-priced-speaker 
+		   '(and speaker (all price (max 400))))
+(cl-define-concept 'mid-priced-speaker 
+		   '(and speaker (all price (and (min 201) (max 1000)))))
+(cl-define-concept 'high-priced-speaker 
+		   '(and speaker (all price (min 401))))
+
+;; consider disjointness by individuals.  No individual can be both a main
+;; speaker and a surround speaker in the same system
+(cl-define-disjoint-primitive-concept 'subwoofer 'speaker 'speaker-type)
+
+;; We want main-speaker and surround-speaker to be disjoint from 
+;; center-speaker and subwoofer, but we want certain speakers to be 
+;; able to be either main-speakers or surround-speakers.
+(cl-define-disjoint-primitive-concept 'main-or-surround-speaker 'speaker 'speaker-type)
+
+(cl-define-disjoint-primitive-concept 
+	'surround-speaker 
+		'(and main-or-surround-speaker 
+			(same-as (8-ohm-power)
+			(8-ohm-surround-power))) 
+        'main-or-surround-speaker-type)
+(cl-define-disjoint-primitive-concept 'surround-left-speaker 
+				      'surround-speaker 'left-right-surround-type)
+(cl-define-disjoint-primitive-concept 'surround-right-speaker 
+				      'surround-speaker 'left-right-surround-type)
+
+(cl-define-disjoint-primitive-concept 'two-way-speaker 
+				      'speaker 'tweeter-woofer)
+(cl-define-disjoint-primitive-concept 'three-way-speaker 
+				      'speaker 'tweeter-woofer)
+
+;; main speakers
+(cl-define-disjoint-primitive-concept 'main-speaker 'main-or-surround-speaker
+				      'main-or-surround-speaker-type)
+(cl-define-disjoint-primitive-concept 'main-left-speaker 
+				      'main-speaker 'left-right-main-type)
+(cl-define-disjoint-primitive-concept 'main-right-speaker 
+				      'main-speaker 'left-right-main-type)
+(cl-define-disjoint-primitive-concept 'secondary-main-left-speaker 
+				      'main-speaker 'left-right-main-type)
+(cl-define-disjoint-primitive-concept 'secondary-main-right-speaker 
+				      'main-speaker 'left-right-main-type)
+
+(cl-define-disjoint-primitive-concept 'center-speaker
+ '(and speaker (same-as (8-ohm-power) (8-ohm-center-power)))
+ 'speaker-type)
+(cl-define-primitive-concept 'shielded-speaker 'speaker)
+;; This is commented out, because few manufacturers mention this in 
+;; their descriptions of speakers, and we will not have any models to 
+;; retrieve if this restriction is put on center-speakers.
+;; (cl-add-rule 'center-speaker @c{center-speaker}
+;; 	     'shielded-speaker)
+;; center speakers need to be shielded so they can sit on top of tvs
+
+;; audio recording device related things
+
+(cl-define-primitive-concept 'audio-recording-device 'electrical-consumer-thing)
+(cl-define-primitive-concept 'cassette-deck 'audio-recording-device)
+(cl-define-concept 'dual-cassette-deck 
+			     '(and cassette-deck
+			       (fills cassettes 2)))
+(cl-define-concept 'single-cassette-deck 
+			     '(and cassette-deck
+			       (fills cassettes 1)))
+(cl-define-primitive-concept 'dat 'audio-recording-device)
+#|
+(cl-define-concept 'low-priced-dat 
+		   '(and dat (all price (max 450))))
+(cl-define-concept 'mid-priced-dat
+		   '(and dat (all price (and (min 451) (max 700)))))
+(cl-define-concept 'high-priced-dat
+		   '(and dat (all price (min 701))))
+|#
+
+;; cds and other audio
+(cl-define-primitive-concept 'cd-player 'electrical-consumer-thing)
+(cl-define-concept 'multiple-cd-player 
+			     '(and cd-player (all cds (min 2))))
+(cl-define-concept 'single-cd-player 
+			     '(and cd-player (fills cds 1)))
+(cl-define-primitive-concept 'carousel-cd-player 'multiple-cd-player)
+(cl-define-primitive-concept 'magazine-cd-player 'multiple-cd-player)
+(cl-define-primitive-concept 'turntable 'electrical-consumer-thing)
+(cl-define-primitive-concept 'headphones 'electrical-consumer-thing)
+(cl-define-primitive-concept 'equalizer 'electrical-consumer-thing)
+
+;; video related things
+(cl-define-primitive-concept 'tv 'electrical-consumer-thing)
+(cl-define-concept 'big-screen-tv '(and tv (all diagonal (min 32))))
+(cl-define-primitive-concept 'vcr 'electrical-consumer-thing)
+(cl-define-primitive-concept 'hifi-vcr 'vcr)
+(cl-define-primitive-concept 'mono-vcr 'vcr)
+
+(cl-define-primitive-concept 'laserdisc 'electrical-consumer-thing)
+(cl-define-primitive-concept 'sound-processor 'electrical-consumer-thing)
+;;(cl-define-concept 'surround-sound-processor 
+;;			     '(and sound-processor
+;;			       (fills surround 1)))
+;;(cl-define-concept 'pro-logic-processor 
+;;		   '(and surround-sound-processor
+;;		     (fills pro-logic 1)))
+(cl-define-primitive-concept 'boombox 'electrical-consumer-thing)
+
+
+;; stereo systems
+(cl-define-primitive-concept 'stereo-system
+        '(and electrical-consumer-thing
+	  (at-least 1 rack) ;; all stereo systems have at-least 1 rack
+	  (all receiver receiver)
+	  (all speaker speaker)
+	  (all main-speaker main-speaker)
+	  (all main-left-speaker main-left-speaker)
+	  (all main-right-speaker main-right-speaker)
+	  (at-least 1 main-left-speaker)
+	  (at-least 1 main-right-speaker)
+	  (all secondary-main-left-speaker secondary-main-left-speaker)
+	  (all secondary-main-right-speaker secondary-main-right-speaker)
+	  (all surround-speaker surround-speaker)
+	  (all surround-left-speaker surround-left-speaker)
+	  (all surround-right-speaker surround-right-speaker)
+	  (all cd-player cd-player)
+	  (all preamplifier preamplifier)
+	  (all amplifier amplifier)
+	  (all integrated-amplifier integrated-amplifier)
+	  (all laserdisc laserdisc)
+	  (all equalizer equalizer)
+	  (all tuner tuner)
+	  (all audio-recording-device audio-recording-device)
+	  (all subwoofer subwoofer)
+	  (all headphones headphones)
+	  (all cassette-deck cassette-deck) 
+	  (all turntable turntable)))
+;; if the stereo system has a receiver that is only 2 channels, then
+;; no surround or center speakers are possible
+(cl-add-rule '<=2-channel->no-center-or-surround-speakers @stereo-system
+	'(and (at-most 0 center-speaker)
+	      (at-most 0 surround-speaker))
+	:filter '(and (at-least 1 receiver)
+		      (all receiver (all channel (max 2))))
+	:comment "if the stereo system has 2 or less channels on the
+		receiver, then it can not support center speakers or
+		surround speakers")
+(cl-add-rule '<=2-channel->no-center-or-surround-speakers1 @stereo-system
+	'(and (at-most 0 center-speaker)
+	      (at-most 0 surround-speaker))
+	:filter '(and (at-least 1 integrated-amplifier)
+		      (all integrated-amplifier (all channel (max 2))))
+	:comment "if the stereo system has 2 or less channels on the
+		integrated amplifier, then it can not support center speakers or
+		surround speakers")
+
+;; These rules fire when one in a pair of speakers gets instantiated, 
+;; and this rule instantiates the other speaker. This is no longer 
+;; needed, because the instantiation is now done on the parent role, 
+;; which includes both roles in the pair.
+#|
+(defun speaker-actual-component-fn
+    (stereo-system role-instantiated role-to-instantiate)
+  (let* ((role1 (cl-named-role role-instantiated))
+	 (speaker1 (first (cl-fillers stereo-system role1)))
+	 (speaker1-parents (cl-ind-parents speaker1))
+	 (actual-component (cl-named-concept 'actual-component))
+	 ;; find the parent of the speaker which is a child of actual-component
+	 (actual-component-concept
+	  (find-if #'(lambda (concept) (cl-subsumes? actual-component concept))
+		   speaker1-parents))
+	 (actual-component-concept-name
+	  (when actual-component-concept
+	    (cl-concept-name actual-component-concept))))
+    (if actual-component-concept
+      `(all ,role-to-instantiate ,actual-component-concept-name)
+      'thing)))
+
+(cl-add-description-rule 'speaker-actual-component-main-left @c{stereo-system}
+			 'speaker-actual-component-fn
+			 :filter '(all main-left-speaker actual-component)
+			 :args '(main-left-speaker main-right-speaker))
+
+(cl-add-description-rule 'speaker-actual-component-main-right @c{stereo-system}
+			 'speaker-actual-component-fn
+			 :filter '(all main-right-speaker actual-component)
+			 :args '(main-right-speaker main-left-speaker))
+
+(cl-add-description-rule 'speaker-actual-component-secondary-main-left @c{stereo-system}
+			 'speaker-actual-component-fn
+			 :filter '(all secondary-main-left-speaker actual-component)
+			 :args '(secondary-main-left-speaker secondary-main-right-speaker))
+
+(cl-add-description-rule 'speaker-actual-component-secondary-main-right @c{stereo-system}
+			 'speaker-actual-component-fn
+			 :filter '(all secondary-main-right-speaker actual-component)
+			 :args '(secondary-main-right-speaker secondary-main-left-speaker))
+
+(cl-add-description-rule 'speaker-actual-component-surround-left @c{stereo-system}
+			 'speaker-actual-component-fn
+			 :filter '(all surround-left-speaker actual-component)
+			 :args '(surround-left-speaker surround-right-speaker))
+
+(cl-add-description-rule 'speaker-actual-component-surround-right @c{stereo-system}
+			 'speaker-actual-component-fn
+			 :filter '(all surround-right-speaker actual-component)
+			 :args '(surround-right-speaker surround-left-speaker))
+|#
+
+;; for now - use these to set common prices like amplifiers
+;; use a rule on low-priced-audio-only-system to put it under 
+;; low-priced-system and then have the right price rules attached
+(cl-define-primitive-concept 'high-priced-system 'stereo-system)
+	;; note that systems like high-combination-systems are
+	;; high-priced-systems by way of rules
+(cl-define-primitive-concept 'mid-priced-system 'stereo-system)
+(cl-define-primitive-concept 'low-priced-system 'stereo-system)
+
+;(cl-define-concept 'high-priced-system '(and stereo-system (all price (min 1501))))
+;(cl-define-concept 'mid-priced-system 
+;		   '(and stereo-system
+;		     (all price (and (min 701) (max 1500)))))
+;(cl-define-concept 'low-priced-system 
+;		   '(and stereo-system (all price (max 700))))
+
+					;(cl-define-primitive-concept 'user-specified-stereo-system 'stereo-system)
+;; These are the concepts under stereo-system that we want the user 
+;; to know about, and to be able to add and retract to their 
+;; individual stereo system.
+(cl-define-primitive-concept 'interesting-stereo-system 'stereo-system)
+
+(cl-define-primitive-concept 'guided-stereo-system 
+			     '(and interesting-stereo-system
+			       (at-most 1 receiver)
+			       (at-most 2 cassette-deck)
+			       (at-most 1 headphones)
+			       (at-most 1 laserdisc)
+			       (at-most 1 equalizer)
+			       (at-most 1 tuner)
+			       (at-most 1 cd-player)
+			       (at-most 1 preamplifier)
+			       (at-most 1 integrated-amplifier)
+			       (at-most 1 turntable)
+			       (at-most 1 tv)
+			       (at-most 2 vcr)
+			       ;; speaker info
+			       (at-most 1 main-right-speaker)
+			       (at-most 1 main-left-speaker)
+			       (at-most 1 secondary-main-left-speaker)
+			       (at-most 1 secondary-main-right-speaker)
+			       (at-most 2 secondary-main-speaker)
+			       (at-most 1 main-left-speaker)
+			       (at-most 1 main-right-speaker)
+			       (at-most 2 primary-main-speaker)
+			       (at-most 4 main-speaker)
+			       (at-most 1 surround-right-speaker)
+			       (at-most 1 surround-left-speaker)
+			       (at-most 2 surround-speaker)
+			       (at-most 8 speaker)
+;	fix
+			       (at-most 2 center-speaker)
+			       (at-most 1 center-speaker)
+;	fix
+			       (at-most 2 subwoofer)
+				(at-most 1 subwoofer)
+			       ))
+(cl-set-comment @guided-stereo-system "a stereo system that will follow our stereo experts' opinions on stereo configuration")
+;; a couple of universal rules
+(cl-define-concept 'non-4-ohm-receiver-stereo-system
+		   '(and stereo-system
+		     (at-least 1 receiver)
+		     (all receiver (fills 4-ohm-power 0))))
+(cl-set-comment @non-4-ohm-receiver-stereo-system "a stereo system that has a receiver that is not rated for 4 ohms")	   
+
+(cl-add-rule '8-ohm-speakers-required @c{non-4-ohm-receiver-stereo-system}
+	     '(all speaker (all 8-ohm-power (min 5)))
+	     :comment "if the stereo system is not rated for 4 ohms, then require 8 ohm speakers")
+(cl-define-concept 'non-4-ohm-int-amp-stereo-system
+		   '(and stereo-system
+		     (at-least 1 integrated-amplifier)
+		     (all integrated-amplifier (fills 4-ohm-power 0))))
+(cl-set-comment @non-4-ohm-int-amp-stereo-system "a stereo system that has an integrated amplifier that is not rated for 4 ohms")	   
+
+(cl-add-rule '8-ohm-speakers-required1 @c{non-4-ohm-int-amp-stereo-system}
+	     '(all speaker (all 8-ohm-power (min 5)))
+	     :comment "if the stereo system is not rated for 4 ohms, then require 8 ohm speakers")
+
+(cl-define-concept '4-ohm-thing
+		   '(and electrical-consumer-thing (all 4-ohm-power (min 5))))
+(cl-set-comment @4-ohm-thing "something rated for 4 ohms")
+(cl-define-concept '8-ohm-thing
+		   '(and electrical-consumer-thing (all 8-ohm-power (min 5))))
+(cl-set-comment @8-ohm-thing "something rated for 8 ohms")
+
+(defun >1-4-ohm-speaker (ind)
+  ;; function that determines if a given individual (presumably a stereo system 
+  ;;  individual) has at least 1 speaker that is rated for 4 ohms
+  (let* ((speaker-role (cl-named-role 'speaker))
+	 (speakers (cl-fillers ind speaker-role))
+	 (4-ohm-concept (cl-named-concept '4-ohm-thing))
+	 (4-ohm-speaker
+	  (member-if #'(lambda (speaker)
+			 (cl-instance? speaker 4-ohm-concept))
+		     speakers)))
+    (if 4-ohm-speaker
+      (values t nil (list (car 4-ohm-speaker)))
+      (values '? speakers nil))))
+
+(cl-define-concept '>1-4-ohm-speaker-stereo-system
+		   '(and stereo-system
+		     (testc >1-4-ohm-speaker)))
+(cl-set-comment @>1-4-ohm-speaker-stereo-system "a stereo system with at least one speaker that is rated only for 4 ohms")
+
+(cl-add-rule '4-ohm-rating-required @c{>1-4-ohm-speaker-stereo-system}
+	     '(and (all receiver (all 4-ohm-power (min 5)))
+	       (all amplifier (all 4-ohm-power (min 5)))
+	       (all integrated-amplifier (all 4-ohm-power (min 5))))
+	       :comment "if there is at least one 4-ohm speaker, then the receiver (or other amplifying device) needs to be rated for 4 ohms")
+
+;; non-av-stuff means no center speakers
+;;  and no surround speakers
+
+(cl-define-concept 'non-av-receiver-system
+		   '(and stereo-system
+		     (at-least 1 receiver)
+			(all receiver non-av-receiver)))
+(cl-add-rule 'no-extra-speakers1 @non-av-receiver-system
+             '(and (at-most 0 surround-speaker)
+		   (at-most 0 center-speaker))
+	     :comment "if the receiver is not an av-receiver
+		      then, you can not drive surround
+		      or center speakers")
+(cl-define-concept 'non-av-integrated-amp-system
+		   '(and stereo-system
+		     (at-least 1 integrated-amplifier)
+			(all integrated-amplifier 
+			non-av-integrated-amplifier)))
+(cl-add-rule 'no-extra-speakers2 @non-av-integrated-amp-system
+             '(and (at-most 0 surround-speaker)
+		   (at-most 0 center-speaker))
+	     :comment "if the integrated amplifier is not an
+av-integrated amp
+		      then, you can not drive surround
+		      or center speakers")
+(cl-define-concept 'non-av-preamplifier-system
+		   '(and stereo-system
+		     (at-least 1 preamplifier)
+			(all preamplifier non-av-preamplifier)))
+(cl-add-rule 'no-extra-speakers3 @non-av-preamplifier-system
+             '(and (at-most 0 surround-speaker)
+		   (at-most 0 center-speaker))
+	     :comment "if the preamplier is not an av-preamplifier
+		      then, you can not drive surround
+		      or center speakers")
+
+;
+;; you have to have as many channels on your amplifying-device 
+;; as the number of speakers you have.
+
+
+;;; the guided system rules
+
+;; if you have surround speakers, you need av stuff.
+;; this is on guided system since we could get around
+;; this rule by adding additional amps
+(cl-add-rule 'av-components-needed1 @guided-stereo-system
+	'(and (all preamplifier AV-preamplifier)
+	      (all receiver AV-receiver)
+	      (all integrated-amplifier AV-integrated-amplifier))
+	:filter ' (at-least 1 surround-speaker)
+	:comment "surround speakers require AV components")
+		 
+(cl-add-rule 'av-components-needed2 @guided-stereo-system
+	'(and (all preamplifier AV-preamplifier)
+	      (all receiver AV-receiver)
+	      (all integrated-amplifier AV-integrated-amplifier))
+	:filter '(at-least 1 center-speaker)
+	:comment "center speakers require AV components")
+
+;; AB-switch rules - if you have secondary speakers, you need AB 
+(cl-define-concept '>1-secondary-speaker-system
+		   '(and stereo-system 
+			;guided-stereo-system
+			(at-least 1 secondary-main-speaker)))
+(cl-add-rule 'AB-switched-amplifying-devices @>1-secondary-speaker-system
+             '(and (all receiver (fills ab-switch-value 1))
+		   (all integrated-amplifier
+			 (fills ab-switch-value 1)))
+;		   (all amplifier
+;			 (fills ab-switch-value 1))
+	:filter 'guided-stereo-system
+;             :filter '(and (at-most 1 receiver)
+;			   (at-most 0 amplifier)
+;			   (at-most 0 integrated-amplifier))
+             :comment 
+		"if you have secondary main speakers, the
+		receiver or integrated amplifier must be able
+	        to drive them [and thus must have an ab-switch]")
+
+;; if you have no AB capability, don't get secondary main speakers
+(cl-add-rule 'no-secondary-main-speakers @guided-stereo-system
+             '(at-most 0 secondary-main-speaker)
+	     :filter  '(and (at-least 1 integrated-amplifier)
+			    (all integrated-amplifier (fills ab-switch-value 0)))
+             :comment 
+		"if your integrated amplifier does not have an AB
+		 switch, then it can not support secondary main speakers")
+
+(cl-add-rule 'no-secondary-main-speakers2 @guided-stereo-system
+             '(at-most 0 secondary-main-speaker)
+	     :filter  '(and (at-least 1 receiver)
+			    (all receiver (fills ab-switch-value 0)))
+             :comment 
+		"if your receiver does not have an AB
+		 switch, then it can not support secondary main speakers")
+
+(cl-add-rule 'no-secondary-main-speakers3 @guided-stereo-system
+             '(at-most 0 secondary-main-speaker)
+	     :filter  '(and (at-least 1 amplifier)
+			    (all amplifier (fills ab-switch-value 0))
+			    (at-most 0 receiver)
+			    (at-most 0 integrated-amplifier))
+             :comment 
+		"if your amplifier does not have an AB
+		 switch, then it can not support secondary main speakers")
+;; do not expect this to fire since we can rarely be assured that all
+;; our amplifiers have something since we do not close the amp role
+
+
+;(cl-add-rule '2-main-speaker-stereo-system @guided-stereo-system
+;             '(and (at-least 1 main-right-speaker)
+;	       (at-least 1 main-left-speaker))
+;             :filter '(at-least 1 main-speaker)
+;             :comment "main speakers come in pairs")
+(cl-add-rule '2-surround-speaker-stereo-system @guided-stereo-system
+             '(and (at-least 1 surround-right-speaker)
+	       (at-least 1 surround-left-speaker))
+             :filter '(at-least 1 surround-speaker)
+             :comment "surround speakers come in pairs")
+(cl-add-rule '4-main-speaker-stereo-system @guided-stereo-system
+             '(and (at-least 1 secondary-main-right-speaker)
+	       (at-least 1 secondary-main-left-speaker))
+             :filter '(at-least 3 main-speaker)
+             :comment "secondary main speakers must be balanced")
+(cl-add-rule 'receiver-eliminates-other-components @guided-stereo-system
+             '(and (at-most 0 preamplifier) (at-most 0 tuner) 
+	       (at-most 0 integrated-amplifier))
+             :filter '(at-least 1 receiver)
+             :comment "a receiver does the job of a tuner, preamp, and integrated-amp")
+(cl-add-rule 'integrated-amplifier-eliminates-other-components @guided-stereo-system
+             '(and (at-most 0 preamplifier) (at-most 0 receiver))
+             :filter '(at-least 1 integrated-amplifier)
+             :comment "a integrated-amplifier eliminates the need for any other preamplifying device")
+(cl-add-rule 'preamplifier-eliminates-other-components @guided-stereo-system
+             '(and (at-most 0 receiver) (at-most 0 integrated-amplifier))
+             :filter '(at-least 1 preamplifier)
+             :comment "a preamplifier eliminates the need for any other preamplifying device")
+
+(cl-add-rule 'tuner-eliminates-receiver @guided-stereo-system
+             '(at-most 0 receiver) 
+             :filter '(at-least 1 tuner)
+             :comment "having a tuner and a receiver duplicates tuning capabilities")
+
+(cl-define-concept 'dual-rack-stereo-system
+	'(and stereo-system
+	  (at-least 2 rack))) ;; used for display purposes
+
+(cl-define-primitive-concept 'audio-system
+			     'stereo-system)
+
+(cl-define-primitive-concept 'home-theater-system
+	'(and stereo-system
+	  (all vcr vcr)
+	  (all tv tv)
+	  (at-least 1 tv)
+	  (all surround-speaker surround-speaker)
+	  (all surround-left-speaker surround-left-speaker)
+	  (all surround-right-speaker surround-right-speaker)
+	  (all center-speaker center-speaker)
+	  (at-most 2 center-speaker)))
+(cl-set-comment @home-theater-system "a stereo system meant to be used for home theater use")
+
+(cl-add-rule 'home-theater-vcr @c{home-theater-system}
+	     '(at-least 1 vcr)
+	     :filter 'guided-stereo-system
+	     :comment "a home theater system must have at least 1 vcr")
+
+(cl-define-concept 'combination-system
+	'(and audio-system home-theater-system
+	  interesting-stereo-system))
+(cl-set-comment @combination-system "a stereo system meant to be used both for audio and home theater use")
+
+(cl-define-concept 'low-combination-system
+		   '(and combination-system ;; guided-stereo-system
+		     (all price (and ;;(min 200)
+				 (max 2000 )))))
+(cl-set-comment @low-combination-system "a stereo system meant to be used both for audio and home theater use.  This requires lower prices")
+(cl-add-rule 'low-comb-sys @c{low-combination-system}
+	     'low-priced-system
+	     :comment "a low priced combination system must be a low priced system")
+
+(cl-add-rule 'low-comb-tv @c{low-combination-system}
+	     '(all tv (all price (and ;;(min 300)
+				  (max 500))))
+	     :filter 'guided-stereo-system
+	     :comment "a low priced combination system must have a tv
+that costs less than $500")
+(cl-add-rule 'low-comb-vcr @c{low-combination-system}
+	     '(all vcr (all price (and ;;(min 100)
+				   (max 400))))
+	     :filter 'guided-stereo-system
+	     :comment "a low priced combination system must have a vcr
+that costs less than $400")
+(cl-add-rule 'low-comb-receiver @c{low-combination-system}
+	     '(all receiver (all price (and ;;(min 200)
+					(max 400))))
+	     :filter 'guided-stereo-system
+	     :comment "a low priced combination system's receiver
+must cost less than $400")
+(cl-add-rule 'low-comb-has-receiver @c{low-combination-system}
+	     '(and (at-least 1 receiver) (at-most 1 receiver))
+	     :comment "Low end systems have receivers rather than
+individual components"
+		:filter 'guided-stereo-system)
+(cl-add-rule 'low-comb-speakers @c{low-combination-system}
+	     '(and (at-least 2 speaker)
+	       (all speaker (all price (max 400))))
+	     :filter 'guided-stereo-system
+	      :comment "a low priced combination system's main speakers
+must cost less than $400")
+(cl-add-rule 'low-comb-surround-speakers @c{low-combination-system}
+	     '(all surround-speaker (all price (max 100)))
+	     :filter 'guided-stereo-system
+	     :comment "a low priced combination system's
+surround speakers must cost less than $100 a piece")
+(cl-add-rule 'low-comb-tuner @c{low-combination-system}
+	     '(all tuner (all price (max 300)))
+	     :filter 'guided-stereo-system
+	     :comment "a low priced combination system's tuner
+must cost less than $300")
+(cl-add-rule 'low-comb-turntable @c{low-combination-system}
+	     '(all turntable (all price (max 300)))
+	     :filter 'guided-stereo-system
+	     :comment "a low priced combination system's turntable must
+cost less than $400")
+(cl-add-rule 'low-comb-cassette-deck @c{low-combination-system}
+	     '(all cassette-deck (all price (max 150)))
+	     :filter 'guided-stereo-system
+	     :comment "a low-quality system's cassette deck should cost at most $150")
+(cl-add-rule 'low-comb-laserdisc @c{low-combination-system}
+	     '(all laserdisc (all price (max 350)))
+	     :filter 'guided-stereo-system
+	     :comment "a low-quality system's laserdisc deck should cost at most $350")
+
+(cl-add-rule 'low-comb-equalizer @c{low-combination-system}
+	     '(all equalizer (all price (max 175)))
+	     :filter 'guided-stereo-system
+	     :comment "a low-quality system's equalizer should cost at most $175")
+
+(cl-define-concept 'mid-combination-system
+		   '(and combination-system ;; guided-stereo-system
+;;		     (at-least 1 vcr)
+		     (all price (and (min 2001) (max 6000)))))
+(cl-set-comment @mid-combination-system "a stereo system meant to be
+used both for audio and home theater use.  This requires medium priced
+components.  The total price for the system is between 2001 and 6000")
+(cl-add-rule 'mid-comb-sys @c{mid-combination-system}
+	     'mid-priced-system
+	     :comment "a mid priced combination system must be a mid priced system")
+(cl-add-rule 'mid-comb-tv @c{mid-combination-system}
+	     '(all tv (all price (and (min 400) (max 1500))))
+	     :comment "a mid-quality system should have a tv that costs between $400 and $1500"
+	     :filter 'guided-stereo-system)
+(cl-add-rule 'mid-comb-vcr @c{mid-combination-system}
+	     '(all vcr (all price (and (min 300) (max 700))))
+	     :filter 'guided-stereo-system
+ 	     :comment "a mid-quality system's vcr should cost between $300 and $700")
+(cl-add-rule 'mid-comb-receiver @c{mid-combination-system}
+	     '(all receiver (all price (and (min 300) (max 700))))
+	     :filter 'guided-stereo-system
+ :comment "a mid-quality system's receiver should cost between $300 and $700")
+(cl-add-rule 'mid-comb-preamplifier @c{mid-combination-system}
+	     '(all preamplifier (all price (and (min 300) (max 1000))))
+	     :filter 'guided-stereo-system
+ :comment "a mid-quality system's receiver should cost between $300 and $1000")
+(cl-add-rule 'mid-comb-speakers @c{mid-combination-system}
+	     '(and 
+	       (all speaker (all price (and (min 50) (max 1000))))
+	       (at-least 1 center-speaker)
+	       (at-least 1 surround-left-speaker)
+	       (at-least 1 surround-right-speaker))
+	     :filter 'guided-stereo-system
+             :comment "mid-quality systems should have surround speakers and a
+center speakers.  All speakers should cost between $50 and $1000")
+(cl-add-rule 'mid-comb-main-speakers @c{mid-combination-system}
+	     '(all main-speaker (all price (and (min 200) (max 1000))))
+	     :filter 'guided-stereo-system
+	     :comment "a mid-quality system's main speakers should cost between $200 and $1000")
+(cl-add-rule 'mid-comb-surround-speakers @c{mid-combination-system}
+	     '(all surround-speaker (all price (max 200)))
+	     :filter 'guided-stereo-system
+:comment "a mid-quality system's surround speakers should cost less than $200")
+(cl-add-rule 'mid-comb-cd-player @c{mid-combination-system}
+	     '(all cd-player (all price (and (min 200) (max 500))))
+	     :filter 'guided-stereo-system
+ :comment "a mid-quality system's cd player should cost between $200 and $500")
+(cl-add-rule 'mid-comb-tuner @c{mid-combination-system}
+	     '(all tuner (all price (and (min 300) (max 600))))
+	     :filter 'guided-stereo-system
+ :comment "a mid-quality system's tuner should cost between $300 and $600")
+(cl-add-rule 'mid-comb-turntable @c{mid-combination-system}
+	     '(all turntable (all price (and (min 300) (max 1000))))
+	     :filter 'guided-stereo-system
+:comment "a mid-quality system's turntable should cost between $300 and $1000")
+(cl-add-rule 'mid-comb-cassette-deck @c{mid-combination-system}
+	     '(all cassette-deck (all price (and (min 150) (max 400))))
+	     :filter 'guided-stereo-system
+:comment "a mid-quality system's cassette deck should cost between $150 and $400")
+(cl-add-rule 'mid-comb-laserdisc @c{mid-combination-system}
+	     '(all laserdisc (all price (and (min 500) (max 800))))
+	     :comment "a mid-quality system's laserdisc player should
+cost between $500 and $800"
+	     :filter 'guided-stereo-system)
+
+(cl-add-rule 'mid-comb-equalizer @c{mid-combination-system}
+	     '(all equalizer (all price (and (min 176) (max 350))))
+	     :filter 'guided-stereo-system
+	     :comment "a mid-quality system's equalizer should 
+cost between $176 and $350")
+
+;; ***Deb: we need price restrs on other components: amp, etc.
+(cl-define-concept 'high-combination-system
+		   '(and combination-system ;; guided-stereo-system
+;;		     (at-least 1 vcr)
+		     (all price (min 6001))))
+(cl-set-comment @high-combination-system "a stereo system meant to be used both for audio and home theater use.  This requires the highest quality")
+;comment "a high-quality combination system should cost >$3001 (and use AT&T digital audio components)"
+(cl-add-rule 'high-comb-sys @c{high-combination-system}
+	     'high-priced-system
+	     :comment "a high priced combination system must be a high priced system")
+	
+(cl-add-rule 'high-comb-tv-price @c{high-combination-system}
+	     '(all tv (all price (min 1000)))
+
+	     :comment "a high-quality system's tv should cost >$1000"
+	     :filter 'guided-stereo-system)
+(cl-add-rule 'high-comb-tv-diag @c{high-combination-system}
+	     '(all tv (all diagonal (min 27)))
+	     :comment "a high-quality system's tv has at least a 27 inch diagonal"
+	     :filter 'guided-stereo-system)
+
+(cl-add-rule 'high-comb-vcr @c{high-combination-system}
+	     '(all vcr (all price (min 400)))
+	     :comment "a high-quality system should have a vcr that costs >$400"
+	     :filter 'guided-stereo-system) 
+;; ***Deb: have amplifying-device as a role? We must have >=1.
+(cl-add-rule 'high-comb-pro-logic @high-combination-system
+	     '(and (all preamplifier (fills pro-logic 1))
+	       (all integrated-amplifier (fills pro-logic 1))
+	       (all receiver (fills pro-logic 1)))
+             :filter '(and guided-stereo-system (at-most 0 sound-processor))
+             :comment "Assuming you don't have a separate
+pro-logic-processor, then your pre-amplifying device must be pro-logic")
+
+(cl-add-rule 'high-comb-receiver @c{high-combination-system}
+	     '(all receiver (and pro-logic-receiver
+			     (all price (min 500))))
+	    :comment "a high-quality system's receiver should cost >500"
+	    :filter 'guided-stereo-system)
+(cl-add-rule 'high-comb-preamp @c{high-combination-system}
+	     '(all preamplifier (all price (min 600)))
+	    :comment "a high-quality system's preamplifier should cost >600"
+	    :filter 'guided-stereo-system)
+(cl-add-rule 'high-comb-speakers @c{high-combination-system}
+	     '(and (at-least 5 speaker)
+	       (all speaker (all price (min 100) ))
+	       (at-least 1 center-speaker)
+	       (at-least 1 subwoofer)
+	       (at-least 1 surround-left-speaker)
+	       (at-least 1 surround-right-speaker))
+	     :comment "all the speakers in a high-quality system should cost >$100 and it is required to have a center speaker,subwoofer, and surround speakers (as well as main speakers)"
+	    :filter 'guided-stereo-system)
+(cl-add-rule 'high-comb-main-speakers @c{high-combination-system}
+	     '(all main-speaker (all price (min 400) ))
+	     :comment "a high-quality system's main-speakers should cost > $400 a piece"
+	     :filter 'guided-stereo-system)
+(cl-add-rule 'high-comb-subwoofer @c{high-combination-system}
+	     '(all subwoofer (all price (min 400) ))
+	     :comment "a high-quality system's subwoofer should cost > $400"
+	     :filter 'guided-stereo-system)
+(cl-add-rule 'high-comb-cd-player @c{high-combination-system}
+	     '(all cd-player (all price (min 400)))
+	     :comment "a high-quality system's cd-player should cost > $400"
+	     :filter 'guided-stereo-system)
+(cl-add-rule 'high-comb-tuner @c{high-combination-system}
+	     '(all tuner (all price (min 600)))
+	     :comment "a high-quality system's tuner should cost > $600"
+	     :filter 'guided-stereo-system)
+(cl-add-rule 'high-comb-turntable @c{high-combination-system}
+	     '(all turntable (all price (min 1000)))
+	     :comment "a high-quality system's turntable should cost > $1000"
+	     :filter 'guided-stereo-system)
+(cl-add-rule 'high-comb-cassette-deck @c{high-combination-system}
+	     '(all cassette-deck (all price (min 400)))
+	     :comment "a high-quality system's cassette deck should cost > $400"
+	     :filter 'guided-stereo-system)
+(cl-add-rule 'high-comb-laserdisc @c{high-combination-system}
+	     '(all laserdisc (all price (min 800)))
+	     :comment "a high-quality system's laser disc player should cost > $800"
+	     :filter 'guided-stereo-system)
+(cl-add-rule 'high-comb-headphone-price @c{high-combination-system}
+	     '(all headphones (all price (min 120)))
+	     :comment "a high-quality system's headphones should cost >$120"
+	     :filter 'guided-stereo-system)
+
+(cl-add-rule 'high-comb-equalizer @c{high-combination-system}
+	     '(all equalizer (all price (min 351)))
+	     :filter 'guided-stereo-system
+	     :comment "a high-quality system's equalizer should cost at least $351")
+
+(cl-define-primitive-concept 'audio-only-system 
+			     '(and audio-system
+			       interesting-stereo-system
+			       (at-most 0 tv)
+			       (at-most 0 vcr)
+			       (at-most 0 center-speaker)
+			       (at-most 0 surround-speaker)
+			       (at-most 5 speaker)
+			       ; only 4 main and subwoofer possible
+			       ))
+(cl-set-comment @audio-only-system "a stereo system only intended to be used for audio - i.e., don't include a tv, vcr, surround processing, etc")
+
+;(cl-define-concept 'very-low-audio-only-system 
+;		   '(and audio-only-system guided-stereo-system
+;		     (all price (and (min 0) (max 199)))))
+;(cl-add-rule 'boombox @c{very-low-audio-only-system}
+;		 'boombox)
+
+(cl-define-concept 'low-audio-only-system 
+		   '(and audio-only-system ;; guided-stereo-system
+		     (all price (and 
+				 ;(min 200)
+				 (max 700)))))
+(cl-set-comment @low-audio-only-system "a stereo system only intended to be used for audio that costs less than $700")
+
+(cl-add-rule 'low-priced-sys @c{low-audio-only-system}
+	     'low-priced-system
+	     :comment "a low priced audio only system must be a low priced system")
+
+(cl-add-rule 'low-audio-receiver @c{low-audio-only-system}
+		 '(and (at-least 1 receiver) (at-most 1 receiver)
+		   (all receiver (all price (and ;;(min 50)
+					     (max 300)))))
+	     :comment "Receivers on low priced systems should cost less than $300"
+		:filter 'guided-stereo-system)
+(cl-add-rule 'low-audio-speakers @c{low-audio-only-system}
+	     '(and
+	       ;; The at-least is taken care of in audio-system, and the 
+	       ;;    at-most is taken care of in the at-most restr on speaker. 
+	       ;; (at-least 2 main-speaker) (at-most 2 main-speaker)
+	       (at-most 2 speaker)
+	       (all speaker (all price (and ;;(min 50)
+					(max 300)))))
+	    :comment "Low priced audio only systems have two speakers that cost less than $300 a piece"
+	    :filter 'guided-stereo-system)
+(cl-add-rule 'low-audio-turntable @c{low-audio-only-system}
+		 '(all turntable (all price (max 300)))
+	    :comment "Turntables on low priced systems should cost less than $300"
+ 	    :filter 'guided-stereo-system)
+(cl-add-rule 'low-audio-cassette-deck @c{low-audio-only-system}
+	     '(all cassette-deck (all price (max 150)))
+	     :filter 'guided-stereo-system
+:comment "a low-quality system's cassette deck should cost at most $150")
+
+(cl-add-rule 'low-audio-equalizer @c{low-audio-only-system}
+	     '(all equalizer (all price (max 175)))
+	     :filter 'guided-stereo-system
+	     :comment "a low-quality system's equalizer should cost at most $175")
+
+(cl-define-concept 'mid-audio-only-system 
+		   '(and audio-only-system ;; guided-stereo-system
+		     (all price (and (min 701) (max 3000)))))
+(cl-set-comment @mid-audio-only-system "a stereo system only intended to be used for audio of medium quality - i.e., it costs between 700 and 3000")
+(cl-add-rule 'mid-priced-sys @c{mid-audio-only-system}
+	     'mid-priced-system
+	     :comment "a mid priced audio only system must be a mid priced system")
+
+(cl-add-rule 'mid-audio-receiver @c{mid-audio-only-system}
+	     '(all receiver (all price (and (min 200) (max 600))))
+	     :comment "a medium quality system's receiver should cost
+between $200 and $600."
+	      :filter 'guided-stereo-system)
+;; note - this price range made up temporarily
+(cl-add-rule 'mid-audio-preamplifier @c{mid-audio-only-system}
+	     '(all preamplifier (all price (and (min 200) (max 1000))))
+	     :comment "a medium quality system's receiver should cost between $200 and $1000"
+	     :filter 'guided-stereo-system)
+(cl-add-rule 'mid-audio-speakers @c{mid-audio-only-system}
+	     '(and
+	       ;; The at-least is taken care of in audio-system.
+	       ;; (at-least 2 main-speaker) 
+	       (all main-speaker (all price (and (min 200) (max 800)))))
+	     :comment "the speakers of a medium quality system should cost between $200 and $800 a piece"
+	     :filter 'guided-stereo-system)
+(cl-add-rule 'mid-audio-cd-player @c{mid-audio-only-system}
+	     '(and ;;(at-least 1 cd-player) 
+	       (all cd-player (all price (and (min 200) (max 500)))))
+	     :comment "a medium quality system's cd-player should cost between $200 and $500"
+	     :filter 'guided-stereo-system)
+(cl-add-rule 'mid-audio-cassette-deck @c{mid-audio-only-system}
+	     '(all cassette-deck (all price (and (min 150) (max 400))))
+	     :comment "a medium quality system's cassette deck should cost between $150 and $400"
+	     :filter 'guided-stereo-system)
+(cl-add-rule 'mid-audio-tuner @c{mid-audio-only-system}
+	     '(all tuner (all price (and (min 300) (max 600))))
+	     :comment "a medium quality system's tuner should cost between $300 and $600"
+	     :filter 'guided-stereo-system)
+(cl-add-rule 'mid-audio-turntable @c{mid-audio-only-system}
+	     '(and ;;(at-least 1 turntable) 
+	       (all turntable (all price (and (min 300) (max 1000)))))
+	     :comment "a medium quality system's turntable should cost between $300 and $1000"
+	     :filter 'guided-stereo-system)
+
+(cl-add-rule 'mid-audio-equalizer @c{mid-audio-only-system}
+	     '(all equalizer (all price (and (min 176) (max 350))))
+	     :filter 'guided-stereo-system
+	     :comment "a mid-quality system's equalizer should 
+cost between $176 and $350")
+
+(cl-define-concept 'high-audio-only-system 
+		   '(and audio-only-system ;; guided-stereo-system
+		     (all price (min 3001))))
+(cl-set-comment @high-audio-only-system "a stereo system only intended to be used for audio of high quality i.e., - it costs more than $3000")
+
+(cl-add-rule 'high-priced-sys @c{high-audio-only-system}
+	     'high-priced-system
+	     :comment "a high priced audio only system must be a high priced system")
+
+(cl-add-rule 'high-audio-tuner @c{high-audio-only-system}
+	     '(and (all tuner tuner)
+	       (all tuner (all price (min 600))))
+	     :filter 'guided-stereo-system
+	     :comment "High end systems have tuners that cost at least $600")
+(cl-add-rule 'high-audio-preamplifier @c{high-audio-only-system}
+	     '(and (at-least 1 preamplifier) (all preamplifier preamplifier)
+	       (all preamplifier (all price (min 300))))
+	     :filter 'guided-stereo-system
+	     :comment "High end systems have preamplifiers that cost
+at least $300")
+;; note - the high-amp rule says high quality systems have amps
+;; costing at least $500, so this rule only adds the at-least 1
+;; restriction and all amp amp restriction now
+(cl-add-rule 'high-audio-amplifier @c{high-audio-only-system}
+	     '(and (at-least 1 amplifier) (all amplifier amplifier)
+	       (all amplifier (all price (min 300))))
+	     :filter 'guided-stereo-system
+	     :comment "High end systems have amplifiers that cost at
+least $300")
+(cl-add-rule 'high-audio-speakers @c{high-audio-only-system}
+	     '(and (at-least 2 main-speaker) 
+	       (all main-speaker
+		(and high-priced-speaker (all price (min 600)))))
+	        :comment "Main speakers in high end systems should cost at least $600"
+		:filter 'guided-stereo-system)
+(cl-add-rule 'high-audio-cd-player @c{high-audio-only-system}
+	     '(and ;;(at-least 1 cd-player) 
+	       (all cd-player (all price (min 400))))
+	      :comment "CD-players in high end systems should cost at least $400"
+:filter 'guided-stereo-system)
+(cl-add-rule 'high-audio-cassette @c{high-audio-only-system}
+	     '(all cassette-deck (all price (min 400)))
+	      :comment "Cassette decks in high end systems should cost at least $400"
+:filter 'guided-stereo-system)
+(cl-add-rule 'high-dat @c{high-audio-only-system}
+	     '(all dat (all price (min 701)))
+	     :comment "Dats in high end systems should cost
+at least $700"
+		:filter 'guided-stereo-system)
+(cl-add-rule 'high-turntable @c{high-audio-only-system}
+	     '(all turntable (all price (min 1000)))
+	      :comment "Turntables in high end systems should cost at least $1000"
+:filter 'guided-stereo-system)
+(cl-add-rule 'high-audio-headphone-price @c{high-audio-only-system}
+	     '(all headphones (all price (min 120)))
+
+	     :comment "a high-quality system's headphones should cost >$120"
+	     :filter 'guided-stereo-system)
+
+(cl-add-rule 'high-audio-equalizer @c{high-audio-only-system}
+	     '(all equalizer (all price (min 351)))
+	     :filter 'guided-stereo-system
+	     :comment "a high-quality system's equalizer should cost at least $351")
+
+;; rules attached to audio-only-system that put objects below the systems
+;; in the right price range - for now, lori will do this in the interface
+;;
+;;(cl-add-rule 'low-audio-only-system @c{audio-only-system}
+;;	     'low-audio-only-system
+;;	     :filter '(and low-priced-system guided-stereo-system))
+;;(cl-add-rule 'mid-audio-only-system @c{audio-only-system}
+;;	     'mid-audio-only-system
+;;	     :filter '(and mid-priced-system guided-stereo-system))
+;;(cl-add-rule 'high-audio-only-system @c{audio-only-system}
+;;	     'high-audio-only-system
+;;	     :filter '(and high-priced-system guided-stereo-system))
+
+(cl-define-primitive-concept 'home-theater-only-system 
+			     '(and home-theater-system
+			       interesting-stereo-system
+			       (at-most 0 cassette-deck)
+			       (at-most 0 turntable)
+;			       (at-most 0 tuner)
+			       ))
+(cl-set-comment @home-theater-only-system
+		"A stereo system meant to be used for home theater use only")
+
+(cl-define-concept 'low-home-theater-only-system 
+		   '(and home-theater-only-system ;; guided-stereo-system
+		     (all price (and ;;(min 200)
+				 (max 1400)))))
+(cl-set-comment @low-home-theater-only-system
+		"A stereo system meant to be used for home theater use only that costs less than $1400")
+(cl-add-rule 'low-priced-home-theater-sys @c{low-home-theater-only-system}
+	     'low-priced-system
+	     :comment "a low priced home theater only system must be a low priced system")
+
+(cl-add-rule 'low-theater-tv @c{low-home-theater-only-system}
+	     '(all tv (all price (and ;;(min 300)
+				  (max 500))))
+	       :comment "TVs in low end systems should cost
+less than $500"
+:filter 'guided-stereo-system)
+(cl-add-rule 'low-theater-vcr @c{low-home-theater-only-system}
+	     '(all vcr (all price (and ;;(min 100)
+				   (max 400))))
+	     :comment "VCRs in low end systems should cost
+less than $400"
+		:filter 'guided-stereo-system)
+(cl-add-rule 'low-theater-receiver-price @c{low-home-theater-only-system}
+	     '(all receiver (all price (and ;;(min 200)
+					(max 400))))
+	     :comment "Receivers in low end systems should cost less than $400"
+		:filter 'guided-stereo-system)
+(cl-add-rule 'low-theater-has-receiver @c{low-home-theater-only-system}
+	     '(and (at-least 1 receiver) (at-most 1 receiver))
+	     :comment "Low end systems have receivers rather than
+individual components"
+		:filter 'guided-stereo-system)
+(cl-add-rule 'low-theater-tuner @c{low-home-theater-only-system}
+	     '(all tuner (all price (max 300)))
+	     :comment "tuners on low priced systems should cost less
+than $300"
+	     :filter 'guided-stereo-system)
+(cl-add-rule 'low-theater-laserdisc @c{low-home-theater-only-system}
+	     '(all laserdisc (all price (max 350)))
+	     :comment "laserdiscs in low priced systems should cost
+less than $350"
+	     :filter 'guided-stereo-system)
+(cl-add-rule 'low-theater-speakers @c{low-home-theater-only-system}
+	     '(and ;;(at-least 2 speaker) ;; speakers can be in tv
+	       (all speaker (all price (max 400))))
+	      :comment "Speakers in low end systems should cost less than $200 a piece"
+		:filter 'guided-stereo-system)
+(cl-add-rule 'low-theater-surround-speakers @c{low-home-theater-only-system}
+	     '(all surround-speaker (all price (max 100)))
+	      :comment "Surround s in low end systems should cost less than $100 a piece"
+		:filter 'guided-stereo-system)
+
+(cl-add-rule 'low-theater-equalizer @c{low-home-theater-only-system}
+	     '(all equalizer (all price (max 175)))
+	     :filter 'guided-stereo-system
+	     :comment "a low-quality system's equalizer should cost at most $175")
+
+(cl-define-concept 'mid-home-theater-only-system 
+		   '(and home-theater-only-system ;; guided-stereo-system
+		     (all price (and (min 1401) (max 4500)))))
+(cl-set-comment @mid-home-theater-only-system
+		"A stereo system meant to be used for home theater use only of medium quality - i.e. it costs between $1400 and $4500")
+(cl-add-rule 'mid-priced-home-theater-sys @c{mid-home-theater-only-system}
+	     'mid-priced-system
+	     :comment "a mid priced home theater only system must be a mid priced system")
+(cl-add-rule 'mid-theater-tv @c{mid-home-theater-only-system}
+	     '(all tv (all price (and (min 400) (max 1500))))
+	      :comment "TVs in mid priced systems should cost between $400 and $1500"
+		:filter 'guided-stereo-system)
+(cl-add-rule 'mid-theater-vcr @c{mid-home-theater-only-system}
+	     '(all vcr (all price (and (min 200) (max 700))))
+	      :comment "VCRs in mid priced systems should cost between $200 and $700"
+:filter 'guided-stereo-system)
+(cl-add-rule 'mid-theater-receiver @c{mid-home-theater-only-system}
+	     '(all receiver (all price (and (min 300) (max 700))))
+	     :comment "Receivers in mid priced systems should cost between $300 and $700"
+		:filter 'guided-stereo-system)
+(cl-add-rule 'mid-theater-preamplifier @c{mid-home-theater-only-system}
+	     '(all preamplifier (all price (and (min 300) (max 1000))))
+	     :comment "Preamplifiers in mid priced systems should cost between $300 and $1000"
+		:filter 'guided-stereo-system)
+(cl-add-rule 'mid-theater-tuner @c{mid-home-theater-only-system}
+	     '(all tuner (all price (and (min 300) (max 600))))
+	     :comment "Tuners in mid priced systems should cost between $300 and $600"
+;:comment "might have a tuner for dual broadcasts"
+	     :filter 'guided-stereo-system)
+(cl-add-rule 'mid-theater-laserdisc @c{mid-home-theater-only-system}
+	     '(all laserdisc (all price (and (min 500) (max 800))))
+	     :comment "laserdiscs in mid priced systems should cost between $500 and $800"
+	     :filter 'guided-stereo-system)
+(cl-add-rule 'mid-theater-speakers @c{mid-home-theater-only-system}
+	     '(and (at-least 5 speaker)
+	       (all speaker (all price (and (min 50) (max 1000))))
+	       (at-least 1 center-speaker)
+	       (at-least 1 surround-left-speaker)
+	       (at-least 1 surround-right-speaker))
+	     :comment "There should be 5 speakers in mid priced systems and they should cost between $50 and $100 a piece"
+:filter 'guided-stereo-system)
+
+(cl-add-rule 'mid-theater-cd-player @c{mid-home-theater-only-system}
+	     '(and ;;(at-least 1 cd-player) 
+	       (all cd-player (all price (and (min 200) (max 500)))))
+	     :comment "a medium quality system's cd-player should cost between $200 and $500"
+	     :filter 'guided-stereo-system)
+
+(cl-add-rule 'mid-theater-equalizer @c{mid-home-theater-only-system}
+	     '(all equalizer (all price (and (min 176) (max 350))))
+	     :filter 'guided-stereo-system
+	     :comment "a mid-quality system's equalizer should 
+cost between $176 and $350")
+
+(cl-define-concept 'high-home-theater-only-system 
+		   '(and home-theater-only-system ;; guided-stereo-system
+		     (all price (min 4501) )))
+(cl-set-comment @high-home-theater-only-system
+		"A stereo system meant to be used for home theater use only of high quality - i.e. it costs more than $4500")
+(cl-add-rule 'high-priced-home-theater-sys @c{high-home-theater-only-system}
+	     'high-priced-system
+	     :comment "a high priced home theater only system must be a high priced system")
+(cl-add-rule 'high-theater-tv-price @c{high-home-theater-only-system}
+	     '(all tv (all price (min 1000)))
+	     :comment "TVs in high priced systems should cost at least $1000"
+	:filter 'guided-stereo-system)
+(cl-add-rule 'high-theater-tv-diag @c{high-home-theater-only-system}
+	     '(all tv (all diagonal (min 27)))
+	     :comment "TVs in high priced systems should have a diagonal of at least 27 inches"
+	:filter 'guided-stereo-system)
+(cl-add-rule 'high-theater-vcr @c{high-home-theater-only-system}
+	     '(all vcr (and hifi-vcr (all price (min 400))))
+	     :comment "VCRs in high priced systems should  cost at least $400"
+:filter 'guided-stereo-system)
+(cl-add-rule 'high-theater-receiver @c{high-home-theater-only-system}
+	     '(all receiver (and pro-logic-receiver
+			     (all price (min 300))))
+	     :comment "Receivers in high priced systems should be pro-logic and should cost at least $300"
+:filter 'guided-stereo-system)
+(cl-add-rule 'high-theater-preamplifier @c{high-home-theater-only-system}
+	     '(all preamplifier (and (fills pro-logic 1)  (all price (min 300))))
+	     :comment "preamplifiers in high priced systems are
+pro-logic and should cost at least $300"
+:filter 'guided-stereo-system)
+(cl-add-rule 'high-theater-integrated-amp @c{high-home-theater-only-system}
+	     '(all integrated-amplifier (and (fills pro-logic 1)  (all price (min 300))))
+	     :comment "preamplifiers in high priced systems are
+pro-logic and should cost at least $300"
+:filter 'guided-stereo-system)
+(cl-add-rule 'high-theater-tuner @c{high-home-theater-only-system}
+	     '(all tuner  (all price (min 600)))
+	      :comment "Tuners in high priced systems shouldcost at least $600"
+:filter 'guided-stereo-system)
+(cl-add-rule 'high-theater-laserdisc @c{high-home-theater-only-system}
+	     '(all laserdisc  (all price (min 800)))
+	      :comment "laserdiscs in high priced systems shouldcost at least $800"
+:filter 'guided-stereo-system)
+(cl-add-rule 'high-theater-speakers @c{high-home-theater-only-system}
+	     '(and (at-least 5 speaker)
+	       (all speaker (all price (min 100) ))
+	       (at-least 1 center-speaker)
+	       (at-least 1 subwoofer)
+	       (at-least 1 surround-left-speaker)
+	       (at-least 1 surround-right-speaker))
+  :comment "There should be at least 5 speakers in a high priced system and they should cost at least $100 a piece"
+	     :filter 'guided-stereo-system)
+(cl-add-rule 'high-theater-headphone-price @c{high-home-theater-only-system}
+	     '(all headphones (all price (min 120)))
+
+	     :comment "a high-quality system's headphones should cost >$120"
+	     :filter 'guided-stereo-system)
+(cl-add-rule 'high-theater-equalizer @c{high-home-theater-only-system}
+	     '(all equalizer (all price (min 351)))
+	     :filter 'guided-stereo-system
+	     :comment "a high-quality system's equalizer should cost at least $351")
+
+(cl-add-rule 'low-amp @c{low-priced-system}
+	     '(all amplifier (all price (max 400)))
+	     :comment "all low priced systems have amps costing < $400"
+	     :filter 'guided-stereo-system)
+(cl-add-rule 'mid-amp @c{mid-priced-system}
+	     '(all amplifier (all price (and (min 300) (max 1000))))
+	     :comment "all mid priced systems have amps costing between $300 and $1000"
+	     :filter 'guided-stereo-system)
+(cl-add-rule 'high-amp @c{high-priced-system}
+	     '(all amplifier (all price (min 500)))
+	     :comment "all high quality systems have amps costing at least $500"
+	     :filter 'guided-stereo-system)
+
+(cl-define-primitive-concept 'typical-stereo-system
+	'(and stereo-system
+		(at-most 4 speaker)
+		(at-most 2 cassette-deck)
+		(at-most 1 cd-player)))
+
+(cl-define-primitive-concept 'extended-stereo-system
+	'(and stereo-system
+		(at-most 8 speaker)
+		(at-most 2 cassette-deck)
+		(at-most 1 cd-player)
+		(at-least 1 tv) (all tv tv)
+		(at-least 1 vcr) (all vcr vcr)
+		(all laserdisc laserdisc)))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Some individuals
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; some companies
+;; good tv <5% ; ok tv 5<x<10; bad tv >10
+;; good vcr <10% ; ok vcr 10<x<16 bad vcr >16
+(cl-create-ind 'acoustic-research 
+	       '(and company
+		 (fills phone 617-821-2300)))
+(cl-create-ind 'aiwa 
+	       '(and company
+		 (fills phone 201-512-3600)))
+(cl-create-ind 'bic 
+	       '(and company
+		 (fills phone 216-928-2011)))
+(cl-create-ind 'bose
+	       '(and company
+		 (fills phone 508-879-7300)))
+(cl-create-ind 'boston-acoustics 
+	       '(and company
+		 (fills phone 617-592-9000)))
+(cl-create-ind 'dahlquist 
+	       '(and company
+		 (fills phone 516-234-5757)))
+(cl-create-ind 'denon 
+	       '(and company
+		 (fills phone 201-575-7810)))
+(cl-create-ind 'emerson
+	       '(and company))
+(cl-create-ind 'fisher 
+	       '(and company))
+(cl-create-ind 'fosgate-audionics 
+	       '(and company
+		 (fills phone 801-654-4046)))
+(cl-create-ind 'general-electric 
+	       '(and company))
+(cl-create-ind 'goldstar
+	       '(and company
+		 (fills phone 201-816-2000)))
+(cl-create-ind 'harmon-kardon 
+	       '(and company
+		 (fills phone 818-893-9992)))
+(cl-create-ind 'hitachi
+	       '(and company))
+(cl-create-ind 'infinity
+	       '(and company))
+(cl-create-ind 'jvc 
+	       '(and company
+		 (fills phone 201-794-3900)))
+(cl-create-ind 'kenwood 
+	       '(and company
+		 (fills phone 213-639-9000)))
+(cl-create-ind 'koss 
+	       '(and company
+		 (fills phone 414-964-5000)))
+(cl-create-ind 'lenbrook 
+	       '(and company
+		 (fills phone 416-831-6333)))
+(cl-set-comment @lenbrook "same as nad")
+(cl-create-ind 'linn 
+	       '(and company
+		 (fills phone 317-849-7103)))
+(cl-set-comment @linn "highly recommended, highly priced")
+(cl-create-ind 'magnavox
+	       '(and company))
+(cl-create-ind 'marantz 
+	       '(and company
+		 (fills phone 708-299-4000)))
+(cl-create-ind 'mcintosh 
+	       '(and company 
+		 (fills phone 607-723-3512)))
+(cl-create-ind 'mitsubishi
+	       '(and company
+		 (fills phone 714-220-2500)))
+(cl-create-ind 'mtx-soundcraftsmen 
+	       '(and company
+		 (fills phone 714-556-6191)))
+(cl-create-ind 'nad 
+	       '(and company
+		 (fills phone 416-831-6333)))
+(cl-set-comment @nad "same as lenbrook")
+(cl-create-ind 'nakamichi 
+	       '(and company
+		 (fills phone 310-538-8150)))
+(cl-create-ind 'nht 
+	       '(and company
+		 (fills phone 800-648-9993)))
+(cl-create-ind 'onkyo 
+	       '(and company
+		 (fills phone 201-825-7950)))
+(cl-create-ind 'panasonic 
+	       '(and company
+		 (fills info-from consumer-reports-3-94)
+		 (fills phone 201-348-7000)))
+(cl-create-ind 'phillips 
+	       '(and company
+		 (fills phone 615-521-4316)))
+(cl-create-ind 'pioneer 
+	       '(and company
+		 (fills phone 800-421-1404)))
+(cl-create-ind 'quad 
+	       '(and company
+		 (fills phone 708-526-1646)))
+(cl-create-ind 'quasar
+	       '(and company
+		 (fills phone 708-468-5600)))
+(cl-create-ind 'rca
+	       '(and company
+		 (fills phone 317-267-5000 )))
+(cl-set-comment @rca " same as thomson consumer electronics")
+(cl-create-ind 'radio-shack
+	       '(and company
+		 (fills info-from consumer-reports-3-94)
+		 (fills phone 817-390-3011)))
+(cl-set-comment @radio-shack "same as realistic")
+(cl-create-ind 'realistic
+	       '(and company
+		 (fills info-from consumer-reports-3-94)
+		 (fills phone 817-390-3011)))
+(cl-set-comment @realistic "same as radio shack")
+
+(cl-create-ind 'samsung
+	       '(and company
+		 (fills info-from consumer-reports-3-94)))
+(cl-create-ind 'sanyo
+	       '(and company
+		 (fills info-from consumer-reports-3-94)))
+(cl-create-ind 'sansui 'company)
+(cl-create-ind 'sears
+	       '(and company))
+(cl-create-ind 'sharp
+	       '(and company))
+(cl-create-ind 'sherwood 'company)
+(cl-create-ind 'sony
+	       '(and company
+		 (fills phone 201-930-7669)))
+(cl-create-ind 'sylvania
+	       '(and company))
+(cl-create-ind 'tannoy 'company)
+(cl-create-ind 'teac 'company)
+(cl-create-ind 'technics 'company)
+(cl-create-ind 'thomson-consumer-electronics
+	       '(and company
+		 (fills phone 317-267-5000 )))
+;; same as rca
+(cl-create-ind 'toshiba
+	       '(and company))
+(cl-create-ind 'vision-acoustics 'company)
+(cl-create-ind 'vpi 'company)
+(cl-create-ind 'yamaha 'company)
+(cl-create-ind 'zenith
+	       '(and company))
+
+;;; a few individuals used in concept descriptions
+
+(cl-create-ind 'consumer-reports-3-94 'classic-thing)
+;; note scores are very low in this issue
+
+;;;;;;;;;;; the components have now been changed to concepts
+
+;; some cd-players
+
+(cl-define-concept 'onkyo-dx-702 
+	       '(and single-cd-player actual-component (fills price 185)
+		 (fills maker onkyo)
+		 (fills model-number dx-702)
+))
+(cl-define-concept 'kenwood-dp-2030
+	       '(and single-cd-player actual-component (fills price 150)
+		 (fills maker kenwood)
+		 (fills model-number dp-2030)))
+(cl-define-concept 'kenwood-dpr-3060
+	       '(and carousel-cd-player actual-component (fills price 190)
+		 (fills maker kenwood)
+		 (fills model-number dpr-3060)))
+(cl-define-concept 'sony-cdp-491
+	       '(and single-cd-player actual-component (fills price 145)
+		(fills model-number cdp-491)
+		 (fills maker sony)
+))
+(cl-define-concept 'onkyo-integra-dx-706 
+	       '(and single-cd-player actual-component (fills price 750)
+		 (fills maker onkyo)
+		 (fills model-number integra-dx-706)
+))
+(cl-define-concept 'sony-es-cdp-x222es
+	       '(and single-cd-player actual-component (fills price 370)
+		 (fills maker sony)
+		 (fills model-number es-cdp-x222es)
+))
+(cl-define-concept 'denon-dcd-970
+	       '(and single-cd-player actual-component (fills price 335)
+		 (fills maker denon)
+		 (fills model-number dcd-970)
+))
+(cl-define-concept 'denon-dcm-440
+	       '(and carousel-cd-player actual-component (fills price 380)
+		 (fills maker denon)
+		 (fills model-number dcm-440)
+		 ))
+(cl-define-concept 'technics-sl-pd927
+	       '(and carousel-cd-player actual-component (fills price 269)
+		 (fills maker technics)
+		 (fills model-number sl-pd927)
+		 (fills cds 5)
+))
+(cl-define-concept 'phillips-cdc935
+	       '(and carousel-cd-player actual-component (fills price 250)
+		 (fills maker phillips)
+		 (fills model-number cdc935)
+		 (fills cds 5)
+))
+(cl-define-concept 'pioneer-pd-m901
+	       '(and magazine-cd-player actual-component (fills price 315)
+		 (fills maker pioneer)
+		 (fills model-number pd-m901)
+		 (fills cds 6)
+))
+(cl-define-concept 'sony-cdp-c345
+	       '(and carousel-cd-player actual-component (fills price 230)
+		 (fills maker sony)
+		 (fills model-number cdp-c345)
+		 (fills cds 5)
+		 ))
+(cl-define-concept 'sony-cdp-c910
+	       '(and magazine-cd-player actual-component (fills price 350)
+		 (fills maker sony)
+		 (fills model-number cdp-c910)
+		 (fills cds 10)
+))
+(cl-define-concept 'pioneer-pd-tm2
+	       '(and magazine-cd-player actual-component (fills price 365)
+		 (fills maker pioneer)
+		 (fills model-number pd-tm2)
+		 (fills cds 18)
+))
+
+;; some receivers
+(cl-define-concept 'denon-DRA-545R
+	       '(and receiver actual-component
+		 (fills price 370) (fills maker denon)
+		 (fills model-number dra-545r)
+		 (fills 8-ohm-power 60)
+		 (fills video-input 2)
+		 (fills video-output 2)
+		 (fills ab-switch-value 0)  ;; I guessed here
+;; no mention of audio in or out
+		 ))
+(cl-define-concept 'denon-AVR-800
+	       '(and pro-logic-receiver av-receiver actual-component
+		 (fills price 500) (fills maker denon)
+		 (fills model-number avr-800)
+		 (fills 8-ohm-power 60)
+		 (fills 8-ohm-center-power 60)
+		 (fills 8-ohm-surround-power 15)
+		 (fills video-input 2)
+		 (fills video-output 2)
+		 (fills audio-input 5)
+		 (fills audio-output 2)
+		 (fills ab-switch-value 0)
+		 ))
+(cl-define-concept 'denon-AVR-1000
+	       '(and pro-logic-receiver av-receiver actual-component
+		 (fills price 700) (fills maker denon)
+		 (fills model-number avr-1000)
+		 (fills 8-ohm-power 70)
+		 (fills 8-ohm-center-power 70)
+		 (fills 8-ohm-surround-power 20)
+		 (fills video-input 3)
+		 (fills video-output 2)
+		 (fills audio-input 6)
+		 (fills audio-output 6)
+		 (fills ab-switch-value 0)
+		 ))
+(cl-define-concept 'denon-AVR-2000
+	       '(and pro-logic-receiver av-receiver actual-component
+		 (fills price 900) (fills maker denon)
+		 (fills model-number avr-2000)
+		 (fills 8-ohm-power 80)
+		 (fills 8-ohm-center-power 80)
+		 (fills 8-ohm-surround-power 25)
+		 (fills video-input 3)
+		 (fills video-output 2)
+		 (fills s-video-input 2)
+		 (fills s-video-output 2)
+		 (fills audio-input 6)
+		 (fills audio-output 10)
+		 (fills ab-switch-value 0)
+		 ))
+(cl-define-concept 'denon-AVR-3000
+	       '(and pro-logic-receiver av-receiver actual-component
+		 (fills price 1400) (fills maker denon)
+		 (fills model-number avr-3000)
+		 (fills 8-ohm-power 110)
+		 (fills 8-ohm-center-power 110)
+		 (fills 8-ohm-surround-power 35)
+		 (fills video-input 5)
+		 (fills video-output 3)
+		 (fills s-video-input 4)
+		 (fills s-video-output 3)
+		 (fills audio-input 9)
+		 (fills audio-output 10)
+		 (fills ab-switch-value 1)
+		 ))
+(cl-define-concept 'fisher-737
+               '(and pro-logic-receiver av-receiver actual-component
+                 (fills price 500) (fills maker fisher)
+                 (fills model-number 737)
+		 (fills 8-ohm-power 80)
+                 (fills 8-ohm-center-power 80)
+                 (fills 8-ohm-surround-power 20)
+		 (fills channel 5)
+		;; doesn't mention video ins and outs
+		;; 1 unswitched and 2 switched AC outlets
+		;; AV switching - charles - do we care about these two?
+                 (fills audio-input 5)
+                 (fills ab-switch-value 1)
+		 (fills info-from stereo-buyers-guide-94)
+                 ))
+
+(cl-define-concept 'fisher-727
+               '(and pro-logic-receiver av-receiver actual-component
+                 (fills model-number 727)
+		 (fills price 400) (fills maker fisher)
+                 (fills 8-ohm-power 100)
+                 (fills 8-ohm-center-power 20)
+                 (fills 8-ohm-surround-power 10)
+                 (fills channel 5)
+                ;; 2 switched AC outlets
+                 (fills audio-input 5)
+                 (fills video-input 2)
+                 (fills ab-switch-value 1)
+                 (fills info-from stereo-buyers-guide-94)
+                 ))
+
+(cl-define-concept 'fisher-717
+               '(and receiver actual-component
+                 (fills price 300) (fills maker fisher)
+                 (fills model-number 717)
+		 (fills 8-ohm-power 80)
+                 (fills 8-ohm-center-power 0)
+                 (fills 8-ohm-surround-power 0)
+                 (fills channel 2)
+                ;; 2 switched AC outlets
+                 (fills audio-input 5)
+                 (fills ab-switch-value 1)
+                 (fills info-from stereo-buyers-guide-94)
+                 ))
+
+
+
+(cl-define-concept 'jvc-rx-309tn  ;;updated 9/17/94
+	       '(and receiver actual-component (fills price 280)
+		 (fills maker jvc)
+		 (fills model-number rx-309tn)
+		 (fills ab-switch-value 1)	;;NOT made up
+		 (fills channel 2)
+		 (fills video-input 0)
+		 (fills video-output 0)
+		 (fills 8-ohm-power 100)
+		 (fills 8-ohm-surround-power 0)
+		 (fills 8-ohm-center-power 0)
+;		 (fills surround 0)
+		 (fills pro-logic 0)
+		 (fills info-from stereo-buyers-guide-94)))
+(cl-define-concept 'jvc-rx-v470
+	       '(and pro-logic-receiver actual-component (fills price 400)
+		 (fills maker jvc)
+		 (fills model-number rx-v470)
+		 (fills audio-input 5)
+		 (fills audio-output 4)
+		 (fills video-input 2)
+		 (fills video-output 3)
+		 (fills 8-ohm-power 100)
+		 (fills measured-8-ohm-power 110)
+		 (fills measured-6-ohm-power 127)
+		 (fills measured-4-ohm-power 0)
+		 (fills 4-ohm-power 0)
+		 (fills 8-ohm-surround-power 20)
+		 (fills 8-ohm-center-power 65)
+;		 (fills surround 1)
+		 (fills pro-logic 1)
+		 (fills info-from consumer-reports-3-94)))
+
+(cl-define-concept 'kenwood-kr-v5560
+               '(and av-receiver actual-component pro-logic-receiver
+                 (fills price 300)
+                 (fills maker kenwood)
+                 (fills model-number kr-v5560)
+		 (fills channel 5)
+                 (fills pro-logic 1)
+                 (fills ab-switch-value 1)
+                 (fills 8-ohm-power 70)   
+                 (fills 8-ohm-center-power 70)
+                 (fills 8-ohm-surround-power 20)
+                 (fills audio-input 4)
+                 (fills video-input 2)
+;;               (fills width 17)
+;;               (fills height 10)
+;;               (fills depth 17)
+		 (fills info-from charles)
+        ))
+
+(cl-define-concept 'kenwood-rc1000 
+	       '(and receiver (fills price 549) (fills maker kenwood)))
+(cl-define-concept 'kenwood-KR-V7050
+		   '(and pro-logic-receiver actual-component
+		     (fills price 429) (fills maker kenwood)
+		     (fills model-number kr-v7050)
+		     (fills 8-ohm-power 65)
+		     (fills 8-ohm-center-power 65)
+		     (fills 8-ohm-surround-power 20)
+		     (fills video-input 2)
+		     (fills video-output 2)
+		     (fills width 18)
+		     (fills height 6)
+		     (fills depth 16)
+		     ))
+
+(cl-define-concept 'marantz-sr-73
+		   '(and pro-logic-receiver av-receiver actual-component
+		     (fills price 649)
+		     (fills maker marantz)
+		     (fills model-number sr-73)
+		     (fills audio-input 4)
+		     (fills audio-output 2) ;?
+		     (fills video-input 3)
+		     (fills video-output 4)
+		     (fills 8-ohm-power 75)
+		     (fills measured-8-ohm-power 81)
+		     (fills measured-4-ohm-power 121)
+		     (fills 4-ohm-power 120)
+		     (fills 8-ohm-surround-power 35)
+		     (fills 8-ohm-center-power 75)
+		     (fills width 17)
+		     (fills height 6)
+		     (fills depth 14)
+		     (fills info-from stereo-buyers-guide-94)
+		  ))
+(cl-define-concept 'marantz-sr-92
+		   '(and pro-logic-receiver av-receiver actual-component 
+		     (fills price 1149)
+		     (fills maker marantz)
+		     (fills model-number sr-92)		     
+;		     (fills audio-input 4)
+;		     (fills audio-output 2)  
+		     (fills video-input 4)
+;		     (fills video-output 4)
+		     ;; charles - what does 5 pre-out/main-in loops mean?
+		     (fills 8-ohm-power 110)
+		     (fills 8-ohm-surround-power 35)
+		     (fills 8-ohm-center-power 75)))
+
+(cl-define-concept 'pioneer-vsx-451
+	       '(and pro-logic-receiver actual-component (fills price 320)
+		 (fills maker pioneer)
+		 (fills model-number vsx-451)		     
+	         (fills audio-input 7)
+		 (fills audio-output 4)
+		 (fills video-input 3)
+		 (fills video-output 3)
+		 (fills 8-ohm-power 80)
+		 (fills measured-8-ohm-power 86)
+		 (fills measured-6-ohm-power 86)
+		 (fills measured-4-ohm-power 0)
+		 (fills 4-ohm-power 0)
+		 (fills 8-ohm-surround-power 20)
+		 (fills 8-ohm-center-power 25)
+))
+(cl-define-concept 'pioneer-vsx-52-elite
+	       '(and pro-logic-receiver actual-component (fills price 715)
+		 (fills maker pioneer)
+		 (fills model-number vsx-52-elite)		     
+	         (fills audio-input 8)
+		 (fills audio-output 4)
+		 (fills video-input 4)
+		 (fills video-output 4)
+		 (fills 8-ohm-power 100)
+		 (fills measured-8-ohm-power 116)
+		 (fills measured-6-ohm-power 130)
+		 (fills measured-4-ohm-power 0)
+		 (fills 4-ohm-power 0)
+		 (fills 8-ohm-surround-power 20)
+		 (fills 8-ohm-center-power 65)
+))
+(cl-define-concept 'onkyo-tx-910  ;;updated 9/17/94
+               '(and receiver actual-component (fills price 240)
+                 (fills maker onkyo)
+		 (fills model-number tx-910)		     
+	         (fills channel 2)
+		 (fills ab-switch-value 1)
+                 (fills audio-input 6)
+                 (fills video-input 0)
+                 (fills video-output 0)
+                 (fills 8-ohm-power 45)
+		;; or 105 x2 max into 3 ohms
+                 (fills 4-ohm-power 0)
+                 (fills 8-ohm-surround-power 0)
+                 (fills 8-ohm-center-power 0)
+;                (fills surround 0)
+                 (fills pro-logic 0)
+		 (fills info-from stereo-buyers-guide-94)))
+(cl-define-concept 'onkyo-tx-sv303pro
+	       '(and pro-logic-receiver actual-component (fills price 390)
+		 (fills maker onkyo)
+		 (fills model-number tx-sv303pro)		     
+	         (fills audio-input 6)
+		 (fills audio-output 3)
+		 (fills video-input 2)
+		 (fills video-output 2)
+		 (fills 8-ohm-power 80)
+		 (fills measured-8-ohm-power 91)
+		 (fills measured-6-ohm-power 109)
+		 (fills measured-4-ohm-power 0)
+		 (fills 4-ohm-power 0)
+		 (fills 8-ohm-surround-power 12)
+		 (fills 8-ohm-center-power 0)
+;		 (fills surround 1)
+		 (fills pro-logic 1)
+))
+(cl-define-concept 'onkyo-tx-sv313pro
+	       '(and pro-logic-receiver actual-component (fills price 360)
+		 (fills maker onkyo)
+		 (fills model-number tx-sv313pro)		     
+	         (fills audio-input 5)
+		 (fills audio-output 3)
+		 (fills video-input 2)
+		 (fills video-output 2)
+		 (fills 8-ohm-power 60)
+		 (fills measured-8-ohm-power 77)
+		 (fills measured-6-ohm-power 88)
+		 (fills measured-4-ohm-power 0)
+		 (fills 4-ohm-power 0)
+		 (fills 8-ohm-surround-power 15)
+		 (fills 8-ohm-center-power 15)
+;		 (fills surround 1)
+		 (fills pro-logic 1)
+		 (fills info-from consumer-reports-3-94)))
+(cl-define-concept 'onkyo-tx-903
+	       '(and receiver actual-component (fills price 235)
+		 (fills maker onkyo)
+		 (fills model-number tx-903)		     
+	         (fills audio-input 4)
+		 (fills audio-output 2)
+		 (fills video-input 0)
+		 (fills video-output 0)
+		 (fills 8-ohm-power 60)
+		 (fills measured-8-ohm-power 65)
+		 (fills measured-6-ohm-power 78)
+		 (fills measured-4-ohm-power 92)
+		 (fills 8-ohm-surround-power 0)
+		 (fills 8-ohm-center-power 0)
+;		 (fills surround 0)
+		 (fills pro-logic 0)
+))
+(cl-define-concept 'onkyo-tx-sv525pro
+	       '(and receiver actual-component (fills price 445)
+		 (fills maker onkyo)
+		 (fills model-number tx-sv525pro)		     
+	         (fills audio-input 4)
+		 (fills audio-output 4)
+		 (fills video-input 3)
+		 (fills video-output 2)
+		 (fills 8-ohm-power 80)
+		 (fills measured-8-ohm-power 95)
+		 (fills measured-6-ohm-power 111)
+		 (fills measured-4-ohm-power 137)
+		 (fills 8-ohm-surround-power 20)
+		 (fills 8-ohm-center-power 55)
+;		 (fills surround 1)
+		 (fills pro-logic 1)
+		 (fills info-from consumer-reports-3-94)))
+(cl-define-concept 'sherwood-rv5010r
+	       '(and pro-logic-receiver actual-component (fills price 240)
+		 (fills maker sherwood)
+		 (fills model-number rv5010r)
+	         (fills audio-input 6)
+		 (fills audio-output 3)
+		 (fills video-input 2)
+		 (fills video-output 2)
+		 (fills 8-ohm-power 85)
+		 (fills measured-8-ohm-power 95)
+		 (fills measured-6-ohm-power 73)
+		 (fills measured-4-ohm-power 86)
+		 (fills 8-ohm-surround-power 15)
+		 (fills 8-ohm-center-power 0)
+))
+(cl-define-concept 'sherwood-rv5030r
+	       '(and pro-logic-receiver actual-component (fills price 330)
+		 (fills maker sherwood)
+		 (fills model-number rv5030r)
+	         (fills audio-input 6)
+		 (fills audio-output 3)
+		 (fills video-input 2)
+		 (fills video-output 3)
+		 (fills 8-ohm-power 85)
+		 (fills measured-8-ohm-power 87)
+		 (fills measured-6-ohm-power 98)
+		 (fills measured-4-ohm-power 0)
+		 (fills 4-ohm-power 0)
+		 (fills 8-ohm-surround-power 20)
+		 (fills 8-ohm-center-power 65)
+;		 (fills surround 1)
+		 (fills pro-logic 1)
+		 (fills info-from consumer-reports-3-94)))
+(cl-define-concept 'sherwood-rv-6010r
+	       '(and pro-logic-receiver actual-component (fills price 380)
+		 (fills maker sherwood)
+		 (fills model-number rv6010r)
+	         (fills audio-input 7)
+		 (fills audio-output 3)
+		 (fills video-input 2)
+		 (fills video-output 2)
+		 (fills 8-ohm-power 105)
+		 (fills measured-8-ohm-power 113)
+		 (fills measured-6-ohm-power 86)
+		 (fills measured-4-ohm-power 106)
+		 (fills 8-ohm-surround-power 18)
+		 (fills 8-ohm-center-power 30)
+))
+(cl-define-concept 'sherwood-rx4010r
+	       '(and receiver actual-component (fills price 160)
+		 (fills maker sherwood)
+		 (fills model-number rx4010r)
+	         (fills audio-input 4)
+		 (fills audio-output 1)
+		 (fills video-input 0)
+		 (fills video-output 0)
+		 (fills 8-ohm-power 65)
+		 (fills measured-8-ohm-power 66)
+		 (fills measured-6-ohm-power 61)
+		 (fills measured-4-ohm-power 61)
+		 (fills 8-ohm-surround-power 0)
+		 (fills 8-ohm-center-power 0)
+;		 (fills surround 0)
+		 (fills pro-logic 0)
+))
+(cl-define-concept 'sony-str-d515
+               '(and av-receiver actual-component pro-logic-receiver
+                 (fills price 250)
+                 (fills maker sony)
+                 (fills model-number str-d515)
+	         (fills channel 5)
+                 (fills pro-logic 1)
+                 (fills ab-switch-value 1)
+                 (fills 8-ohm-power 70)   
+                 (fills 8-ohm-center-power 20)
+                 (fills 8-ohm-surround-power 20)
+                 (fills audio-input 3)
+                 (fills video-input 2)
+;;               (fills width 17)
+;;               (fills height 10)
+;;               (fills depth 17)
+		 (fills info-from charles)
+        ))
+
+(cl-define-concept 'sony-str-d311
+	       '(and receiver actual-component (fills price 165)
+		 (fills maker sony)
+		 (fills model-number str-d311)
+	         (fills channel 2)
+		 (fills audio-input 4)
+		 (fills audio-output 3)
+		 (fills video-input 0)
+		 (fills video-output 0)
+		 (fills 8-ohm-power 70)
+		 (fills measured-8-ohm-power 77)
+		 (fills measured-6-ohm-power 87)
+		 (fills measured-4-ohm-power 0)
+		 (fills 4-ohm-power 0)
+		 (fills 8-ohm-surround-power 0)
+		 (fills 8-ohm-center-power 0)
+;		 (fills surround 0)
+		 (fills pro-logic 0)
+		 (fills ab-switch-value 0)  ;; guess from writeup in 							    ;; stereo-buyer's guide 94
+		 (fills info-from consumer-reports-3-94)))
+(cl-define-concept 'sony-str-d611
+	       '(and receiver actual-component (fills price 280)
+		 (fills maker sony)
+		 (fills model-number str-d611)
+	         (fills audio-input 4)
+		 (fills audio-output 2)
+		 (fills video-input 2)
+		 (fills video-output 2)
+		 (fills 8-ohm-power 70)
+		 (fills measured-8-ohm-power 79)
+		 (fills measured-6-ohm-power 89)
+		 (fills measured-4-ohm-power 0)
+		 (fills 4-ohm-power 0)
+		 (fills 8-ohm-surround-power 20)
+		 (fills 8-ohm-center-power 20)
+;		 (fills surround 1)
+		 (fills pro-logic 1)
+		 (fills info-from consumer-reports-3-94)))
+(cl-define-concept 'sony-str-d911
+	       '(and receiver actual-component (fills price 390)
+		 (fills maker sony)
+		 (fills model-number str-d911)
+	         (fills audio-input 6)
+		 (fills audio-output 4)
+		 (fills video-input 2)
+		 (fills video-output 2)
+		 (fills 8-ohm-power 100)
+		 (fills measured-8-ohm-power 113)
+		 (fills measured-6-ohm-power 129)
+		 (fills measured-4-ohm-power 0)
+		 (fills 4-ohm-power 0)
+		 (fills 8-ohm-surround-power 25)
+		 (fills 8-ohm-center-power 80)
+;		 (fills surround 1)
+		 (fills pro-logic 1)
+		 (fills info-from consumer-reports-3-94)))
+(cl-define-concept 'yamaha-rx-460  ;; updated 9/17/94
+	       '(and receiver actual-component (fills price 225)
+		 ;; stereo buyers guide says $299
+		 (fills maker yamaha)
+		 (fills model-number rx-460)
+	         (fills audio-input 4)
+		 ;; stereo buyers guide says 6 aud input
+		 (fills audio-output 2)
+		 (fills video-input 0)
+		 (fills video-output 0)
+		 (fills ab-switch-value 1)  ;; from stereo buyers guide 94
+		 (fills channel 2)
+		 (fills 8-ohm-power 55)
+		 ;; or 130 x 2 into 2 ohms
+		 (fills measured-8-ohm-power 67)
+		 (fills measured-6-ohm-power 72)
+		 (fills measured-4-ohm-power 0)
+		 (fills 4-ohm-power 0)
+		 (fills 8-ohm-surround-power 0)
+		 (fills 8-ohm-center-power 0)
+;		 (fills surround 0)
+		 (fills pro-logic 0)
+		 (fills info-from consumer-reports-3-94)))
+(cl-define-concept 'yamaha-rx-v470
+	       '(and receiver actual-component (fills price 500)
+		 (fills maker yamaha)
+		 (fills model-number rx-v470)
+	         (fills audio-input 4)
+		 (fills audio-output 2)
+		 (fills video-input 2)
+		 (fills video-output 2)
+		 (fills 8-ohm-power 50)
+		 (fills measured-8-ohm-power 61)
+		 (fills measured-6-ohm-power 70)
+		 (fills measured-4-ohm-power 0)
+		 (fills 4-ohm-power 0)
+		 (fills 8-ohm-surround-power 15)
+		 (fills 8-ohm-center-power 50)
+;		 (fills surround 1)
+		 (fills pro-logic 1)
+		 (fills info-from consumer-reports-3-94)))
+
+(cl-define-concept 'yamaha-dsp-a2070
+		   '(and receiver actual-component
+		     (fills price 2000)
+		     (fills maker yamaha)
+		     (fills model-number dsp-a2070)
+		     (fills audio-input 10)
+;;		     (fills audio-output 2)
+		     (fills video-input 7)
+;;		     (fills video-output 2)
+;;		     (fills 8-ohm-power 50)
+;;		     (fills measured-8-ohm-power 61)
+;;		     (fills measured-6-ohm-power 70)
+;;		     (fills measured-4-ohm-power 0)
+;;		     (fills 4-ohm-power 0)
+;;		     (fills 8-ohm-surround-power 15)
+;;		     (fills 8-ohm-center-power 50)
+;		     (fills surround 1)
+		     (fills pro-logic 1)
+;;		     (fills info-from consumer-reports-3-94)
+		     ))
+
+;; some amplifiers
+
+(cl-define-concept 'adcom-gfa-5800
+	       '(and amplifier actual-component (fills price 1500)
+		 (fills maker adcom)
+		 (fills 8-ohm-power 250)
+		 (fills 4-ohm-power 0)
+		 (fills channel 2)))
+(cl-define-concept 'adcom-gfa-535II
+	       '(and amplifier actual-component (fills price 350)
+		 (fills maker adcom)
+		 (fills 8-ohm-power 60)
+		 (fills 4-ohm-power 100)
+		 (fills ab-switch-value 0)	; I made this up for testing
+		 (fills channel 2)
+		 (fills width 17)
+		 (fills height 6)
+		 (fills depth 13))) ;; 2 sets of speaker output
+(cl-define-concept 'adcom-gfa-545II
+	       '(and amplifier actual-component (fills price 550)
+		 (fills maker adcom)
+		 (fills 8-ohm-power 100)
+		 (fills 4-ohm-power 150)
+		 (fills channel 2)
+		 (fills width 17)
+		 (fills height 6)
+		 (fills depth 13)))
+(cl-define-concept 'adcom-gfa-555II
+	       '(and amplifier actual-component (fills price 850)
+		 (fills maker adcom)
+		 (fills 8-ohm-power 200)
+		 (fills 4-ohm-power 350)
+		 (fills channel 2)))
+(cl-define-concept 'denon-poa-5000
+	       '(and amplifier actual-component (fills price 1500)
+		 (fills maker denon)
+		 (fills 8-ohm-power 100)
+		 (fills 4-ohm-power 0)
+		 (fills 8-ohm-surround-power 50)
+		 (fills channel 6)
+		 )) 
+(cl-define-concept 'denon-poa-2800
+	       '(and amplifier actual-component (fills price 850)
+		 (fills maker denon)
+		 (fills 8-ohm-power 200)
+		 (fills channel 2)
+		 )) 
+(cl-define-concept 'denon-poa-800
+	       '(and amplifier actual-component (fills price 350)
+		 (fills maker denon)
+		 (fills 8-ohm-power 50) ;; or 120 x 1 into 8 ohms
+		 (fills channel 2)
+		 )) 
+
+(cl-define-concept 'fosgate-audionics-model4200
+	       '(and amplifier actual-component (fills price 1899)
+		 (fills maker fosgate-audionics)
+		 (fills 8-ohm-power 125)  ;; by 4 (400 by 2)
+		 (fills 4-ohm-power 200)  ;; by 4 (600 by 2)
+		 (fills channel 4)
+		 (fills thx-certified 1)))
+(cl-define-concept 'fosgate-audionics-model-4125
+	       '(and amplifier actual-component (fills price 1099)
+		 (fills maker fosgate-audionics)
+		 (fills 8-ohm-power 70)  ;; by 4 (200 by 2)
+		 (fills 4-ohm-power 110)  ;; by 4 (270 by 2)
+		 (fills channel 4)
+		 (fills thx-certified 1)))
+(cl-define-concept 'fosgate-audionics-m-60
+	       '(and amplifier actual-component (fills price 219)
+		 (fills maker fosgate-audionics)
+		 (fills 8-ohm-power 35)  
+		 (fills 4-ohm-power 60)
+		 (fills channel 1)
+		 (fills width 9)
+		 (fills height 3)
+		 (fills depth 8)))  ;; designed for center channel
+(cl-define-concept 'kenwood-KM-X1
+	       '(and amplifier actual-component (fills price 899)
+		 (fills maker kenwood)
+		 (fills 8-ohm-power 100)  ;; by 6, 130 by 3  
+		 (fills thx-certified 1)
+		 (fills channel 6)
+		 (fills width 18)
+		 (fills height 7)
+		 (fills depth 15)))
+(cl-define-concept 'linn-klout
+	       '(and amplifier actual-component (fills price 3695)
+		 (fills channel 2)
+		 (fills maker linn)
+		 (fills 8-ohm-power 80)
+		 (fills 4-ohm-power 160)))
+(cl-define-concept 'linn-lk100
+	       '(and amplifier actual-component (fills price 1095)
+		 (fills maker linn)
+		 (fills 8-ohm-power 50)
+		 (fills 4-ohm-power 0)
+		 (fills channel 2)))
+(cl-define-concept 'linn-powertek
+	       '(and amplifier actual-component (fills price 795)
+		 (fills maker linn)
+		 (fills 8-ohm-power 50)
+		 (fills 4-ohm-power 0)
+		 (fills channel 2)
+		 (fills width 18)
+		 (fills height 4)
+		 (fills depth 14)))
+(cl-define-concept 'marantz-ma-24
+	       '(and amplifier actual-component (fills price 1500)
+		 (fills maker marantz)
+		 (fills 8-ohm-power 30)
+		 (fills 4-ohm-power 0)
+		 (fills 2-ohm-power 120)
+		 (fills channel 1)
+		 (fills width 9)
+		 (fills height 6)
+		 (fills depth 15)))
+(cl-define-concept 'marantz-sm-80
+	       '(and amplifier actual-component (fills price 700)
+		 (fills maker marantz)
+		 (fills 8-ohm-power 120)
+		 (fills 4-ohm-power 175)
+		 (fills channel 2)
+		 (fills thx-certified 1)
+		 (fills width 18)
+		 (fills height 6)
+		 (fills depth 15)))
+(cl-define-concept 'marantz-ma-500
+	       '(and amplifier actual-component (fills price 299)
+		 (fills maker marantz)
+		 (fills 8-ohm-power 125)
+		 (fills 4-ohm-power 180)
+		 (fills channel 1)
+		 (fills thx-certified 1)
+		 (fills width 4)
+		 (fills height 6)
+		 (fills depth 18)))
+
+(cl-define-concept 'onkyo-integra-M-588F
+	       '(and amplifier actual-component (fills price 2000)
+		 (fills maker onkyo)
+		 (fills 8-ohm-power 200)
+		 (fills 2-ohm-power 750)
+		 (fills channel 2)
+		 (fills width 18)
+		 (fills height 8)
+		 (fills depth 17)))
+
+(cl-define-concept 'onkyo-integra-M-504
+	       '(and amplifier actual-component (fills price 850)
+		 (fills maker onkyo)
+		 (fills 8-ohm-power 165)
+		 (fills 2-ohm-power 530)
+		 (fills channel 2)
+		 (fills width 19)
+		 (fills height 8)
+		 (fills depth 17)))
+
+(cl-define-concept 'onkyo-M-501
+	       '(and amplifier actual-component (fills price 380)
+		 (fills maker onkyo)
+		 (fills 8-ohm-power 150)
+		 (fills 2-ohm-power 400)
+		 (fills channel 2)
+		 (fills width 18)
+		 (fills height 6)
+		 (fills depth 14)))
+
+;; some preamplifiers
+(cl-define-concept 'acoustic-research-limited-preamp
+	       '(and preamplifier actual-component
+		 (fills price 2200)
+		 (fills maker acoustic-research)
+		 (fills audio-input 5)
+		 (all audio-output (min 2))
+		 (fills width 19)
+		 (fills height 4)
+		 (fills depth 13)
+		 (fills info-from stereo-buyers-guide-94)))
+(cl-define-concept 'denon-avp-5000
+	       '(and av-preamplifier actual-component
+		 (fills price 2500)
+		 (fills maker denon)
+		 (fills audio-input 11)
+		 (fills audio-output 12)
+		 (fills video-input 4)
+		 (fills video-output 6)
+		 (fills s-video-input 4)
+		 (fills pro-logic 1)
+		 (fills digital-input 6)
+		 (fills digital-output 1)))
+
+(cl-define-concept 'kenwood-kc-x1
+	       '(and av-preamplifier pro-logic-preamplifier actual-component
+		 (fills price 999)
+		 (fills maker kenwood)
+		 (fills audio-input 5)
+		 (fills audio-output 6)
+		 (fills video-input 4)
+		 (fills s-video-input 2)
+		 (fills width 18)
+		 (fills height 7)
+		 (fills depth 15)))
+
+;; charles - if 7 inputs - is this 7 audio inputs or 7 line-level inputs?
+;; should I be encoding number of line-level outputs?
+(cl-define-concept 'linn-kairn
+	       '(and preamplifier actual-component
+		 (fills price 2795)
+		 (fills maker linn)
+		 (fills audio-input 7)  ;; with phono input ; without
+		                        ;; phono it costs 2195
+		 (fills audio-output 3)
+		 (fills width 13)
+		 (fills height 4)
+		 (fills depth 13)))
+
+(cl-define-concept 'linn-pretek
+	       '(and preamplifier actual-component
+		 (fills price 795)
+		 (fills maker linn)
+		 (fills audio-input 7)
+		 (fills width 18)
+		 (fills height 4)
+		 (fills depth 14)))
+(cl-define-concept 'marantz-sc22
+	       '(and preamplifier actual-component
+		 (fills price 999)
+		 (fills maker marantz)
+		 (fills audio-input 4)
+		 (fills width 10)
+		 (fills height 4)
+		 (fills depth 9)))
+(cl-define-concept 'marantz-av-500
+	       '(and av-preamplifier actual-component
+		 (fills price 899)
+		 (fills maker marantz)
+		 (fills audio-input 8)
+		 (fills audio-output 4)
+		 (fills video-input 4)
+		 (fills video-output 3)
+		 (fills s-video-input 4)
+		 (fills s-video-output 3)
+		 (fills pro-logic 1)
+		 (fills width 18)
+		 (fills height 4)
+		 (fills depth 14)))
+
+(cl-define-concept 'nad-model-106
+	       '(and preamplifier actual-component
+		 (fills price 599)
+		 (fills maker nad)
+		 (fills width 16)
+		 (fills height 4)
+		 (fills depth 11)))
+
+(cl-define-concept 'nad-model-1600
+	       '(and preamplifier actual-component
+		 (fills price 449)
+		 (fills maker nad)))
+(cl-define-concept 'pioneer-c-91
+	       '(and av-preamplifier actual-component
+		 (fills price 1300)
+		 (fills maker pioneer)
+		 (fills audio-input 5)
+		 (fills video-input 5)
+		 (fills s-video-input 3)
+		 (fills s-video-output 3)))
+(cl-define-concept 'pioneer-c-72
+	       '(and av-preamplifier actual-component
+		 (fills price 850)
+		 (fills maker pioneer)
+		 (fills audio-input 5)
+		 (fills video-input 5)
+		 (fills s-video-input 5)
+		 (fills s-video-output 3)))
+(cl-define-primitive-concept 'quad-34
+		   '(and preamplifier actual-component
+		     (fills price 1000)
+		     (fills maker quad)))
+
+;; some integrated-amplifiers
+
+(cl-define-concept 'denon-av-1500
+               '(and av-integrated-amplifier actual-component
+                 (fills price 750)
+                 (fills maker denon)
+;                (fills channel 5)
+                 (fills pro-logic 1)
+                 (fills ab-switch-value 1)
+                 (fills 8-ohm-power 70)   ;; or 75 x 2 into 8 ohms
+                 (fills 8-ohm-center-power 70)
+                 (fills 8-ohm-surround-power 20)
+                 (fills audio-input 3)
+                 (fills video-input 3)
+                 (fills width 17)
+                 (fills height 10)
+                 (fills depth 17)))
+
+(cl-define-concept 'denon-av-2500
+               '(and av-integrated-amplifier actual-component
+                 (fills price 1000)
+                 (fills maker denon)
+;                (fills channel 5)
+                 (fills pro-logic 1)
+                 (fills ab-switch-value 1)
+                 (fills 8-ohm-power 85)   ;; or 75 x 2 into 8 ohms
+                 (fills 8-ohm-center-power 85)
+                 (fills 8-ohm-surround-power 25)
+                 (fills audio-input 3)
+                 (fills video-input 3)
+                 (fills width 17)
+                 (fills height 12)
+                 (fills depth 17)))
+
+
+(cl-define-concept 'linn-intek
+	       '(and integrated-amplifier actual-component
+		 (fills price 1095)
+		 (fills maker linn)
+		 (fills channel 2)
+		 (fills ab-switch-value 1) ;; check with charles
+		;; stereo buyers guide says "switched/unswitched speaker outputs"
+		 (fills 8-ohm-power 50)
+		 (fills 4-ohm-power 0)
+		 (fills 8-ohm-surround-power 0)
+		 (fills 8-ohm-center-power 0) 
+		 (fills info-from stereo-buyers-guide-94)))
+(cl-define-concept 'mcintosh-c-40
+	       '(and integrated-amplifier actual-component
+		 (fills price 3000)
+		 (fills maker mcintosh)
+		 (fills ab-switch-value 0)  ;; check with charles
+		;; ster buyers guide says "switchable AC outlets"
+		 (fills channel 2)
+		 (fills 8-ohm-power 20)
+		 (fills 4-ohm-power 0)
+		 (fills 8-ohm-surround-power 0)
+		 (fills 8-ohm-center-power 0) 
+		 (fills info-from stereo-buyers-guide-94)))
+(cl-define-concept 'onkyo-integra-a-sv810pro
+	       '(and av-integrated-amplifier actual-component
+		 (fills price 1100)
+		 (fills maker onkyo)
+		 (fills channel 5)
+		 (fills pro-logic 1)
+		 (fills 8-ohm-power 85)
+		 (fills 8-ohm-surround-power 35)
+		 (fills 8-ohm-center-power 85)  ;; or 180 x 2 into 3 ohms
+		 (fills audio-input 10)
+		 (fills video-input 6)  
+		 (fills video-output 5)
+		 (fills s-video-input 5)
+		 (fills s-video-output 3)
+		 (fills ab-switch-value 0)  ;; from onkyo literature
+		 (fills width 18)
+		 (fills height 7)
+		 (fills depth 17) ))
+(cl-define-concept 'onkyo-a-809
+	       '(and integrated-amplifier actual-component
+		 (fills price 660)
+		 (fills maker onkyo)
+		 (fills channel 2)
+		 (fills 8-ohm-power 105)
+		 (fills 2-ohm-power 303)
+		 (fills ab-switch-value 0)  ;; from onkyo literature
+		 (fills width 18)
+		 (fills height 7)
+		 (fills depth 17)))
+(cl-define-concept 'onkyo-a-807
+	       '(and integrated-amplifier actual-component
+		 (fills price 550)
+		 (fills maker onkyo)
+		 (fills channel 2)
+		 (fills ab-switch-value 0)  ;; from onkyo literature
+		 (fills 8-ohm-power 80)
+		 (fills 2-ohm-power 210)))
+(cl-define-concept 'onkyo-a-803
+	       '(and integrated-amplifier actual-component
+		 (fills price 350)	;; from stereo buyers guide 94 
+					;; the rest from onkyo lit
+		 (fills maker onkyo)
+		 (fills audio-input 6)
+		 (fills channel 2)
+		 (fills ab-switch-value 0)  ;; from onkyo literature
+		 ;; although stereo-buyers-guide 94 says
+		 ;; "4 way speaker selector"
+		 (fills 8-ohm-power 60)
+		 (fills info-from stereo-buyers-guide-94)
+		 (fills info-from onkyo-literature )))
+(cl-define-concept 'pioneer-vsa-7500
+	       '(and av-integrated-amplifier actual-component
+		 (fills price 1125)
+		 (fills maker pioneer)
+		 (fills channel 5)
+		 (fills pro-logic 1)
+		 (fills 8-ohm-power 70)   ;; or 75 x 2 into 8 ohms
+		 (fills 8-ohm-center-power 70)
+		 (fills 8-ohm-surround-power 22)
+		 (fills audio-input 6)
+		 (fills video-input 6)
+		 (fills width 17)
+		 (fills height 7)
+		 (fills depth 17)))
+(cl-define-concept 'pioneer-elite-a-71
+	       '(and integrated-amplifier actual-component
+		 (fills price 1100)
+		 (fills maker pioneer)
+		 (fills channel 2)
+		 (fills 8-ohm-power 120)
+		 (fills ab-switch-value 1)  ;; correct 9/17/94
+		 (fills audio-input 7)
+		 (fills headphone-jack 1)
+		 (fills width 18)
+		 (fills height 7)
+		 (fills depth 19)
+		 (fills info-from stereo-buyers-guide-94)))
+(cl-define-concept 'pioneer-elite-a-51
+	       '(and integrated-amplifier actual-component
+		 (fills price 850)
+		 (fills maker pioneer)
+		 (fills channel 2)
+		 (fills 8-ohm-power 100)
+		 (fills ab-switch-value 1)  ;; correct 9/17/94
+		 (fills audio-input 8)
+		 (fills headphone-jack 1)
+		 (fills width 17)
+		 (fills height 7)
+		 (fills depth 18)))
+
+(cl-define-concept 'pioneer-a-301
+	       '(and integrated-amplifier actual-component
+		 (fills price 325)
+		 (fills maker pioneer)
+		 (fills channel 2)
+		 (fills 8-ohm-power 40)
+		 (fills 4-ohm-power 50)
+		 (fills 2-ohm-power 100)
+		 (fills ab-switch-value 1)  ;; correct 9/17/94
+		 ;; "output for 2 speaker pairs"
+		 (fills audio-input 6)
+		 (fills headphone-jack 1)
+		 (fills width 17)
+		 (fills height 5)
+		 (fills depth 14)
+		 (fills info-from stereo-buyers-guide-94)))
+
+;; some tuners
+(cl-define-concept 'adcom-GFT-555II
+	       '(and tuner actual-component (fills price 350)
+		 (fills maker adcom)
+		 (fills presets 16)
+		 (fills info-from stereo-buyers-guide-94)))
+(cl-define-concept 'creek-T42
+		   '(and
+		     ;fm-tuner
+		     tuner actual-component (fills price 525)
+		 (fills maker creek)
+		 (fills info-from stereo-buyers-guide-94)))
+(cl-define-concept 'denon-tu-680NAB
+	       '(and tuner actual-component (fills price 600)
+		 (fills maker denon)
+		 (fills presets 30)))
+(cl-define-concept 'denon-tu-650RD
+	       '(and tuner actual-component (fills price 375)
+		 (fills maker denon)
+		 (fills presets 30)))
+(cl-define-concept 'denon-tu-280
+	       '(and tuner actual-component (fills price 250)
+		 (fills maker denon)
+		 (fills presets 30)))
+(cl-define-concept 'kenwood-KR-3050
+	       '(and tuner actual-component (fills price 269)
+		 (fills maker kenwood)
+		 (fills presets 30)
+		 (fills info-from stereo-buyers-guide-94)))
+(cl-define-concept 'linn-kremlin
+		   '(and 
+		     ;fm-tuner
+		     tuner
+		     actual-component (fills price 3700)
+		 (fills maker linn)
+		 (fills presets 80)
+		 (fills info-from stereo-buyers-guide-94)))
+(cl-define-concept 'mcintosh--mr-7083
+	       '(and tuner actual-component (fills price 1750)
+		 (fills maker mcintosh)
+		 (fills presets 16)))
+(cl-define-concept 'nad-model-402
+	       '(and tuner actual-component (fills price 249)
+		 (fills maker nad)
+		 (fills presets 24)))
+(cl-define-concept 'quad-66
+		   '(and
+		     ; fm-tuner
+		     tuner actual-component (fills price 1050)
+		 (fills maker quad)
+		 (fills presets 19)
+		 (fills info-from stereo-buyers-guide-94)))
+(cl-define-concept 'quad-fm4
+		   '(and
+		    ; fm-tuner 
+		     tuner
+		     actual-component (fills price 849)
+		 (fills maker quad)
+		 (fills presets 8)
+		 (fills info-from stereo-buyers-guide-94)
+		 ;comment "designed for use with quad-34 reamp"
+		 ))
+(cl-add-rule 'quad-tuner-requires-quad-preamp 
+	     @c{guided-stereo-system}
+	     '(and (at-least 1 preamplifier) (all preamplifier quad-34))
+	      :comment "a QUAD-FM4 tuner is built to be used only with a QUAD-34 preamplifier"
+	      :filter '(all tuner quad-fm4))
+
+(cl-define-concept 'sony-ST-S730ES
+	       '(and tuner actual-component (fills price 570)
+		 (fills maker sony)
+		 (fills presets 30)
+		 (fills info-from stereo-buyers-guide-94)))
+(cl-define-concept 'sony-ST-S550ES
+	       '(and tuner actual-component (fills price 300)
+		 (fills maker sony)
+		 (fills presets 30)
+		 (fills info-from stereo-buyers-guide-94)))
+;; some turntables
+(cl-define-concept 'denon-dp-59L
+	       '(and turntable actual-component (fills price 750)
+		 (fills maker denon)
+		 (fills info-from stereo-buyers-guide-94)))
+(cl-define-concept 'denon-dp-47F
+	       '(and turntable actual-component (fills price 500)
+		 (fills maker denon)
+		 (fills info-from stereo-buyers-guide-94)))
+(cl-define-concept 'denon-dp-23F
+	       '(and turntable actual-component (fills price 325)
+		 (fills maker denon)
+		 (fills info-from stereo-buyers-guide-94)))
+(cl-define-concept 'denon-dp-7F
+	       '(and turntable actual-component (fills price 250)
+		 (fills maker denon)
+		 (fills info-from stereo-buyers-guide-94)))
+(cl-define-concept 'jvc-AL-A155TN
+	       '(and turntable actual-component (fills price 120)
+		 (fills maker jvc)
+		 (fills info-from stereo-buyers-guide-94)))
+(cl-define-concept 'kenwood-KD-491FC
+	       '(and turntable actual-component (fills price 130)
+		 (fills maker kenwood)
+		 (fills info-from stereo-buyers-guide-94)))
+(cl-define-concept 'kenwood-KD-291RC
+	       '(and turntable actual-component (fills price 80)
+		 (fills maker kenwood)
+		 (fills info-from stereo-buyers-guide-94)))
+(cl-define-concept 'linn-sondek-LP12
+	       '(and turntable actual-component (fills price 2645)
+		 (fills maker linn)
+		 (fills info-from stereo-buyers-guide-94)))
+(cl-define-concept 'linn-LP12
+	       '(and turntable actual-component (fills price 1745)
+		 (fills maker linn)
+		 (fills info-from stereo-buyers-guide-94)))
+(cl-define-concept 'linn-axis
+	       '(and turntable actual-component (fills price 1195)
+		 (fills maker linn)
+		 (fills info-from stereo-buyers-guide-94)))
+(cl-define-concept 'linn-basik
+	       '(and turntable actual-component (fills price 595)
+		 (fills maker linn)
+		 (fills info-from stereo-buyers-guide-94)))
+(cl-define-concept 'onkyo-CP-101A
+	       '(and turntable actual-component (fills price 160)
+		 (fills maker onkyo)
+		 (fills info-from stereo-buyers-guide-94)))
+(cl-define-concept 'VPI-TNT-series3
+	       '(and turntable actual-component (fills price 5000)
+		 (fills maker VPI)
+		 (fills info-from stereo-buyers-guide-94)))
+(cl-define-concept 'VPI-TNT-series2
+	       '(and turntable actual-component (fills price 3500)
+		 (fills maker VPI)
+		 (fills info-from stereo-buyers-guide-94)))
+(cl-define-concept 'VPI-HW-19MKIV
+	       '(and turntable actual-component (fills price 1800)
+		 (fills maker VPI)
+		 (fills info-from stereo-buyers-guide-94)))
+
+;; some speakers
+
+;; two way speakers
+;; can fill any positional speaker role
+
+(cl-define-concept 'tannoy-611
+		   '(and two-way-speaker actual-component main-speaker
+		     (fills price 325)
+		     (fills maker tannoy)
+		     (fills 8-ohm-power 250) ;; a guess
+		     (fills info-from charles)))
+
+(cl-define-concept 'tannoy-613
+		   '(and three-way-speaker actual-component main-speaker
+		     (fills price 440)
+		     (fills maker tannoy)
+		     (fills 8-ohm-power 250) ;; a guess
+		     (fills info-from charles)))
+
+(cl-define-concept 'boston-acoustics-300L
+	       '(and two-way-speaker actual-component main-speaker
+		 (fills price 1000) ;; each - 2k a pair
+		 (fills maker boston-acoustics)
+		 (fills 8-ohm-power 250)  ;; watts
+		 (fills height 11)
+		 (fills width 9)
+		 (fills depth 14)))
+
+(cl-define-concept 'boston-acoustics-500L
+	       '(and three-way-speaker actual-component main-speaker
+		 (fills price 2500) ;; each - 5K a pair
+		 (fills maker boston-acoustics)
+		 (fills 8-ohm-power 350)  ;; watts
+		 (fills height 48)
+		 (fills width 9)
+		 (fills depth 19)))
+
+(cl-define-concept 'boston-acoustics-t1030
+	       '(and three-way-speaker actual-component main-speaker
+		 (fills price 600)  ;; each - 1200 a pair
+		 (fills maker boston-acoustics)
+		 (fills 8-ohm-power 150)  ;; watts
+		 (fills height 43)
+		 (fills width 11)
+		 (fills depth 13)))
+(cl-define-concept 'dahlquist-dq-30i
+	       '(and three-way-speaker actual-component main-speaker
+		 (fills price 1000)  ;; each - 2000 a pair
+		 (fills maker dahlquist)
+		 (fills 8-ohm-power 0)  
+		 (fills 4-ohm-power 150)  ;; watts - I had to guess here
+		                          ;; they do say match at 100 amps
+		                          ;; per channel
+		 (fills height 49)
+		 (fills width 18)
+		 (fills depth 15)
+		 (fills info-from absolute-sound-fall-93)))
+
+(cl-define-concept 'infinity-1001
+	       '(and two-way-speaker actual-component main-speaker
+		 (fills price 100)  ;; each - 200 a pair
+		 (fills maker infinity)
+		 (fills 8-ohm-power 30)
+		 (fills info-from charles)))
+(cl-define-concept 'infinity-2001
+	       '(and two-way-speaker actual-component main-speaker
+		 (fills price 200)  ;; each - 400 a pair
+		 (fills maker infinity)
+		 (fills 8-ohm-power 60)
+		 (fills info-from charles)))
+
+(cl-define-concept 'vision-acoustics-300L
+	       '(and two-way-speaker actual-component main-speaker
+		 (fills price 1250)  ;; each - 2K a pair
+		 (fills maker vision-acoustics)
+		 (fills 8-ohm-power 250)  ;; not sure - I made this up
+		 (fills height 19)
+		 (fills width 12)
+		 (fills depth 10)))
+
+
+;; inwall speakers
+;; shouldn't be main speakers.
+;; To simplify the modeling, avoid these for now.
+#|
+(cl-define-concept 'boston-acoustics-325
+	       '(and two-way-speaker actual-component (fills price 200)
+		 (fills maker boston-acoustics)
+		 (fills 8-ohm-power 25)  ;; watts
+		 (fills descr 'inwall)
+))
+
+(cl-define-concept 'boston-acoustics-350
+	       '(and two-way-speaker actual-component (fills price 300)
+		 (fills maker boston-acoustics)
+		 (fills 8-ohm-power 50)  ;; watts
+		 (fills descr 'inwall)
+		 (fills descr '4-ohm-impedence)
+		 (fills height 10)
+		 (fills width 7)
+		 (fills depth 3)))
+|#
+
+(cl-define-concept 'boston-acoustics-powervent-300
+	       '(and subwoofer actual-component (fills price 400)
+		 (fills maker boston-acoustics)
+		 (fills 8-ohm-power 100)  ;; watts
+		 (fills descr 'inwall)
+		 (fills height 14)
+		 (fills width 8)
+		 (fills depth 24)))
+
+(cl-define-concept 'mirage-ps-12180
+		   '(and subwoofer actual-component
+		     (fills price 750)
+		     (fills maker mirage)
+		     (fills 8-ohm-power 180)))
+;; cheap speakers from charles - he doesn't say if they should be
+;; surround speakers
+(cl-define-concept 'mirage-90i
+                   '(and two-way-speaker actual-component 
+			surround-speaker  ;; this was added 
+                     (fills price 100) ;; each
+                     (fills maker mirage)
+                     (fills 8-ohm-power 90))) ;; a guess
+
+(cl-define-concept 'boston-acoustics-hd5
+               '(and two-way-speaker actual-component
+		     surround-speaker  ;; this was added 
+                  (fills price 75) ;; each 
+                 (fills maker boston-acoustics)
+                 (fills 8-ohm-power 90)  ;; a guess
+        ))
+
+;; surround speakers
+
+(cl-define-concept 'bic-venturi-v525
+	       '(and surround-speaker actual-component (fills price 178)
+		 (fills maker bic)
+		 (fills 8-ohm-surround-power 16)
+;		 (fills 8-ohm-power 16)
+		 (fills height 12)
+		 (fills width 7)
+		 (fills depth 8)
+))
+
+(cl-define-concept 'realistic-minimus-77
+	       '(and surround-speaker actual-component (fills price 160)
+		 (fills maker realistic)
+		 (fills 8-ohm-surround-power 14)
+;		 (fills 8-ohm-power 14)
+		 (fills height 9)
+		 (fills width 6)
+		 (fills depth 5)
+))
+
+(cl-define-concept 'boston-acoustics-hd5v
+	       '(and surround-speaker actual-component (fills price 170)
+		 (fills maker boston-acoustics)
+		 (fills 8-ohm-surround-power 23)
+;		 (fills 8-ohm-power 23)
+		 (fills height 10)
+		 (fills width 7)
+		 (fills depth 8)
+))
+
+(cl-define-concept 'design-acoustics-ps-cv
+	       '(and center-speaker actual-component (fills price 120)
+		 (fills maker design-acoustics)
+;		 (fills 8-ohm-power 15)
+		 (fills 8-ohm-center-power 15)
+		 (fills height 11)
+		 (fills width 7)
+		 (fills depth 7)
+))
+
+(cl-define-concept 'nht-1c
+	       '(and center-speaker actual-component (fills price 170)
+		 (fills maker nht)
+		 (fills 8-ohm-center-power 24)
+;		 (fills 8-ohm-power 24)
+		 (fills height 12)
+		 (fills width 8)
+		 (fills depth 10)
+))
+
+
+;; some cassette-decks
+
+
+;; 3 head
+(cl-define-concept 'denon-drm-740
+		   '(and single-cassette-deck actual-component
+		     (fills price 400)
+		     (fills maker denon)))
+(cl-define-concept 'aiwa-ad-f810
+	       '(and single-cassette-deck actual-component (fills price 400)
+		 (fills maker aiwa)
+		 (fills auto-reverse 0)
+		 (fills headphone-jack 1)
+))
+(cl-define-concept 'sony-tc-k670
+	       '(and single-cassette-deck actual-component (fills price 280)
+		 (fills maker sony)
+		 (fills auto-reverse 0)
+		 (fills headphone-jack 1)
+))
+(cl-define-concept 'sony-tc-rx311
+	       '(and single-cassette-deck actual-component (fills price 195)
+		 (fills maker sony)
+		 (fills auto-reverse 1)
+		 (fills headphone-jack 1)
+		 (fills info-from consumer-reports-3-94)))
+(cl-define-concept 'jvc-td-v541tn
+	       '(and single-cassette-deck actual-component (fills price 380)
+		 (fills maker jvc)
+		 (fills auto-reverse 0)
+		 (fills headphone-jack 1)
+))
+(cl-define-concept 'technics-rs-bx606
+	       '(and single-cassette-deck actual-component (fills price 400)
+		 (fills maker technics)
+		 (fills auto-reverse 0)
+		 (fills headphone-jack 1)
+))
+(cl-define-concept 'pioneer-ct-s609r
+	       '(and single-cassette-deck actual-component (fills price 240)
+		 (fills maker pioneer)
+		 (fills auto-reverse 1)
+		 (fills headphone-jack 1)
+))
+(cl-define-concept 'sansui-d-x211hx-r
+	       '(and single-cassette-deck actual-component (fills price 200)
+		 (fills maker sansui)
+		 (fills auto-reverse 1)
+		 (fills headphone-jack 1)
+))
+(cl-define-concept 'nad-6340
+	       '(and single-cassette-deck actual-component (fills price 399)
+		 (fills maker nad)
+		 (fills auto-reverse 0)
+		 (fills headphone-jack 0)
+))
+
+;; ***want to have dolby or noise reduction info??
+(cl-define-concept 'kenwood-kxw-1060
+		   '(and dual-cassette-deck actual-component
+		     (fills price 100)
+		     (fills maker kenwood)
+		     (fills auto-reverse 0)))
+
+(cl-define-concept 'sony-tc-wr875
+	       '(and dual-cassette-deck actual-component (fills price 500)
+		 (fills maker sony)
+		 (fills auto-reverse 1)
+		 (fills headphone-jack 1)
+))
+(cl-define-concept 'sony-tc-wr775
+	       '(and dual-cassette-deck actual-component (fills price 285)
+		 (fills maker sony)
+		 (fills auto-reverse 1)
+		 (fills headphone-jack 1)
+))
+(cl-define-concept 'jvc-td-w505tn
+	       '(and dual-cassette-deck actual-component (fills price 210)
+		 (fills maker jvc)
+		 (fills auto-reverse 1)
+		 (fills headphone-jack 1)
+))
+
+(cl-define-concept 
+   'tea-w-600r
+   '(and single-cassette-deck 
+     actual-component 
+     (fills price 150)
+     (fills maker teac)
+     (fills auto-reverse 1)
+     (fills headphone-jack 1)))
+
+(cl-define-concept 'tea-w-700r
+	       '(and dual-cassette-deck actual-component (fills price 150)
+		 (fills maker teac)
+		 (fills auto-reverse 1)
+		 (fills headphone-jack 1)
+		 (fills info-from consumer-reports-3-94)))
+
+
+;; tvs/monitors	
+(cl-define-concept 'sony-kv32xbr35
+	       '(and tv actual-component (fills price 1780) (fills maker sony)
+		 (fills height 26) (fills width 35) (fills depth 24)
+		 (fills diagonal 32)
+		 (fills speaker-jacks 0)
+		 (fills audio-input 3)
+		 (fills audio-output 4)
+		 (fills video-input 3)
+		 (fills video-output 2)
+		 (fills S-input 1)
+		 (fills S-output 1)
+		 (fills antenna-input 2)
+		 (fills antenna-output 1)
+		 ))
+
+(cl-define-concept 'sony-kv27xbr26
+	       '(and tv actual-component (fills price 1085) (fills maker sony)
+		 (fills diagonal 27)
+		 (fills audio-input 3)
+		 (fills audio-output 4)
+		 (fills video-input 3)
+		 (fills video-output 2)
+		 (all S-input (min 1))
+		 (fills info-from consumer-reports-3-94)))
+(cl-define-concept 'samsungtxb2725
+	       '(and tv actual-component (fills price 380) (fills maker samsung)
+		 (fills diagonal 27)
+		 (fills audio-input 3)
+		 (fills audio-output 2)
+		 (fills video-input 3)
+		 (fills video-output 1)
+		 (all S-input (min 1))
+		 (fills info-from consumer-reports-3-94)))
+(cl-define-concept 'panasonic-ct-27s15
+	       '(and tv actual-component (fills price 590) (fills maker panasonic)
+		 (fills diagonal 27)
+		 (fills audio-input 2)
+		 (fills audio-output 1)
+		 (fills video-input 2)
+		 (fills video-output 0)
+		 (all S-input (min 1))
+		 (fills info-from consumer-reports-3-94)))
+(cl-define-concept 'panasonic-ct-27sf10
+	       '(and tv actual-component (fills price 670) (fills maker panasonic)
+		 (fills diagonal 27)
+		 (fills audio-input 2)
+		 (fills audio-output 1)
+		 (fills video-input 2)
+		 (fills video-output 0)
+		 (all S-input (min 1))
+		 (fills info-from consumer-reports-3-94)))
+(cl-define-concept 'quasar-sp2705j
+	       '(and tv actual-component (fills price 585) (fills maker quasar)
+		 (fills diagonal 27)
+		 (fills audio-input 2)
+		 (fills audio-output 1)
+		 (fills video-input 2)
+		 (fills video-output 0)
+		 (fills info-from consumer-reports-3-94)))
+(cl-define-concept 'goldstar-gct2754s
+	       '(and tv actual-component (fills price 699) (fills maker goldstar)
+		 (fills diagonal 27)
+		 (fills audio-input 2)
+		 (fills audio-output 1)
+		 (fills video-input 2)
+		 (fills video-output 1)
+		 (all S-input (min 1))
+		 (fills info-from consumer-reports-3-94)))
+
+(cl-define-concept 'mitsubishi-cs-27301
+	       '(and tv actual-component (fills price 705) (fills maker mitsubishi)
+		 (fills diagonal 27)
+		 (fills audio-input 1)
+		 (fills audio-output 1)
+		 (fills video-input 1)
+		 (fills video-output 1)
+		 (all S-input (min 1))
+		 (fills info-from consumer-reports-3-94)))
+
+;; BIG TVs
+(cl-define-concept 'mits-cs35701
+               '(and tv actual-component (fills price 1700) (fills maker mitsubishi)
+                 (fills diagonal 35)
+                 (fills audio-input 2)
+                 (fills audio-output 2)
+                 (fills video-input 2)
+                 (fills video-output 2)
+                 (all S-input (min 1))
+		 (fills info-from consumer-reports-3-94)
+        ))
+(cl-define-concept 'mits-cs40503
+               '(and tv actual-component (fills price 3000) (fills maker mitsubishi)
+                 (fills diagonal 40)
+                 (fills audio-input 3)
+                 (fills audio-output 3)
+                 (fills video-input 3)
+                 (fills video-output 3)
+                 (all S-input (min 1))
+;;               (fills info-from consumer-reports-3-94)
+        ))
+
+
+		
+;; vcrs
+(cl-define-concept 'panasonic-pv-4214
+	       '(and mono-vcr actual-component (fills price 320)
+		 (fills maker panasonic)
+))
+(cl-define-concept 'rca-vr526
+	       '(and mono-vcr actual-component (fills price 280)
+		 (fills maker rca)
+))
+(cl-define-concept 'rca-vr526a
+	       '(and mono-vcr actual-component (fills price 270)
+		 (fills maker rca)
+		 (fills info-from consumer-reports-3-94)))
+(cl-define-concept 'ge-vg4029
+	       '(and mono-vcr actual-component (fills price 245)
+		 (fills maker general-electric)
+		 (fills info-from consumer-reports-3-94)))
+(cl-define-concept 'emerson-vcr968
+	       '(and mono-vcr actual-component (fills price 190)
+		 (fills maker emerson)
+		 (fills info-from consumer-reports-3-94)))
+(cl-define-concept 'sony-slv-595hf
+	       '(and hifi-vcr actual-component (fills price 470)
+		 (fills maker sony)))
+(cl-define-concept 'zenith-vrs427hf
+	       '(and hifi-vcr actual-component (fills price 385)
+		 (fills maker zenith)))
+(cl-define-concept 'fisher-fvh-4900
+	       '(and hifi-vcr actual-component (fills price 325)
+		 (fills maker fisher)))
+(cl-define-concept 'rca-vr667hf
+	       '(and hifi-vcr actual-component (fills price 390)
+		 (fills maker rca)))
+;; some equalizers
+(cl-define-concept 'koss-eq-30
+ ;; ***check the price--we had 30, which seemed wrong!
+ '(and equalizer actual-component (fills price 300)
+   (fills maker koss)
+   (fills band 3)
+   (fills info-from stereo-buyers-guide-94)))
+(cl-define-concept 'mcintosh-mq-108
+ '(and equalizer actual-component (fills price 300)
+   (fills maker mcintosh)
+   (fills band 7)
+   (fills info-from stereo-buyers-guide-94)))
+(cl-define-concept 'mtx-soundcraftsmen-e440
+ '(and equalizer actual-component (fills price 549)
+   (fills maker mtx-soundcraftsmen)
+   (fills band 21)
+   (fills info-from stereo-buyers-guide-94)))
+(cl-define-concept 'onkyo-integra-eq-35
+ '(and equalizer actual-component (fills price 350)
+   (fills maker onkyo)
+   (fills band 12)
+   (fills info-from stereo-buyers-guide-94)))
+(cl-define-concept 'onkyo-integra-eq-201
+ '(and equalizer actual-component (fills price 250)
+   (fills maker onkyo)
+   (fills band 7)
+   (fills info-from stereo-buyers-guide-94)))
+(cl-define-concept 'onkyo-integra-eq-101
+ '(and equalizer actual-component (fills price 160)
+   (fills maker onkyo)
+   (fills band 7)
+   (fills info-from stereo-buyers-guide-94)))
+
+;; some laserdiscs
+(cl-define-concept 'pioneer-cd-701
+ '(and laserdisc actual-component (fills price 900)
+   (fills maker pioneer)
+   (fills info-from charles)))
+(cl-define-concept 'pioneer-cd-501
+ '(and laserdisc actual-component (fills price 600)
+   (fills maker pioneer)
+   (fills info-from charles)))
+(cl-define-concept 'pioneer-cd-97
+ '(and laserdisc actual-component (fills price 300)
+   (fills maker pioneer)
+   (fills info-from charles)))
+
+;;some headphones
+(cl-define-concept 'aiwa-hp-x1000
+ '(and headphones actual-component (fills price 150)
+   (fills maker aiwa)
+   (fills 8-ohm-power 1.5)
+   (fills info-from stereo-buyers-guide-94)))
+(cl-define-concept 'aiwa-hp-x500
+ '(and headphones actual-component (fills price 100)
+   (fills maker aiwa)
+   (fills 8-ohm-power 1.5)
+   (fills info-from stereo-buyers-guide-94)))
+(cl-define-concept 'aiwa-hp-x80
+ '(and headphones actual-component (fills price 70)
+   (fills maker aiwa)
+   (fills 8-ohm-power 1)
+   (fills info-from stereo-buyers-guide-94)))
+(cl-define-concept 'akg-acoustics
+ '(and headphones actual-component (fills price 999)
+   (fills maker aakg-acoustics)
+   (fills 8-ohm-power 1)
+   (fills info-from stereo-buyers-guide-94)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Some settings for the pruning variables                                 ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Use the default setting for pruning variables, with a couple of 
+;; modifications.
+;;(cl-exp-set-pruning-variables t)
+(setq *cl-exp-ignore-intervals* nil)
+(setq *cl-complete-exp-ignore-rules* t)
+
+(defun print-rule (rule-name)
+  (cl-print-rule (cl-named-rule rule-name) :told t :derived nil))
+
+; (print-rule 'high-audio-receiver)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; some example systems
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(cl-create-ind 'lao-left-speaker '(and infinity-1001 MAIN-LEFT-SPEAKER
+				   (fills component-of low-audio-only-system-example)))
+(cl-create-ind 'lao-right-speaker '(and infinity-1001 MAIN-RIGHT-SPEAKER
+				    (fills component-of low-audio-only-system-example)))
+(cl-create-ind 'lao-cd-player '(and cd-player kenwood-dpr-3060
+				(fills component-of low-audio-only-system-example)))
+(cl-create-ind 'lao-cassette-deck '(and cassette-deck kenwood-kxw-1060
+				(fills component-of low-audio-only-system-example)))
+(cl-create-ind 'lao-receiver '(and SONY-STR-D311 RECEIVER
+			       (fills component-of low-audio-only-system-example)))
+(cl-create-ind 'low-audio-only-system-example '(and guided-stereo-system low-audio-only-system
+						(fills receiver lao-receiver)
+						(fills main-left-speaker lao-left-speaker)
+						(fills main-right-speaker lao-right-speaker)
+						(fills cd-player lao-cd-player)
+						(fills cassette-deck lao-cassette-deck)
+						(fills required-components
+						 lao-receiver lao-left-speaker lao-right-speaker)
+						 ))
+
+(cl-create-ind 'mao-left-speaker '(and infinity-2001 MAIN-LEFT-SPEAKER
+				   (fills component-of mid-audio-only-system-example)))
+(cl-create-ind 'mao-right-speaker '(and infinity-2001 MAIN-RIGHT-SPEAKER
+				    (fills component-of mid-audio-only-system-example)))
+(cl-create-ind 'mao-cassette-deck
+	       '(and denon-drm-740 single-cassette-deck
+		 (fills component-of mid-audio-only-system-example)))
+(cl-create-ind 'mao-cd-player
+	       '(and sony-cdp-c345 cd-player
+		 (fills component-of mid-audio-only-system-example)))
+(cl-create-ind 'mao-receiver
+	       '(and denon-avr-800 receiver
+		 (fills component-of mid-audio-only-system-example)))
+(cl-create-ind 'mao-headphones
+	       '(and aiwa-hp-x1000 headphones
+		 (fills component-of mid-audio-only-system-example)))
+(cl-create-ind 'mid-audio-only-system-example '(and guided-stereo-system mid-audio-only-system
+						(fills main-left-speaker mao-left-speaker)
+						(fills main-right-speaker mao-right-speaker)
+						(fills receiver mao-receiver)
+						(fills cassette-deck mao-cassette-deck)
+						(fills cd-player mao-cd-player)
+						(fills headphones mao-headphones)
+						(fills required-components
+						 mao-left-speaker mao-right-speaker)))
+
+(cl-create-ind 'hao-preamplifier '(and preamplifier denon-avp-5000
+				   (fills component-of high-audio-only-system-example)))
+(cl-create-ind 'hao-amplifier '(and amplifier denon-poa-5000
+				   (fills component-of high-audio-only-system-example)))
+(cl-create-ind 'hao-tuner '(and tuner denon-TU-680NAB
+			    (fills component-of high-audio-only-system-example)))
+(cl-create-ind 'hao-cd-player '(and cd-player
+;;				denon-dcm-440
+				ONKYO-INTEGRA-DX-706
+				(fills component-of high-audio-only-system-example)))
+(cl-create-ind 'hao-cassette-deck '(and single-cassette-deck TECHNICS-RS-BX606
+				    (fills component-of high-audio-only-system-example)))
+(cl-create-ind 'hao-left-speaker '(and BOSTON-ACOUSTICS-300l MAIN-LEFT-SPEAKER
+				   (fills component-of high-audio-only-system-example)))
+(cl-create-ind 'hao-right-speaker '(and BOSTON-ACOUSTICS-300l MAIN-RIGHT-SPEAKER
+				    (fills component-of high-audio-only-system-example)))
+(cl-create-ind 'hao-secondary-left-speaker
+	       '(and VISION-ACOUSTICS-300L SECONDARY-MAIN-LEFT-SPEAKER
+		 (fills component-of high-audio-only-system-example)))
+(cl-create-ind 'hao-secondary-right-speaker
+	       '(and VISION-ACOUSTICS-300L SECONDARY-MAIN-RIGHT-SPEAKER
+		 (fills component-of high-audio-only-system-example)))
+(cl-create-ind 'hao-subwoofer '(and BOSTON-ACOUSTICS-POWERVENT-300
+				(fills component-of high-audio-only-system-example)))
+(cl-create-ind 'hao-headphones
+	       '(and aiwa-hp-x1000 headphones
+		 (fills component-of high-audio-only-system-example)))
+(cl-create-ind 'high-audio-only-system-example '(and guided-stereo-system high-audio-only-system
+						 (fills amplifier hao-amplifier)
+						 (fills preamplifier hao-preamplifier)
+						 (fills main-left-speaker hao-left-speaker)
+						 (fills main-right-speaker hao-right-speaker)
+						 (fills secondary-main-left-speaker hao-secondary-left-speaker)
+						 (fills secondary-main-right-speaker hao-secondary-right-speaker)
+						 (fills subwoofer hao-subwoofer)
+						 (fills headphones hao-headphones)
+						 (fills tuner hao-tuner)
+						 (fills cd-player hao-cd-player)
+						 (fills cassette-deck hao-cassette-deck)
+						 (fills required-components
+						  hao-preamplifier hao-amplifier
+						  hao-left-speaker hao-right-speaker)))
+
+(cl-create-ind 'lhto-left-speaker '(and infinity-1001 MAIN-LEFT-SPEAKER
+				   (fills component-of low-home-theater-only-system-example)))
+(cl-create-ind 'lhto-right-speaker '(and infinity-1001 MAIN-RIGHT-SPEAKER
+				     (fills component-of low-home-theater-only-system-example)))
+(cl-create-ind 'lhto-tv '(and tv SAMSUNGTXB2725
+			  (fills component-of low-home-theater-only-system-example)))
+(cl-create-ind 'lhto-vcr '(and vcr PANASONIC-PV-4214
+			   (fills component-of low-home-theater-only-system-example)))
+(cl-create-ind 'lhto-receiver '(and receiver jvc-rx-v470
+				(fills component-of low-home-theater-only-system-example)))
+(cl-create-ind 'low-home-theater-only-system-example
+	       '(and guided-stereo-system low-home-theater-only-system
+		 (fills main-left-speaker lhto-left-speaker)
+		 (fills main-right-speaker lhto-right-speaker)
+		 (fills vcr lhto-vcr)
+		 (fills tv lhto-tv)
+		 (fills receiver lhto-receiver)
+		 (fills required-components
+		  lhto-left-speaker lhto-right-speaker lhto-vcr lhto-tv lhto-receiver)))
+
+(cl-create-ind 'mhto-left-speaker '(and TANNOY-613 MAIN-LEFT-SPEAKER
+				    (fills component-of mid-home-theater-only-system-example)))
+(cl-create-ind 'mhto-right-speaker '(and TANNOY-613  MAIN-RIGHT-SPEAKER
+				    (fills component-of mid-home-theater-only-system-example)))
+(cl-create-ind 'mhto-surround-left-speaker '(and REALISTIC-MINIMUS-77 surround-LEFT-SPEAKER
+				   (fills component-of mid-home-theater-only-system-example)))
+(cl-create-ind 'mhto-surround-right-speaker '(and REALISTIC-MINIMUS-77  surround-RIGHT-SPEAKER
+					      (fills component-of mid-home-theater-only-system-example)))
+(cl-create-ind 'mhto-center-speaker
+	       '(and DESIGN-ACOUSTICS-PS-CV center-speaker
+		 (fills component-of mid-home-theater-only-system-example)))
+(cl-create-ind 'mhto-tv '(and tv PANASONIC-CT-27S15
+			  (fills component-of mid-home-theater-only-system-example)))
+(cl-create-ind 'mhto-vcr '(and RCA-VR526A vcr
+			   (fills component-of mid-home-theater-only-system-example)))
+(cl-create-ind 'mhto-receiver '(and receiver PIONEER-VSX-451
+				(fills component-of mid-home-theater-only-system-example)))
+(cl-create-ind 'mid-home-theater-only-system-example
+	       '(and guided-stereo-system mid-home-theater-only-system
+		 (fills main-left-speaker mhto-left-speaker)
+		 (fills main-right-speaker mhto-right-speaker)
+		 (fills surround-left-speaker mhto-surround-left-speaker)
+		 (fills surround-right-speaker mhto-surround-right-speaker)
+		 (fills center-speaker mhto-center-speaker)
+		 (fills vcr mhto-vcr)
+		 (fills tv mhto-tv)
+		 (fills receiver mhto-receiver)
+		 (fills required-components
+		  mhto-left-speaker mhto-right-speaker mhto-surround-left-speaker
+		  mhto-surround-right-speaker mhto-vcr mhto-tv)))
+
+(cl-create-ind 'hhto-left-speaker '(and BOSTON-ACOUSTICS-300L MAIN-LEFT-SPEAKER
+				   (fills component-of high-home-theater-only-system-example)))
+(cl-create-ind 'hhto-right-speaker '(and BOSTON-ACOUSTICS-300L MAIN-RIGHT-SPEAKER
+				   (fills component-of high-home-theater-only-system-example)))
+(cl-create-ind 'hhto-surround-left-speaker '(and BOSTON-ACOUSTICS-HD5V surround-LEFT-SPEAKER
+				   (fills component-of high-home-theater-only-system-example)))
+(cl-create-ind 'hhto-surround-right-speaker '(and BOSTON-ACOUSTICS-HD5V surround-RIGHT-SPEAKER
+					      (fills component-of high-home-theater-only-system-example)))
+(cl-create-ind 'hhto-center-speaker '(and DESIGN-ACOUSTICS-PS-CV CENTER-SPEAKER
+				      (fills component-of high-home-theater-only-system-example)))
+(cl-create-ind 'hhto-subwoofer '(and mirage-ps-12180 subwoofer
+				 (fills component-of high-home-theater-only-system-example)))
+(cl-create-ind 'hhto-tv '(and tv SONY-KV32XBR35
+			  (fills component-of high-home-theater-only-system-example)))
+(cl-create-ind 'hhto-vcr '(and SONY-SLV-595HF HIFI-VCR
+			   (fills component-of high-home-theater-only-system-example)))
+(cl-create-ind 'hhto-preamplifier '(and DENON-AVP-5000 preamplifier
+				    (fills component-of high-home-theater-only-system-example)))
+(cl-create-ind 'hhto-amplifier '(and DENON-POA-5000 amplifier
+				 (fills component-of high-home-theater-only-system-example)))
+(cl-create-ind 'hhto-laserdisc
+	       '(and PIONEER-CD-701 laserdisc
+		 (fills component-of high-home-theater-only-system-example)))
+(cl-create-ind 'high-home-theater-only-system-example
+	       '(and guided-stereo-system high-home-theater-only-system
+		 (fills main-left-speaker hhto-left-speaker)
+		 (fills main-right-speaker hhto-right-speaker)
+		 (fills surround-left-speaker hhto-surround-left-speaker)
+		 (fills surround-right-speaker hhto-surround-right-speaker)
+		 (fills center-speaker hhto-center-speaker)
+		 (fills subwoofer hhto-subwoofer)
+		 (fills vcr hhto-vcr)
+		 (fills tv hhto-tv)
+		 (fills amplifier hhto-amplifier)
+		 (fills preamplifier hhto-preamplifier)
+		 (fills laserdisc hhto-laserdisc)
+		 (fills required-components
+		  hhto-left-speaker hhto-right-speaker hhto-surround-left-speaker
+		  hhto-surround-right-speaker hhto-center-speaker hhto-vcr hhto-tv)))
+
+(cl-create-ind 'lc-left-speaker '(and infinity-1001 MAIN-LEFT-SPEAKER
+				   (fills component-of low-combination-system-example)))
+(cl-create-ind 'lc-right-speaker '(and infinity-1001 MAIN-RIGHT-SPEAKER
+				     (fills component-of low-combination-system-example)))
+(cl-create-ind 'lc-tv '(and tv SAMSUNGTXB2725
+			  (fills component-of low-combination-system-example)))
+(cl-create-ind 'lc-vcr '(and vcr PANASONIC-PV-4214
+			   (fills component-of low-combination-system-example)))
+(cl-create-ind 'lc-cd-player '(and cd-player kenwood-dpr-3060
+				(fills component-of low-combination-system-example)))
+(cl-create-ind 'lc-cassette-deck '(and cassette-deck kenwood-kxw-1060
+				(fills component-of low-combination-system-example)))
+(cl-create-ind 'lc-receiver '(and receiver jvc-rx-v470
+				(fills component-of low-combination-system-example)))
+(cl-create-ind 'low-combination-system-example
+	       '(and guided-stereo-system low-combination-system
+		 (fills main-left-speaker lc-left-speaker)
+		 (fills main-right-speaker lc-right-speaker)
+		 (fills vcr lc-vcr)
+		 (fills tv lc-tv)
+		 (fills receiver lc-receiver)
+		 (fills cd-player lc-cd-player)
+		 (fills cassette-deck lc-cassette-deck)
+		 (fills required-components
+		  lc-left-speaker lc-right-speaker lc-vcr lc-tv lc-receiver)))
+
+(cl-create-ind 'mc-left-speaker '(and TANNOY-613 MAIN-LEFT-SPEAKER
+				    (fills component-of mid-combination-system-example)))
+(cl-create-ind 'mc-right-speaker '(and TANNOY-613  MAIN-RIGHT-SPEAKER
+				    (fills component-of mid-combination-system-example)))
+(cl-create-ind 'mc-surround-left-speaker '(and REALISTIC-MINIMUS-77 surround-LEFT-SPEAKER
+				   (fills component-of mid-combination-system-example)))
+(cl-create-ind 'mc-surround-right-speaker '(and REALISTIC-MINIMUS-77 surround-RIGHT-SPEAKER
+					      (fills component-of mid-combination-system-example)))
+(cl-create-ind 'mc-tv '(and tv PANASONIC-CT-27S15
+			  (fills component-of mid-combination-system-example)))
+(cl-create-ind 'mc-vcr '(and rca-vr667hf vcr
+			 (fills component-of mid-combination-system-example)))
+(cl-create-ind 'mc-receiver '(and receiver PIONEER-VSX-451
+				(fills component-of mid-combination-system-example)))
+(cl-create-ind 'mc-cassette-deck
+	       '(and denon-drm-740 single-cassette-deck
+		 (fills component-of mid-combination-system-example)))
+(cl-create-ind 'mc-cd-player
+	       '(and sony-cdp-c345 cd-player
+		 (fills component-of mid-combination-system-example)))
+(cl-create-ind 'mc-headphones
+	       '(and aiwa-hp-x1000 headphones
+		 (fills component-of mid-combination-system-example)))
+(cl-create-ind 'mc-center-speaker
+	       '(and DESIGN-ACOUSTICS-PS-CV center-speaker
+		 (fills component-of mid-combination-system-example)))
+(cl-create-ind 'mid-combination-system-example
+	       '(and guided-stereo-system mid-combination-system
+		 (fills main-left-speaker mc-left-speaker)
+		 (fills main-right-speaker mc-right-speaker)
+		 (fills surround-left-speaker mc-surround-left-speaker)
+		 (fills surround-right-speaker mc-surround-right-speaker)
+		 (fills vcr mc-vcr)
+		 (fills tv mc-tv)
+		 (fills receiver mc-receiver)
+		 (fills cassette-deck mc-cassette-deck)
+		 (fills cd-player mc-cd-player)
+		 (fills receiver mc-receiver)
+		 (fills headphones mc-headphones)
+		 (fills center-speaker mc-center-speaker)
+		 (fills required-components
+		  mc-left-speaker mc-right-speaker mc-surround-left-speaker
+		  mc-surround-right-speaker mc-vcr mc-tv)))
+
+(cl-create-ind 'hc-left-speaker '(and BOSTON-ACOUSTICS-300L MAIN-LEFT-SPEAKER
+				   (fills component-of high-combination-system-example)))
+(cl-create-ind 'hc-right-speaker '(and BOSTON-ACOUSTICS-300L MAIN-RIGHT-SPEAKER
+				   (fills component-of high-combination-system-example)))
+(cl-create-ind 'hc-surround-left-speaker '(and BOSTON-ACOUSTICS-HD5V surround-LEFT-SPEAKER
+				   (fills component-of high-combination-system-example)))
+(cl-create-ind 'hc-surround-right-speaker '(and BOSTON-ACOUSTICS-HD5V surround-RIGHT-SPEAKER
+					      (fills component-of high-combination-system-example)))
+(cl-create-ind 'hc-center-speaker '(and DESIGN-ACOUSTICS-PS-CV CENTER-SPEAKER
+				      (fills component-of high-combination-system-example)))
+(cl-create-ind 'hc-tv '(and tv SONY-KV32XBR35
+			  (fills component-of high-combination-system-example)))
+(cl-create-ind 'hc-vcr '(and SONY-SLV-595HF HIFI-VCR
+			   (fills component-of high-combination-system-example)))
+(cl-create-ind 'hc-secondary-left-speaker
+	       '(and VISION-ACOUSTICS-300L SECONDARY-MAIN-LEFT-SPEAKER
+		 (fills component-of high-combination-system-example)))
+(cl-create-ind 'hc-secondary-right-speaker
+	       '(and VISION-ACOUSTICS-300L SECONDARY-MAIN-RIGHT-SPEAKER
+		 (fills component-of high-combination-system-example)))
+(cl-create-ind 'hc-subwoofer '(and mirage-ps-12180 subwoofer
+				 (fills component-of high-combination-system-example)))
+(cl-create-ind 'hc-preamplifier '(and DENON-AVP-5000 preamplifier
+				    (fills component-of high-combination-system-example)))
+(cl-create-ind 'hc-amplifier '(and DENON-POA-5000 amplifier
+				 (fills component-of high-combination-system-example)))
+(cl-create-ind 'hc-tuner '(and tuner denon-TU-680NAB
+			    (fills component-of high-combination-system-example)))
+(cl-create-ind 'hc-cd-player '(and cd-player
+;;				denon-dcm-440
+				ONKYO-INTEGRA-DX-706
+				(fills component-of high-combination-system-example)))
+(cl-create-ind 'hc-cassette-deck '(and single-cassette-deck TECHNICS-RS-BX606
+				    (fills component-of high-combination-system-example)))
+(cl-create-ind 'hc-headphones
+	       '(and aiwa-hp-x1000 headphones
+		 (fills component-of high-combination-system-example)))
+(cl-create-ind 'hc-laserdisc
+	       '(and PIONEER-CD-701 laserdisc
+		 (fills component-of high-combination-system-example)))
+(cl-create-ind 'high-combination-system-example
+	       '(and guided-stereo-system high-combination-system
+		 (fills main-left-speaker hc-left-speaker)
+		 (fills main-right-speaker hc-right-speaker)
+		 (fills surround-left-speaker hc-surround-left-speaker)
+		 (fills surround-right-speaker hc-surround-right-speaker)
+		 (fills center-speaker hc-center-speaker)
+		 (fills vcr hc-vcr)
+		 (fills tv hc-tv)
+		 (fills secondary-main-left-speaker hc-secondary-left-speaker)
+		 (fills secondary-main-right-speaker hc-secondary-right-speaker)
+		 (fills subwoofer hc-subwoofer)
+		 (fills amplifier hc-amplifier)
+		 (fills preamplifier hc-preamplifier)
+		 (fills tuner hc-tuner)
+		 (fills cd-player hc-cd-player)
+		 (fills cassette-deck hc-cassette-deck)
+		 (fills headphones hc-headphones)
+		 (fills laserdisc hc-laserdisc)
+		 (fills required-components
+		  hc-left-speaker hc-right-speaker hc-surround-left-speaker
+		  hc-surround-right-speaker hc-center-speaker hc-vcr hc-tv)))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; some tests
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#|
+(cl-create-ind 'i1 '(and low-audio-only-system (fills price 500)))
+(cl-print-ind @i1)  ;; notice the new info on receiver
+(cl-exp @i1 :role-path (list @r{receiver}))
+(cl-exp @i1 :role-path (list @r{speaker}))
+(cl-create-ind 'i2 '(and audio-only-system (all price (max 150))))
+(cl-create-ind 'i3 '(and audio-only-system (fills price 700)))
+(cl-print-ind @i3)  ;; notice the new info on receiver
+(cl-exp @i3 :role-path (list @r{receiver}))
+(cl-exp @i3 :role-path (list @r{speaker}))
+(cl-create-ind 'h1 '(and home-theater-only-system 
+		     (all price (max 1200))))
+(cl-print-ind @h1)
+(cl-create-ind 'h2 '(and home-theater-only-system 
+		     (all price (and (min 1500) (max 2000)))))
+(cl-print-ind @h2)
+(cl-create-ind 'h3 '(and home-theater-only-system 
+		     (all price (min 3500) )))
+(cl-print-ind @h3)
+(cl-create-ind 'i4 '(and stereo-system
+		     (all receiver (fills 4-ohm-power 0))))
+
+(cl-exp @i4 :role-path (list @r{speaker}))
+(cl-create-ind 's1 '(and stereo-system (at-least 3 main-speaker)))
+(let ((*cl-exp-ignore-at-least* NIL))
+  (cl-exp @s1))
+
+
+;; possible demo questions:
+(cl-exp @system-24 :role-path (list @r{speaker} @r{8-ohm-power}))
+(print-rule '8-ohm-speakers-required)
+(cl-exp-rule-firing @system-0 (cl-named-rule '8-ohm-speakers-required))
+
+(cl-exp-rule-firing @system-11 (cl-named-rule '4-ohm-rating-required))
+
+(print-rule 'high-audio-receiver)
+(cl-exp (cl-error-object 'system-0) :role-path @r{preamplifier} :aspect 'at-most)
+
+(cl-exp @receiver-33 :role-path @r{4-ohm-power})
+(cl-exp @system-25 :role-path (list @r{receiver} @r{4-ohm-power}))
+(print-rule '4-ohm-rating-required)
+
+(cl-exp @system-0 :role-path (list @r{speaker} @r{8-ohm-power}))
+(cl-exp @system-0 :role-path (list @r{preamplifier}))
+(cl-exp @system-0 :role-path (list @r{tv}))
+ (cl-complete-exp (cl-error-object 'preamplifier-67) :aspect 'fills :role-path @r{maker})
+(cl-exp @system-57 :role-path (list @r{preamplifier} @r{maker}) :aspect 'fills)
+(print-rule 'quad-tuner-requires-quad-preamp)
+(cl-exp @system-111 :role-path (list @r{receiver} @r{ab-switch-value}) :aspect 'fills)
+(print-rule 'ab-switched-amplifying-devices)
+
+|#
+
+
+

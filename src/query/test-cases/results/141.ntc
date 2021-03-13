@@ -1,0 +1,1 @@
+(((RETRIEVE (?X ?Y) (?X ?Y (:CONSTRAINT |http://www.owl-ontologies.com/unnamed.owl#name| |http://www.owl-ontologies.com/unnamed.owl#name| STRING=))) (((?X |http://www.owl-ontologies.com/unnamed.owl#b|) (?Y |http://www.owl-ontologies.com/unnamed.owl#a|)) ((?X |http://www.owl-ontologies.com/unnamed.owl#a|) (?Y |http://www.owl-ontologies.com/unnamed.owl#b|))) RES-EQUAL-P))

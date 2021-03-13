@@ -1,0 +1,1 @@
+(((retrieve (?*x) (not (?*x (:has-known-successor 3)))) (((?*x g)) ((?*x e)) ((?*x d))) res-equal-p))

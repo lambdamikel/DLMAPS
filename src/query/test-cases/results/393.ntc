@@ -1,0 +1,1 @@
+(((GET-ALL-ANSWERS) ((:QUERY-2 (((?A A) (?*A A))))) GET-ALL-ANSWERS-EQUAL-P))

@@ -1,0 +1,1 @@
+(((RETRIEVE (?X ?*Y) (AND (?X (AND HUMAN (SOME COLLEGUE TEACHER))) (?X ?Y COLLEGUE) (?*Y "Ralf Moeller"))) (((?X MICHAEL) (?*Y RALF))) RES-EQUAL-P))

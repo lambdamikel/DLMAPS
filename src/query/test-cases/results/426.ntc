@@ -1,0 +1,1 @@
+(((RETRIEVE (?*Y) (AND (?*X (AGE 34)) (?*X ?*Y (HAS-COLLEGUE)) (?*Y "Ralf Moeller"))) (((?*Y RALF))) RES-EQUAL-P))

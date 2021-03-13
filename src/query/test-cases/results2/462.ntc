@@ -1,0 +1,1 @@
+(((firerule nil ((instance (new-ind b) (an age)))) (((instance b (an age)))) res-equal-p))

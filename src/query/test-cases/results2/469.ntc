@@ -1,0 +1,1 @@
+(((firerule (a top) ((constraints (= (told-value (age a)) (age a))))) (((constraints (= 30 age-of-a)))) res-equal-p))

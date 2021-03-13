@@ -1,0 +1,1 @@
+(((RETRIEVE (?*X) (NOT (?*X (:HAS-KNOWN-SUCCESSOR 3)))) (((?*X G)) ((?*X E)) ((?*X D))) RES-EQUAL-P))

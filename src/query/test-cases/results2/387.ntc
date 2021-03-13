@@ -1,0 +1,1 @@
+(((def-and-prep-query test (?a) (and (?a man) (:substitute (mother-with-male-child nil ?a)))) (:query-4 :ready-to-run) res-equal-p))

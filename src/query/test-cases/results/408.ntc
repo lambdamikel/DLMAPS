@@ -1,0 +1,1 @@
+(((RETRIEVE (?*X ?X ?*Y) (AND (?X (AND (STRING= HAS-NAME "Hamburg") (SOME IN-COUNTRY GERMANY))) (TOP ?*X) (NOT (?*Y COUNTRY)) (?*X ?*Y :PP))) (((?*X HAMBURG) (?X HAMBURG) (?*Y EUROPE))) RES-EQUAL-P))

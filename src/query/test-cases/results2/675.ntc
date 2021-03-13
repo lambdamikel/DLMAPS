@@ -1,0 +1,1 @@
+(((racer-answer-query (quote (?x (age ?x) (:told-value (age ?x)) (name ?x) (:told-value (name ?x)))) (quote (?x (and (an age) (string= name "alice")))) :timeout *timeout* :abox (or *abox* (current-abox))) (((?x alice) ((age ?x) (huhu alice-age)) ((:told-value (age ?x)) (:no-told-value 80)) ((name ?x) (alice-name)) ((:told-value (name ?x)) ("alice")))) res-equal-p))

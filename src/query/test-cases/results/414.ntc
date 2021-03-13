@@ -1,0 +1,1 @@
+(((RETRIEVE (?*X ?*Y) (AND (?*X (:PREDICATE (SEARCH "mich"))) (?*X ?*Y ((:PREDICATE (= 5)) (:PREDICATE (= 3)))))) (((?*X C) (?*Y D))) RES-EQUAL-P))

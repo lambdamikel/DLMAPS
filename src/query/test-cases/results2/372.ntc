@@ -1,0 +1,1 @@
+(((racer-answer-tbox-query (quote (?x ?y)) (quote (and (?x woman) (?y sister) (?x ?y has-child))) :timeout *timeout* :tbox (or *tbox* (current-tbox))) (((?x woman) (?y sister))) res-equal-p))

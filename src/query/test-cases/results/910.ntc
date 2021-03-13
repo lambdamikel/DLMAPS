@@ -1,0 +1,1 @@
+(((RACER-ANSWER-QUERY (QUOTE (?X ?Y)) (QUOTE (?X ?Y R1)) :TIMEOUT *TIMEOUT* :ABOX (OR *ABOX* (CURRENT-ABOX))) (((?X I) (?Y J)) ((?X H) (?Y I)) ((?X H) (?Y J))) RES-EQUAL-P))

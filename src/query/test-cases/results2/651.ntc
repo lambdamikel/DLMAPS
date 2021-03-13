@@ -1,0 +1,1 @@
+(((racer-answer-query (quote (?x)) (quote (?x (an |http://a.com/ontology#p3| string))) :timeout *timeout* :abox (or *abox* (current-abox))) nil res-equal-p))

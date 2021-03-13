@@ -1,0 +1,1 @@
+(((racer-answer-tbox-query (quote (*top*)) (quote (and (*top* *top*))) :timeout *timeout* :tbox (or *tbox* (current-tbox))) ((($?*top* *top*))) res-equal-p))

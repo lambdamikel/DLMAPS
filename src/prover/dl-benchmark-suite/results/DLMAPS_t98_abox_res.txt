@@ -1,0 +1,8 @@
+k_branch_n              71     3   1 Y       0.32s
+k_d4_n                  48     4   1 Y       0.06s
+k_dum_n                 71     5   1 Y       0.36s
+k_grz_n                109     1   1 Y       0.04s
+k_lin_n                 10     2   1 Y       0.01s
+k_path_n                91    13   1 Y       1.84s
+k_ph_n                   7     2   1 Y       0.01s
+k_poly_n                66    18   1 Y       1.56s

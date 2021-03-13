@@ -1,0 +1,1 @@
+(((RACER-ANSWER-QUERY (QUOTE (?X (:DATATYPE-FILLERS (|http://a.com/ontology#p1| ?X)))) (QUOTE (?X (AT-LEAST 3 |http://a.com/ontology#p1|))) :TIMEOUT *TIMEOUT* :ABOX (OR *ABOX* (CURRENT-ABOX))) (((?X |http://a.com/ontology#i|) ((:TOLD-VALUE (|http://a.com/ontology#p1| ?X)) (3 2 1)))) RES-EQUAL-P))

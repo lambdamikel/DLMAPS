@@ -1,0 +1,1 @@
+(((racer-answer-query (quote (?x)) (quote (not (?x (:has-known-successor r)))) :timeout *timeout* :abox (or *abox* (current-abox))) (((?x d)) ((?x c)) ((?x a))) res-equal-p))

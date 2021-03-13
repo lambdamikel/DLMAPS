@@ -1,0 +1,1 @@
+(((get-next-tuple :last) :exhausted res-equal-p))

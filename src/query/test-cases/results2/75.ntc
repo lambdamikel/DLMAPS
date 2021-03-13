@@ -1,0 +1,1 @@
+(((racer-prepare-query (quote (?x)) (quote (and (?x human) (?x (< age 80)))) :timeout *timeout* :abox (or *abox* (current-abox))) (:query-75 :ready-to-run) res-equal-p))

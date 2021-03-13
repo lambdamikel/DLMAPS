@@ -1,0 +1,87 @@
+=====================================================================
+                              FaCT v1.9
+=====================================================================
+
+
+
+Obtaining FaCT
+--------------
+
+The latest version of FaCT can be obtained from:
+
+	www.cs.man.ac.uk/~horrocks/FaCT
+
+
+
+Installing FaCT
+---------------
+
+After downloading the FaCT distribution file type:
+
+	gunzip FaCT.tar.gz ; tar xvf FaCT.tar
+
+to create a directory "FaCT" containing the distribution files and
+directories.
+
+Presumably you already got that far if you are reading this.
+
+There is a Makefile to help you complete the installation. You must
+edit the first line of this file so that it indicates the command you
+use to run your LISP. By default this command is set to "lisp".
+
+To compile FaCT (and some other LISP stuff) type:
+
+	make compile
+
+To build the user manual using LaTeX, type:
+
+	make manual
+
+To run a set of tests based on randomly generated propositional modal
+K(m) formulae and create a postscript document (in the Results/Latex
+directory) containing plots of all the results type:
+
+	make test
+
+In the directory "Tboxes" there is a large Tbox (galen.tbox) derived
+from the GALEN project which you can use to experiment with
+FaCT. Names have been changed to protect the innocent. There are also
+two slightly modified versions of the Tbox which can be used with the
+KRIS system for comparative purposes: in galen-kris-1.tbox general
+inclusion axioms have been pre-absorbed into primitive concept
+introductions; in galen-kris-2.tbox they have been have been replaced
+with non-primitive concept definitions (because galen-kris-1.tbox
+gives KRIS indigestion).
+
+
+The FaCT distribution
+---------------------
+
+README        - this file.
+LICENCE       - copy of GNU General Public License.
+Makefile      - for compiling FaCT etc.
+FaCT.lsp      - LISP source for FaCT.
+compile.lsp   - compiles LISP source files.
+plot-data     - executable, plots test data using gnuplot.
+run-tests.lsp - runs random K(m) tests.
+
+Manual        - directory containing the FaCT user manual.
+
+RandGen       - directory containing random K(m) formula generation
+                software.
+  Hustadt     - directory containing the random generator developed by
+                Hustadt and Schmidt.
+  Sebastiani  - directory containing the random generator developed by
+                Giunchiglia and Sebastiani.
+
+Results       - directory where results files will be written if you run
+	        the tests.
+  Gnuplot     - directory containing gnuplot texts for plotting the
+                data from the tests.
+  Latex       - directory containing LaTeX file for pretty printing of
+                test results.
+
+Tboxes        - directory containing some test knowledge bases.
+
+Utilities     - directory containing a LISP utility used to process the
+                data from the tests.

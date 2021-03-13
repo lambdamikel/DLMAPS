@@ -1,0 +1,1 @@
+(((RACER-ANSWER-QUERY (QUOTE (?X)) (QUOTE (?X (ALL |http://a.com/ontology#p3| (OR (BOOLEAN= #T) (BOOLEAN= #F))))) :TIMEOUT *TIMEOUT* :ABOX (OR *ABOX* (CURRENT-ABOX))) (((?X |http://a.com/ontology#i|))) RES-EQUAL-P))

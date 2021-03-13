@@ -1,0 +1,1 @@
+(((racer-answer-query (quote ((:annotations (|http://www.owl-ontologies.com/unnamed.owl#annot1| ?x)))) (quote (?x (an |http://www.owl-ontologies.com/unnamed.owl#annot1|))) :timeout *timeout* :abox (or *abox* (current-abox))) ((((:told-value (|http://www.owl-ontologies.com/unnamed.owl#annot1| ?x)) ("erwer")))) res-equal-p))

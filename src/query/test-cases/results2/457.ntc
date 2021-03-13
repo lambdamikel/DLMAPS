@@ -1,0 +1,1 @@
+(((retrieve-under-premise ((instance a c)) (?x) (and (?x c))) (((?x a))) res-equal-p))

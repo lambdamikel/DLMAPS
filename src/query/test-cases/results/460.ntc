@@ -1,0 +1,1 @@
+(((RACER-ANSWER-QUERY (QUOTE (?X ?Y)) (QUOTE (?X ?Y (CONSTRAINT |http://www.owl-ontologies.com/unnamed.owl#age| |http://www.owl-ontologies.com/unnamed.owl#age| <))) :TIMEOUT *TIMEOUT* :ABOX (OR *ABOX* (CURRENT-ABOX))) NIL RES-EQUAL-P))

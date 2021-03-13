@@ -1,0 +1,1 @@
+(((list (get-next-tuple :last) (get-next-tuple :last)) (((?x doris)) ((?x betty))) res-equal-p))

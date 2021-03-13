@@ -1,0 +1,1 @@
+(((retrieve (?x ?y) (?x ?y r1)) (:query-1 :running) res-equal-p))

@@ -1,0 +1,1 @@
+(((told-value (quote c-age)) 10 equalp))

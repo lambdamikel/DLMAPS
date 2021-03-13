@@ -1,0 +1,1 @@
+(((execute-all-queries :timeout *timeout*) ((((?a a) (?*a a)))) res-equal-p))

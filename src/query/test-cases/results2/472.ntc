@@ -1,0 +1,1 @@
+(((firerule (?x top) ((instance (new-ind test ?x) test) (constrained (new-ind test ?x) (new-ind test-cd ?x) age) (constraints (= (new-ind test-cd ?x) 40)))) (((instance test-b test) (constrained test-b test-cd-b age) (constraints (= test-cd-b 40))) ((instance test-a test) (constrained test-a test-cd-a age) (constraints (= test-cd-a 40)))) res-equal-p))

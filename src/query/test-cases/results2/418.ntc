@@ -1,0 +1,1 @@
+(((retrieve (?*x) (?*x (((:predicate stringp) (:predicate numberp))))) (((?*x c)) ((?*x g)) ((?*x e))) res-equal-p))

@@ -1,0 +1,1 @@
+(((racer-answer-query (quote (?x)) (quote (and (?x (string= name "alice smith")))) :timeout *timeout* :abox (or *abox* (current-abox))) (((?x alice))) res-equal-p))

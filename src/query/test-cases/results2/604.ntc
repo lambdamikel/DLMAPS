@@ -1,0 +1,1 @@
+(((racer-answer-query (quote (?x ?y)) (quote (?x ?y (:constraint (has-father has-mother age) (has-mother has-father age) >=))) :timeout *timeout* :abox (or *abox* (current-abox))) nil res-equal-p))

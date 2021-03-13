@@ -1,0 +1,1 @@
+(((RETRIEVE (?*X ?*Y) (?*X ?*Y :PPI)) (((?*X B) (?*Y C)) ((?*X A) (?*Y B)) ((?*X A) (?*Y C))) RES-EQUAL-P))

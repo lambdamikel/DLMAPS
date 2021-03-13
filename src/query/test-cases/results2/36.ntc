@@ -1,0 +1,1 @@
+(((racer-prepare-query (quote (?x ?y)) (quote (and (?x ?y has-child) (?x woman) (?y man))) :timeout *timeout* :abox (or *abox* (current-abox))) (:query-36 :ready-to-run) res-equal-p))

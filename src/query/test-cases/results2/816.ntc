@@ -1,0 +1,1 @@
+(((racer-answer-query (quote (?x)) (quote (not (?x ?x (:constraint (has-mother age) (has-father age) <)))) :timeout *timeout* :abox (or *abox* (current-abox))) (((?x doris)) ((?x james)) ((?x alice)) ((?x charles)) ((?x betty))) res-equal-p))

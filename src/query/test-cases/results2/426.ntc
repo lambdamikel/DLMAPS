@@ -1,0 +1,1 @@
+(((retrieve (?*y) (and (?*x (age 34)) (?*x ?*y (has-collegue)) (?*y "ralf moeller"))) (((?*y ralf))) res-equal-p))

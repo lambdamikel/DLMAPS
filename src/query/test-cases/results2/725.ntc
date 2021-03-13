@@ -1,0 +1,1 @@
+(((racer-answer-query (quote (?x)) (quote (not (?x man))) :timeout *timeout* :abox (or *abox* (current-abox))) (((?x doris)) ((?x eve)) ((?x betty)) ((?x alice))) res-equal-p))

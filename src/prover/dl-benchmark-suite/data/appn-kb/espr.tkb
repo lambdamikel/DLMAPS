@@ -1,0 +1,434 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; espr knowledge base, modified for KRSS syntax and other modifications.
+;;;
+;;; This knowledge base was used in the DFKI DL system comparisons.  It 
+;;; contains information about espresso machines and their structure. It was
+;;; used in the WIP project at DFKI. 
+;;; 
+;;; Use only for experimental or research purposes.
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(define-primitive-role HAT-POSITION (domain-range TOP TOP))
+       
+(define-primitive-role MARKIERUNG-HAT-POSITION HAT-POSITION )
+(define-primitive-concept POSITION  
+  (and TOP))
+(define-primitive-concept PHYSIKALISCHES-OBJEKT  
+  (all HAT-POSITION POSITION))
+(define-primitive-concept MARKIERUNGSPOSITION  
+  (and POSITION))
+(define-primitive-concept MARKIERUNG  
+  (and TOP
+       (all MARKIERUNG-HAT-POSITION MARKIERUNGSPOSITION)
+       (at-least 1 MARKIERUNG-HAT-POSITION)
+       (at-most 1 MARKIERUNG-HAT-POSITION)) )
+(define-primitive-role HAT-POSITION-WB-VERSCHLKAPPENMARKIERUNG MARKIERUNG-HAT-POSITION)
+(define-primitive-concept WB-VERSCHLKAPPENMARKIERUNG  
+  (and MARKIERUNG 
+       (all HAT-POSITION-WB-VERSCHLKAPPENMARKIERUNG TOP)))
+(define-primitive-concept SCHALTERSTELLUNG  
+  (and TOP))
+(define-primitive-concept DUO-SCHALTERSTELLUNG  
+  (and SCHALTERSTELLUNG))
+(define-primitive-concept NULL-STELLUNG  
+  (and DUO-SCHALTERSTELLUNG))
+(define-primitive-concept ESPRESSO-STELLUNG  
+  (and DUO-SCHALTERSTELLUNG))
+(define-primitive-concept ATTRIBUT  
+  (and TOP))
+(define-primitive-concept AGZG-ATTRIBUT  
+  (and ATTRIBUT))
+(define-primitive-concept ZUGEDREHT  
+  (and AGZG-ATTRIBUT))
+(define-primitive-concept AUFGEDREHT  
+  (and AGZG-ATTRIBUT))
+(define-primitive-concept LF-ATTRIBUT  
+  (and ATTRIBUT))
+(define-primitive-concept FEST1
+  (and LF-ATTRIBUT))
+(define-primitive-concept LOCKER  
+  (and LF-ATTRIBUT))
+(define-primitive-concept OZ-ATTRIBUT  
+  (and ATTRIBUT))
+(define-primitive-concept GESCHLOSSEN  
+  (and OZ-ATTRIBUT))
+(define-primitive-concept OFFEN  
+  (and OZ-ATTRIBUT))
+(define-primitive-concept FUELLGRAD  
+  (and TOP))
+(define-primitive-concept TEILW-VOLL  
+  (and FUELLGRAD))
+(define-primitive-concept VOLL  
+  (and FUELLGRAD))
+(define-primitive-concept LEER  
+  (and FUELLGRAD))
+(define-primitive-concept RICHTUNG  
+  (and TOP))
+(define-primitive-concept HINTEN  
+  (and RICHTUNG))
+(define-primitive-concept VORNE  
+  (and RICHTUNG))
+(define-primitive-concept UNTEN  
+  (and RICHTUNG))
+(define-primitive-concept OBEN  
+  (and RICHTUNG))
+(define-primitive-concept RECHTS  
+  (and RICHTUNG))
+(define-primitive-concept LINKS  
+  (and RICHTUNG))
+(define-primitive-concept WB-VERSCHLKAPPMARKPOS  
+  (and MARKIERUNGSPOSITION))
+(define-primitive-concept NICHT-ZW-MIN-MAX  
+  (and WB-VERSCHLKAPPMARKPOS))
+(define-primitive-concept ZW-MIN-MAX  
+  (and WB-VERSCHLKAPPMARKPOS))
+(define-primitive-concept WB-VERSCHLKAPPENPOSITION  
+  (and POSITION))
+(define-primitive-concept NICHT-AUF-WB-OEFFNUNG  
+  (and WB-VERSCHLKAPPENPOSITION))
+(define-primitive-concept AUF-WB-OEFFNUNG  
+  (and WB-VERSCHLKAPPENPOSITION))
+(define-primitive-concept TASSENPOSITION  
+  (and POSITION))
+(define-primitive-concept TASSEN-NICHT-UNTER-WAO  
+  (and TASSENPOSITION))
+(define-primitive-concept TASSEN-UNTER-WAO  
+  (and TASSENPOSITION))
+(define-primitive-concept TASSEN-NICHT-AUF-ABSTELLFLAECHE  
+  (and TASSENPOSITION))
+(define-primitive-concept TASSEN-AUF-ABSTELLFLAECHE  
+  (and TASSENPOSITION))
+(define-primitive-concept FILTERHALTERPOSITION  
+  (and POSITION))
+(define-primitive-concept HALTER-UNTER-WAO-NICHT-BEF  
+  (and FILTERHALTERPOSITION))
+(define-primitive-concept HALTER-NICHT-UNTER-WAO  
+  (and FILTERHALTERPOSITION))
+(define-primitive-concept HALTER-UNTER-WAO-BEF  
+  (and FILTERHALTERPOSITION))
+(define-primitive-concept PULVERPOSITION  
+  (and POSITION))
+(define-primitive-concept PULVER-AUS-FILTER  
+  (and PULVERPOSITION))
+(define-primitive-concept PULVER-in-FILTER  
+  (and PULVERPOSITION))
+(define-primitive-concept FILTERPOSITION  
+  (and POSITION))
+(define-primitive-concept FILTER-AUS-HALTER  
+  (and FILTERPOSITION))
+(define-primitive-concept FILTER-in-HALTER  
+  (and FILTERPOSITION))
+(define-primitive-concept KLEMMENPOSITION  
+  (and POSITION))
+(define-primitive-concept KLEMME-HINTEN  
+  (and KLEMMENPOSITION))
+(define-primitive-concept KLEMME-VORNE  
+  (and KLEMMENPOSITION))
+(define-primitive-concept DECKELPOSITION  
+  (and POSITION))
+(define-primitive-concept DECKEL-UNTEN  
+  (and DECKELPOSITION))
+(define-primitive-concept DECKEL-OBEN  
+  (and DECKELPOSITION))
+(define-primitive-concept LEUCHTKOERPER  
+  (and TOP))
+(define-primitive-concept ANBAUPRODUKT  
+  (and TOP))
+(define-primitive-concept KAFFEEBOHNEN  
+  (and ANBAUPRODUKT))
+(define-primitive-concept TEMPERATUR  
+  (and TOP))
+(define-primitive-concept KALT  
+  (and TEMPERATUR))
+(define-primitive-concept HEISS  
+  (and TEMPERATUR))
+(define-primitive-concept AGGREGATSZUSTAND  
+  (and TOP))
+(define-primitive-concept GASFOERMIG  
+  (and AGGREGATSZUSTAND))
+(define-primitive-concept PULVERIG  
+  (and AGGREGATSZUSTAND))
+(define-primitive-concept FLUESSIG  
+  (and AGGREGATSZUSTAND))
+(define-primitive-concept AUFGESCHAEUMT  
+  (and FLUESSIG))
+(define-primitive-concept FEST  
+  (and AGGREGATSZUSTAND))
+(define-primitive-role HAT-AGGREGATSZUSTAND (domain-range STOFF AGGREGATSZUSTAND))
+(define-primitive-concept STOFF  
+  (and TOP 
+       (at-least 1 HAT-AGGREGATSZUSTAND)
+       (at-most 1 HAT-AGGREGATSZUSTAND)) )
+(define-primitive-role HAT-AGGREGATSZUSTAND-DAMPF HAT-AGGREGATSZUSTAND)
+(define-primitive-concept DAMPF  
+  (and STOFF 
+       (all HAT-AGGREGATSZUSTAND-DAMPF GASFOERMIG)))
+(define-primitive-role PULVER-HAT-POSITION HAT-POSITION)
+(define-primitive-role HAT-LF-ATTRIBUT (domain-range PULVER LF-ATTRIBUT))
+(define-primitive-role HAT-AGGREGATSZUSTAND-PULVER HAT-AGGREGATSZUSTAND)
+(define-primitive-concept PULVER  
+  (and STOFF
+       (all PULVER-HAT-POSITION PULVERPOSITION)
+       (all HAT-AGGREGATSZUSTAND-PULVER PULVERIG) 
+       (at-least 1 HAT-LF-ATTRIBUT)
+       (at-most 1 HAT-LF-ATTRIBUT)
+       (at-least 1 PULVER-HAT-POSITION)
+       (at-most 1 PULVER-HAT-POSITION))  )
+(define-primitive-concept GETRAENKEPULVER  
+  (and PULVER))
+(define-primitive-concept ESPRESSOPULVER  
+  (and GETRAENKEPULVER))
+(define-primitive-concept KAFFEEPULVER  
+  (and GETRAENKEPULVER))
+(define-primitive-role HAT-TEMPERATUR (domain-range FLUESSIGKEIT TEMPERATUR))
+(define-primitive-role HAT-AGGREGATSZUSTAND-FLUESSIGKEIT HAT-AGGREGATSZUSTAND)
+(define-primitive-concept FLUESSIGKEIT  
+  (and STOFF 
+       (all HAT-AGGREGATSZUSTAND-FLUESSIGKEIT FLUESSIG) 
+       (at-least 1 HAT-TEMPERATUR)
+       (at-most 1 HAT-TEMPERATUR)) )
+(define-primitive-concept WASSER  
+  (and FLUESSIGKEIT))
+(define-primitive-concept GETRAENK  
+  (and FLUESSIGKEIT))
+(define-primitive-concept MILCH  
+  (and GETRAENK))
+(define-primitive-role HAT-AGGREGATSZUSTAND-AUFGESCHAEUMTE-MILCH HAT-AGGREGATSZUSTAND)
+(define-primitive-concept AUFGESCHAEUMTE-MILCH  
+  (and MILCH 
+       (all HAT-AGGREGATSZUSTAND-AUFGESCHAEUMTE-MILCH AUFGESCHAEUMT)))
+(define-primitive-role HAT-TEMPERATUR-HEISSGETRAENK HAT-TEMPERATUR)
+(define-primitive-concept HEISSGETRAENK  
+  (and GETRAENK 
+       (all HAT-TEMPERATUR-HEISSGETRAENK HEISS)))
+(define-primitive-concept KAFFEE  
+  (and HEISSGETRAENK))
+(define-primitive-concept CAPPUCINO  
+  (and KAFFEE))
+(define-primitive-concept ESPRESSO  
+  (and KAFFEE))
+(define-primitive-concept TEE  
+  (and HEISSGETRAENK))
+(define-primitive-role HAT-FUELLGRAD (domain-range BEHAELTER FUELLGRAD))
+(define-primitive-concept BEHAELTER  
+  (and TOP 
+       (at-least 1 HAT-FUELLGRAD)
+       (at-most 1 HAT-FUELLGRAD)) )
+(define-primitive-role ENTHAELT (domain-range BEHAELTER STOFF))
+(define-primitive-role TASSE-HAT-POSITION HAT-POSITION) 
+(define-primitive-concept TASSE  
+  (and BEHAELTER
+       (all TASSE-HAT-POSITION TASSENPOSITION)
+       (at-least 1 TASSE-HAT-POSITION)
+       (at-most 1 TASSE-HAT-POSITION)) )
+(define-primitive-concept ESPRESSOTASSE  
+  (and TASSE))
+(define-primitive-concept CAPPUCINOTASSE  
+  (and TASSE))
+(define-primitive-concept KAFFEETASSE  
+  (and TASSE))
+(define-primitive-concept BEZEICHNUNG  
+  (and TOP))
+(define-primitive-concept PRODUKTIONSGEMEINSCHAFT  
+  (and TOP))
+(define-primitive-concept FIRMA  
+  (and PRODUKTIONSGEMEINSCHAFT))
+
+(define-primitive-role HAT-STELLUNG (domain-range SCHALTER SCHALTERSTELLUNG))
+(define-primitive-role HAT-MARKIERUNG (domain-range TOP TOP))
+(define-primitive-role SCHALTER-HAT-MARKIERUNG HAT-MARKIERUNG)
+(define-primitive-concept SCHALTER  
+  (and PHYSIKALISCHES-OBJEKT
+       (all SCHALTER-HAT-MARKIERUNG MARKIERUNG)
+       (at-least 1 HAT-STELLUNG)
+       (at-most 1 HAT-STELLUNG)) )
+(define-primitive-concept DRUCKSCHALTER  
+  (and SCHALTER))
+(define-primitive-concept DREHSCHALTER  
+  (and SCHALTER))
+(define-primitive-role HAT-STELLUNG-DUO-EINSTELLSCHALTER HAT-STELLUNG)
+(define-primitive-concept DUO-EINSTELLSCHALTER  
+  (and DREHSCHALTER 
+       (all HAT-STELLUNG-DUO-EINSTELLSCHALTER DUO-SCHALTERSTELLUNG)))
+(define-primitive-concept EINFACHES-PHYSIKALISCHES-OBJEKT  
+  (and PHYSIKALISCHES-OBJEKT))
+(define-primitive-concept ENTRIEGELUNG  
+  (and EINFACHES-PHYSIKALISCHES-OBJEKT))
+(define-primitive-concept STECKERKABEL  
+  (and EINFACHES-PHYSIKALISCHES-OBJEKT))
+(define-primitive-concept STECKERKOPF  
+  (and EINFACHES-PHYSIKALISCHES-OBJEKT))
+(define-primitive-concept KABELAUFWICKLUNG  
+  (and EINFACHES-PHYSIKALISCHES-OBJEKT))
+(define-primitive-concept HALTERUNG  
+  (and EINFACHES-PHYSIKALISCHES-OBJEKT))
+(define-primitive-role HAELT (domain-range HALTERUNG PHYSIKALISCHES-OBJEKT))
+(define-primitive-role HAELT-WANDHALTERUNG HAELT)
+
+(define-primitive-role DECKEL-HAT-POSITION HAT-POSITION)
+(define-primitive-concept DECKEL  
+  (and EINFACHES-PHYSIKALISCHES-OBJEKT
+       (all DECKEL-HAT-POSITION DECKELPOSITION)
+       (at-least 1 DECKEL-HAT-POSITION)
+       (at-most 1 DECKEL-HAT-POSITION)) )
+(define-primitive-concept OEFFNUNG  
+  (and EINFACHES-PHYSIKALISCHES-OBJEKT))
+(define-primitive-concept WASSERAUSLAUFOEFFNUNG  
+  (and OEFFNUNG))
+(define-primitive-concept VERSCHLUSS  
+  (and EINFACHES-PHYSIKALISCHES-OBJEKT))
+(define-primitive-role WB-VERSCHLUSSKAPPE-HAT-POSITION HAT-POSITION)
+(define-primitive-role HAT-AGZG-ATTRIBUT (domain-range WB-VERSCHLUSSKAPPE AGZG-ATTRIBUT))
+(define-primitive-role WB-VERSCHLUSSKAPPE-HAT-MARKIERUNG HAT-MARKIERUNG)
+(define-primitive-concept WB-VERSCHLUSSKAPPE  
+  (and VERSCHLUSS
+       (all WB-VERSCHLUSSKAPPE-HAT-MARKIERUNG WB-VERSCHLKAPPENMARKIERUNG)
+       (all WB-VERSCHLUSSKAPPE-HAT-POSITION WB-VERSCHLKAPPENPOSITION)
+       (at-least 1 WB-VERSCHLUSSKAPPE-HAT-MARKIERUNG)
+       (at-most 1 WB-VERSCHLUSSKAPPE-HAT-MARKIERUNG )
+       (at-least 1 HAT-AGZG-ATTRIBUT)
+       (at-most 1 HAT-AGZG-ATTRIBUT)
+       (at-least 1 WB-VERSCHLUSSKAPPE-HAT-POSITION)
+       (at-most 1 WB-VERSCHLUSSKAPPE-HAT-POSITION)))
+(define-primitive-concept ABLAGE  
+  (and EINFACHES-PHYSIKALISCHES-OBJEKT))
+(define-primitive-concept MESSLOEFFELABLAGE  
+  (and ABLAGE))
+(define-primitive-concept ABSTELLFLAECHE  
+  (and EINFACHES-PHYSIKALISCHES-OBJEKT))
+(define-primitive-concept LAMPE  
+  (and LEUCHTKOERPER EINFACHES-PHYSIKALISCHES-OBJEKT))
+(define-primitive-concept KONTROLLAMPE  
+  (and LAMPE))
+(define-primitive-concept ROHR  
+  (and EINFACHES-PHYSIKALISCHES-OBJEKT))
+(define-primitive-concept DAMPFROHR  
+  (and ROHR))
+(define-primitive-role FILTERKLEMME-HAT-POSITION HAT-POSITION)
+(define-primitive-concept FILTERKLEMME  
+  (and EINFACHES-PHYSIKALISCHES-OBJEKT
+       (all FILTERKLEMME-HAT-POSITION KLEMMENPOSITION)
+       (at-least 1 FILTERKLEMME-HAT-POSITION)
+       (at-most 1 FILTERKLEMME-HAT-POSITION )) )
+(define-primitive-concept SCHOEPFGERAET  
+  (and EINFACHES-PHYSIKALISCHES-OBJEKT))
+(define-primitive-concept LOEFFEL  
+  (and SCHOEPFGERAET BEHAELTER))
+(define-primitive-concept MESSLOEFFEL  
+  (and LOEFFEL))
+(define-primitive-role FILTER-HAT-POSITION HAT-POSITION)
+(define-primitive-concept FILTER  
+  (and EINFACHES-PHYSIKALISCHES-OBJEKT BEHAELTER
+       (all FILTER-HAT-POSITION FILTERPOSITION)
+       (at-least 1 FILTER-HAT-POSITION)
+       (at-most 1 FILTER-HAT-POSITION)) )
+(define-primitive-concept ZUSAMMENGES-PHYSIKALISCHES-OBJEKT  
+  (and PHYSIKALISCHES-OBJEKT))
+(define-primitive-role HAT-TEIL (domain-range ZUSAMMENGES-PHYSIKALISCHES-OBJEKT PHYSIKALISCHES-OBJEKT))
+(define-role STECKERKABEL-TEIL (and HAT-TEIL (domain-range STECKER STECKERKABEL)))
+(define-role STECKERKOPF-TEIL  (and HAT-TEIL (domain-range STECKER STECKERKOPF)))
+(define-primitive-concept STECKER  
+  (and ZUSAMMENGES-PHYSIKALISCHES-OBJEKT 
+       (at-least 1 STECKERKABEL-TEIL)
+       (at-most 1 STECKERKABEL-TEIL)
+       (at-least 1 STECKERKOPF-TEIL)
+       (at-most 1 STECKERKOPF-TEIL)))
+(define-primitive-concept WAND  
+  (and ZUSAMMENGES-PHYSIKALISCHES-OBJEKT))
+(define-primitive-concept WANDHALTERUNG  
+  (and HALTERUNG 
+       (all HAELT-WANDHALTERUNG WAND)))
+(define-role WANDHALTERUNG-TEIL (and HAT-TEIL (domain-range RUECKWAND WANDHALTERUNG)))
+(define-role ENTRIEGELUNG-TEIL (and HAT-TEIL (domain-range RUECKWAND ENTRIEGELUNG)))
+(define-role KABELAUFWICKLUNG-TEIL (and HAT-TEIL (domain-range RUECKWAND KABELAUFWICKLUNG)))
+(define-primitive-concept RUECKWAND  
+  (and WAND 
+       (at-least 1 WANDHALTERUNG-TEIL)
+       (at-most 1 WANDHALTERUNG-TEIL)
+       (at-least 1 ENTRIEGELUNG-TEIL)
+       (at-most 1 ENTRIEGELUNG-TEIL)
+       (at-least 1 KABELAUFWICKLUNG-TEIL)
+       (at-most 1 KABELAUFWICKLUNG-TEIL)))
+(define-primitive-role HAT-TEIL-TROPFSCHALE HAT-TEIL)
+(define-primitive-concept TROPFSCHALE  
+  (and ZUSAMMENGES-PHYSIKALISCHES-OBJEKT 
+       (all HAT-TEIL-TROPFSCHALE ABSTELLFLAECHE)))
+(define-primitive-role FILTERHALTER-HAT-POSITION HAT-POSITION)
+(define-primitive-role HAT-TEIL-FILTERHALTER HAT-TEIL)
+(define-primitive-concept FILTERHALTER  
+  (and ZUSAMMENGES-PHYSIKALISCHES-OBJEKT
+       (all FILTERHALTER-HAT-POSITION FILTERHALTERPOSITION)
+       (all HAT-TEIL-FILTERHALTER FILTERKLEMME) 
+       (at-least 1 FILTERHALTER-HAT-POSITION)
+       (at-most 1 FILTERHALTER-HAT-POSITION)) )
+(define-primitive-role HAT-TEIL-DAMPFDUESE HAT-TEIL)
+(define-primitive-concept DAMPFDUESE  
+  (and ZUSAMMENGES-PHYSIKALISCHES-OBJEKT 
+       (all HAT-TEIL-DAMPFDUESE DAMPFROHR)))
+(define-role KONTROLLAMPE-TEIL (and HAT-TEIL (domain-range SOCKEL KONTROLLAMPE)))
+(define-role TROPFSCHALE-TEIL (and HAT-TEIL (domain-range SOCKEL TROPFSCHALE)))
+(define-primitive-concept SOCKEL  
+  (and ZUSAMMENGES-PHYSIKALISCHES-OBJEKT 
+       (at-least 1 KONTROLLAMPE-TEIL)
+       (at-most 1 KONTROLLAMPE-TEIL)
+       (at-least 1 TROPFSCHALE-TEIL)
+       (at-most 1 TROPFSCHALE-TEIL)))
+(define-role MESSL-ABLAGE-TEIL (and HAT-TEIL (domain-range OBERTEIL MESSLOEFFELABLAGE)))
+(define-role EINSTELLSCHALTER-TEIL (and HAT-TEIL (domain-range OBERTEIL DUO-EINSTELLSCHALTER)))
+(define-role WASSERAUSLAUFOEFFNUNG-TEIL (and HAT-TEIL (domain-range OBERTEIL WASSERAUSLAUFOEFFNUNG)))
+(define-role DECKEL-TEIL (and HAT-TEIL (domain-range OBERTEIL DECKEL)))
+(define-primitive-concept OBERTEIL  
+  (and ZUSAMMENGES-PHYSIKALISCHES-OBJEKT 
+       (at-least 1 MESSL-ABLAGE-TEIL)
+       (at-most 1 MESSL-ABLAGE-TEIL)
+       (at-least 2 EINSTELLSCHALTER-TEIL)
+       (at-most 2 EINSTELLSCHALTER-TEIL)
+       (at-least 1 WASSERAUSLAUFOEFFNUNG-TEIL)
+       (at-most 1 WASSERAUSLAUFOEFFNUNG-TEIL)
+       (at-least 1 DECKEL-TEIL)
+       (at-most 1 DECKEL-TEIL)))
+(define-primitive-role HAT-OZ-ATTRIBUT (domain-range WASSERBEHAELTER OZ-ATTRIBUT))
+(define-primitive-concept WASSERBEHAELTER  
+  (and BEHAELTER ZUSAMMENGES-PHYSIKALISCHES-OBJEKT 
+       (and (at-least 1 HAT-OZ-ATTRIBUT)
+	    (at-most 1 HAT-OZ-ATTRIBUT)) ))
+(define-primitive-role HERSTELLER (domain-range MASCHINE FIRMA))
+(define-primitive-role TYP (domain-range MASCHINE BEZEICHNUNG))
+(define-primitive-concept MASCHINE  
+  (and ZUSAMMENGES-PHYSIKALISCHES-OBJEKT 
+       (at-least 1 TYP)
+       (at-most 1 TYP)
+       (at-least 1 HERSTELLER)))
+(define-primitive-role PRODUKT (domain-range HEISSGETRAENK-MASCHINE HEISSGETRAENK))
+(define-primitive-concept HEISSGETRAENK-MASCHINE  
+  (and MASCHINE 
+       (at-least 1 PRODUKT)))
+(define-primitive-role PRODUKT-KAFFEEMASCHINE PRODUKT)
+(define-primitive-concept KAFFEEMASCHINE  
+  (and HEISSGETRAENK-MASCHINE 
+       (all PRODUKT-KAFFEEMASCHINE KAFFEE)))
+(define-primitive-concept ALLGEMEINE-ESPRESSOMASCHINE  
+  (and KAFFEEMASCHINE))
+(define-primitive-concept ESPRESSO-CAPPUCINO-MASCHINE  
+  (and ALLGEMEINE-ESPRESSOMASCHINE))
+(define-primitive-concept DUO5649  
+  (and ESPRESSO-CAPPUCINO-MASCHINE))
+(define-primitive-role PRODUKT-TEEMASCHINE PRODUKT)
+(define-primitive-concept TEEMASCHINE  
+  (and HEISSGETRAENK-MASCHINE 
+       (all PRODUKT-TEEMASCHINE TEE)))
+(define-primitive-concept BELEBTES-OBJEKT  
+  (and TOP))
+(define-primitive-concept MENSCH  
+  (and BELEBTES-OBJEKT))
+(define-primitive-role TRINKT (domain-range MENSCH GETRAENK))
+(define-primitive-role TRINKT-KAFFEE-TRINKER TRINKT)
+(define-primitive-concept KAFFEE-TRINKER  
+  (and MENSCH 
+       (all TRINKT-KAFFEE-TRINKER KAFFEE)))
+(define-primitive-role TRINKT-ESPRESSO-TRINKER TRINKT)
+(define-primitive-concept ESPRESSO-TRINKER  
+  (and KAFFEE-TRINKER 
+       (all TRINKT-ESPRESSO-TRINKER ESPRESSO)))

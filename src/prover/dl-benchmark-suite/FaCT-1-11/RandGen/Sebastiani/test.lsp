@@ -1,0 +1,6 @@
+(load "FaCT")
+(load "RandGen/Sebastiani/values_generators.lsp")
+(load "RandGen/Sebastiani/lang-con")
+(load "RandGen/Sebastiani/random_gen")
+(load "RandGen/Sebastiani/tableaux_test")
+(load "RandGen/Sebastiani/execute_tests.lsp")

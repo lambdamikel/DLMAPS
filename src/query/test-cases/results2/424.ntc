@@ -1,0 +1,1 @@
+(((retrieve (?x) (?x (and human (some collegue teacher)))) (((?x michael))) res-equal-p))

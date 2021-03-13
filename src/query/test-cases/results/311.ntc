@@ -1,0 +1,1 @@
+(((RACER-ANSWER-QUERY (QUOTE (?X)) (QUOTE (?X (AN |http://a.com/ontology#p2| STRING))) :TIMEOUT *TIMEOUT* :ABOX (OR *ABOX* (CURRENT-ABOX))) (((?X |http://a.com/ontology#i|))) RES-EQUAL-P))

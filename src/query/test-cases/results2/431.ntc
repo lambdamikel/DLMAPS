@@ -1,0 +1,1 @@
+(((told-value (quote a-age)) b-age equalp))

@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns="http://www.owl-ontologies.com/unnamed.owl#"
+  xml:base="http://www.owl-ontologies.com/unnamed.owl">
+  <owl:Ontology rdf:about=""/>
+  <owl:Class rdf:ID="person"/>
+  <owl:DatatypeProperty rdf:ID="age">
+    <rdfs:domain rdf:resource="#person"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+  </owl:DatatypeProperty>
+  <owl:FunctionalProperty rdf:ID="name">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#person"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </owl:FunctionalProperty>
+  <person rdf:ID="b">
+    <age rdf:datatype="http://www.w3.org/2001/XMLSchema#int">45</age>
+    <name rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >betty</name>
+  </person>
+  <person rdf:ID="a">
+    <name rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >betty</name>
+    <age rdf:datatype="http://www.w3.org/2001/XMLSchema#int">35</age>
+  </person>
+  <person rdf:ID="c">
+    <name rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >michael</name>
+    <age rdf:datatype="http://www.w3.org/2001/XMLSchema#int">35</age>
+  </person>
+</rdf:RDF>
+
+<!-- Created with Protege (with OWL Plugin 2.2 beta, Build 285)  http://protege.stanford.edu -->

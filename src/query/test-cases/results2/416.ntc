@@ -1,0 +1,1 @@
+(((retrieve (?*x ?x) (and (?x person) (top ?*x))) (((?*x c) (?x c))) res-equal-p))

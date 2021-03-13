@@ -1,0 +1,162 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%                                                                   %
+%%%              IMPORTANT NOTE:                                      %
+%%%                                                                   %
+%%% This is software developed only for scientific purpose.           %
+%%% The authors make no representations of warranties, express or     %
+%%% implied. The authors make no representations or warranties of     %
+%%% merchantability of fitness for any particular purpose or that     %
+%%% the use of the licensed software components or documentation      %
+%%% will not infringe any patents, copyrights, trademarks or other    %
+%%%  rights.                                                          %
+%%%                                                                   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                                                                     
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% directory "ksat1/Code"                                            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+This directory contains the code used to perform the tests presented in 
+the paper: 
+
+        "A SAT-based decision procedure for ALC"
+
+written by Fausto Giunchiglia and Roberto Sebastiani and
+submitted to KR'96.
+
+* The code has been written by Fausto Giunchiglia and 
+  Roberto Sebastiani, on top of code previously written by 
+  Alessandro Armando, Enrico Giunchiglia and Fausto Giunchiglia. 
+ 
+The code is available only for the purpose of making the experiments 
+presented in the paper above reproducible. Any other use of the 
+code (or of any part of it) must be explicitly authorized by 
+Fausto Giunchiglia (fausto@irst.itc.it.) and Roberto Sebastiani 
+(rseba@mrg.dist.unige.it). 
+
+PLEASE NOTICE:
+ 
+1) Our tests have been run on either Allegro 4.1, 4.2 or AKCL 1.623. 
+   No other lisp compiler  has been tried.
+ 
+2) The results of running tests may be different from the ones presented 
+   in the directory "data". If so, this is due to different seeds choosen 
+   by AKCL for the random generators, which generate thus different random 
+   instances. 
+   Please compare the second line of your results file, like: 
+   %%% SEED #$707509276 
+   with the second line of the corresponding file in the directory "data".
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% to compile the code (in AKCL or ALLEGRO)                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+1) uncomment the lines:
+
+;(load "compile_deciders.lsp")
+;(load "compile_generators.lsp")
+
+in the file "init.lsp"
+
+2) run AKCL/ALLEGRO 
+2bis) if your AKCL/ALLEGRO does not do it automatically, execute:
+(load "init.lsp")
+
+3) comment the lines above.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% to run the code on one of the random tests                       %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+1) uncomment the line:
+
+;(execute_mksat ...)
+
+or
+
+;(test_ksat ...)
+
+corresponding to the test you want to execute in the file "execute_tests.lsp";
+
+2) run AKCL/ALLEGRO 
+2bis) if your AKCL/ALLEGRO does not do it automatically, execute:
+(load "init.lsp")
+
+3) comment the line above.
+
+the system will generate a list of lines in the form:
+
+<sat value> <cpu time> <# assign> <# DPLL calls> <cpu time (no preprocessing)> 
+
+where <sat value> is either 
+S (satisfiable), or 
+U (unsatisfiable), or
+B (unsolved within the timeout - only with ALLEGRO)
+
+EXAMPLES:
+S     33.45     117     4596     33.08
+U      1.62      34      270      1.13
+B   1000.00  100000  1000000   1000.00
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% to run the code interactively on other wffs/concepts             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+1) comment the lines:
+
+(load "execute_tests.lsp")
+#+ALLEGRO (exit)
+(bye)
+
+in "init.lsp".
+
+
+2) run AKCL/ALLEGRO 
+2bis) if your AKCL/ALLEGRO does not do it automatically, execute:
+(load "init.lsp")
+
+3) invoke KSAT on the desired concept with the following syntax:
+
+(KSAT-CON '<concept> <max role index>)
+
+ -- mind the quote in '<concept> --  
+ where <concept> is given by the following syntax:
+
+<concept> ::= *Top*                            | 
+              *Bot*                            |  
+              <atomic conpept>                 |
+              (not <concept1>)                 |
+              (and <concept1> ... <concept_n>) |
+              (or <concept1> ... <concept_n>)  |
+              (all <role> <concept1>)          |
+              (some <role> <concept1>)         
+
+<atomic concept> ::= C<index>
+<role>           ::= R<index>
+<index>          ::= 1,2,3,...
+<max role index> ::= max role index occurring in <concept>
+
+EXAMPLES:
+
+>(KSAT-CON '*top* 1)
+T
+>(KSAT-CON '*bot* 1)
+NIL
+>(KSAT-CON '(ALL R1 C2) 1)
+T
+>(KSAT-CON '(and (ALL R1 C2) (some R1 (not C2)))   1)
+NIL
+>(KSAT-CON '(and (ALL R2 C2) (some R2 (not C2)) C4 (some R5 C3))   5)
+NIL
+
+
+              *  *   *  *   *  *   *  *   *  *   *  *   
+
+If you find bugs, have questions, or wish to make suggestions for
+changes or extensions please send e-mail to:
+
+                   rseba@mrg.dist.unige.it
+
+

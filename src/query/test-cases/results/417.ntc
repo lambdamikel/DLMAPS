@@ -1,0 +1,1 @@
+(((RETRIEVE (?*X ?*Y) (AND (?*X ?*Y 3) (?*Y (((:PREDICATE STRINGP) (:PREDICATE NUMBERP)))) (TOP ?*X))) NIL RES-EQUAL-P))

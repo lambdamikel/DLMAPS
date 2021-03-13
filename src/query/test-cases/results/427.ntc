@@ -1,0 +1,1 @@
+(((RETRIEVE (?*X) (AND (?*X (AGE (:PREDICATE (< 38)))))) (((?*X MICHAEL))) RES-EQUAL-P))

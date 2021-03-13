@@ -1,0 +1,9 @@
+k_branch                21 Y   3.73s     9 Y  82.55s
+k_d4                    21 Y  41.19s    21 Y  44.54s
+k_dum                   21 Y   0.22s    21 Y   0.34s
+k_grz                   21 Y   0.24s    21 Y   0.48s
+k_lin                   21 Y   0.18s    21 Y   4.69s
+k_path                  21 Y  46.55s    21 Y  57.50s
+k_ph                     7 Y  88.89s     9 Y  50.51s
+k_poly                  21 Y   3.38s    21 Y   5.14s
+k_t4p                   21 Y  19.14s    21 Y   5.16s

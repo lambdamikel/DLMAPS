@@ -1,0 +1,1 @@
+(((RETRIEVE (?*X ?X) (AND (?X PERSON) (TOP ?*X))) (((?*X C) (?X C))) RES-EQUAL-P))

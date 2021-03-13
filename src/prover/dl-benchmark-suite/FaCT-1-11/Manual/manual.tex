@@ -1,0 +1,1448 @@
+\documentclass[12pt,titlepage]{article}
+\usepackage{makeidx}
+\usepackage{xspace}
+
+\title{\FaCT\ Reference Manual\\Version 1.6}
+\author{Ian Horrocks\\%
+        {\small horrocks@cs.man.ac.uk}\\[2ex]%
+        Department of Computer Science\\%
+        University of Manchester\\%
+        Manchester M13 9PL\\%
+        United Kingdom}
+\date{August, 1998}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
+\setlength{\topmargin}{0pt}
+\setlength{\headheight}{0pt}
+\setlength{\headsep}{0pt}
+\setlength{\oddsidemargin}{0pt}
+\setlength{\evensidemargin}{0pt}
+\setlength{\textwidth}{6.26in}
+\setlength{\textheight}{9.693in}
+
+\newlength{\temp}
+\newcommand{\FaCT}{FaCT}
+\newcommand{\ALC}{\ensuremath{\mathcal{ALC}}\xspace}
+\newcommand{\Kris}{\textsc{Kris}\xspace}
+\newcommand{\Km}{\ensuremath{\mathbf{K}_{(\mathbf{m})}}\xspace}
+\newcommand{\Kfour}{\ensuremath{\mathbf{K4}}\xspace}
+\newcommand{\Cname}[1]{\ensuremath{\textsf{#1}}}
+\newcommand{\Rname}[1]{\ensuremath{\textsf{\textsl{#1}}}}
+\newcommand{\Aname}[1]{\Rname{#1}}
+
+\newcommand{\FM}[1]{\textbf{#1}\index{\protect#1}}
+\newcommand{\Arg}[1]{\textit{#1}}
+\newcommand{\Key}[1]{\texttt{#1}}
+\newcommand{\TT}[1]{\texttt{#1}}
+\newcommand{\Top}{\texttt{*TOP*}\index{\texttt{*TOP*}}}
+\newcommand{\Bot}{\texttt{*BOTTOM*}\index{\texttt{*BOTTOM*}}}
+\newcommand{\Nil}{\texttt{nil}\xspace}
+\newcommand{\KI}[1]{\Key{#1}\index{\protect#1}}
+
+\newcommand{\Hdr}[2]{
+\rule[2pt]{\linewidth}{1pt}\\
+{\large\FM{#1}} \hfill \emph{#2} \\
+\rule[5pt]{\linewidth}{1pt}%
+\addcontentsline{toc}{subsubsection}{#1}}
+
+\newenvironment{Macro}[1]%
+{\Hdr{#1}{macro}%
+        \vspace{-2ex}%
+        \nopagebreak
+        \begin{list}{}%
+        {\setlength{\leftmargin}{6.5em}%
+        \setlength{\labelwidth}{6.5em}%
+        \setlength{\labelsep}{0in}}
+        \nopagebreak}%
+{\end{list}}
+
+\newenvironment{Function}[1]%
+{\Hdr{#1}{function}%
+        \vspace{-2ex}%
+        \nopagebreak
+        \begin{list}{}%
+        {\setlength{\leftmargin}{6.5em}%
+        \setlength{\labelwidth}{6.5em}%
+        \setlength{\labelsep}{0in}}
+        \nopagebreak}%
+{\end{list}}
+
+\newenvironment{Concept}[1]%
+{\Hdr{#1}{concept}%
+        \nopagebreak
+        \vspace{-2ex}%
+        \nopagebreak
+        \begin{list}{}%
+        {\setlength{\leftmargin}{6.5em}%
+        \setlength{\labelwidth}{6.5em}%
+        \setlength{\labelsep}{0in}}}%
+{\end{list}}
+
+\newenvironment{Arglist}%
+{\begin{list}{}%
+        {\setlength{\leftmargin}{6em}%
+        \setlength{\labelwidth}{6em}%
+        \setlength{\labelsep}{0in}}}%
+{\end{list}}
+
+\makeindex
+
+\sloppy
+
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+\section{Introduction}
+
+\FaCT\ is a prototype description logic knowledge representation
+system which uses an optimised tableaux subsumption algorithm to
+provide complete inference for a relatively expressive concept
+description language. In particular, \FaCT\ supports transitively
+closed roles, a role/attribute hierarchy and general concept inclusion
+axioms (implications of the form $C \Rightarrow D$ where $C$ and $D$
+are arbitrary concept descriptions).
+
+\FaCT\ is primarily intended as a tool for conceptual schema design
+and ontological engineering and thus provides only concept based
+reasoning services: there is a TBox but no ABox. The interface to the
+TBox is designed to be broadly compatible with that of the \Kris\
+system~\cite{Baader91a}.
+
+The correspondence between \ALC\ and the propositional modal logic
+\Km\ means that \FaCT\ can also be used as a highly efficient
+decision procedure for both \Km\ and \Kfour~\cite{Giunchiglia96b,
+Hustadt97a}.
+
+
+\subsection{Obtaining \FaCT}
+
+\FaCT\ can be obtained from the following world wide web site:
+%
+\begin{itemize}
+\item[] \textrm{http://www.cs.man.ac.uk/mig/people/horrocks/FaCT}
+\end{itemize}
+
+After downloading the file \texttt{\FaCT.tar.gz} use the command:
+%
+\begin{itemize}
+\item[] \texttt{gunzip \FaCT.tar.gz ; tar xvf \FaCT.tar}
+\end{itemize}
+%
+to create a directory \texttt{\FaCT} containing the distribution
+files and directories.
+
+To install \FaCT\ follow the instructions in the file \texttt{\FaCT/README}.
+
+\FaCT\ has been written in Common LISP and has been tested with
+Allegro Common Lisp, Harlequin LispWorks and Gnu Common Lisp.
+
+
+
+\section{Concept Descriptions}
+
+\FaCT\ uses the same list based concept description syntax as the \Kris\
+system. If \Cname{CN} is the name of a defined concept, \Rname{R} is
+the name of a defined role, \Aname{A} is the name of a defined attribute
+and $C,C_1,\ldots,C_n$ are concept descriptions, then the following
+are also valid concept descriptions:
+%
+\begin{itemize}
+\item[]\begin{tabular}{l}
+\Cname{*TOP*}\\
+\Cname{*BOTTOM*}\\
+\Cname{CN}\\
+(and $C_1 \ldots C_n$)\\
+(or $C_1 \ldots C_n$)\\
+(not $C$)\\
+(some $\Rname{R}$ $C$)\\
+(all $\Rname{R}$ $C$)\\
+(some $\Aname{A}$ $C$)\\
+(all $\Aname{A}$ $C$)
+\end{tabular}
+\end{itemize}
+
+The correspondence between this form and the standard infix notation
+is shown in Table~\ref{table:factsyntax}.
+
+
+\begin{table}[htb!]\begin{center}\begin{tabular}{|l|l|}
+\hline
+\multicolumn{1}{|c}{\FaCT\ syntax}
+        & \multicolumn{1}{|c|}{Standard notation}\\
+\hline
+\Key{*TOP*} & $\top$\\
+\Key{*BOTTOM*} & $\bot$\\
+(\Key{and} $C_1$ \ldots $C_n$) & $C_1 \sqcap \ldots \sqcap C_n$ \\
+(\Key{or} $C_1$ \ldots $C_n$) & $C_1 \sqcup \ldots \sqcup C_n$ \\
+(\Key{not} $C$) & $\neg C$ \\
+(\Key{some} $R$ $C$) & $\exists R.C$ \\
+(\Key{all} $R$ $C$) & $\forall R.C$ \\
+\hline
+\end{tabular}
+\caption{\FaCT\ concept expressions}\label{table:factsyntax}
+\end{center}\end{table}
+
+
+
+
+\section{Function and Macro Interface}  \label{sec:interface}
+
+This section describes the built-in concepts, macros and functions
+which provide the user interface to the TBox.
+
+
+\subsection{Built-in Concepts}
+
+\begin{Concept}{\Top}
+
+\item[\textbf{Description:}\hfill] The name of the top concept
+($\top$).
+
+\item[\textbf{Remarks:}\hfill] Every concept in the TBox is subsumed
+by \Top.
+
+\end{Concept}
+
+
+\begin{Concept}{\Bot}
+
+\item[\textbf{Description:}\hfill] The name of the bottom concept
+($\bot$).
+
+\item[\textbf{Remarks:}\hfill] Every concept in the TBox subsumes
+\Bot. Note that incoherent concepts become synonyms for \Bot.
+
+\end{Concept}
+
+
+
+\subsection{Knowledge Base Management}
+
+\begin{Function}{init-tkb}
+
+\item[\textbf{Description:}\hfill] Initialises the TBox.
+
+\item[\textbf{Syntax:}\hfill] (\FM{init-tkb})
+
+\item[\textbf{Remarks:}\hfill] All user defined concepts, roles and
+implications are deleted from the TBox leaving only \Top\ and \Bot.
+
+\item[\textbf{Examples:}\hfill] \TT{(init-tkb)}
+
+\end{Function}
+
+
+\begin{Function}{load-tkb}
+
+\item[\textbf{Description:}\hfill] Loads a TBox from a file.
+
+\item[\textbf{Syntax:}\hfill] (\FM{load-tkb} \Arg{name} \Key{\&key}
+(\Arg{verbose} \TT{T}) (\Arg{overwrite} \Nil))
+
+\item[\textbf{Arguments:}\hfill]%
+%
+        \begin{Arglist}
+
+        \item[\Arg{name}\hfill -~] Name of the TBox file.
+
+        \item[\Arg{verbose}\hfill -~] Keyword which, if non-\Nil,
+        causes the classifier to print symbols indicating the progress
+        of the load operation: \TT{P} for each primitive concept,
+        \TT{C} for each non-primitive concept, \TT{R} for each role,
+        \TT{R+} for each transitive role, \TT{A} for each attribute
+        and \TT{I} for each implication.  If omitted, \Arg{verbose}
+        defaults to \TT{T}.
+
+        \item[\Arg{overwrite}\hfill -~] Keyword which, if non-\Nil,
+        causes the classifier to clears the existing TBox from memory
+        (by performing an \FM{init-tkb}) before loading the new TBox.
+        If omitted, \Arg{overwrite} defaults to \Nil.
+
+        \end{Arglist}
+
+\item[\textbf{Return:}\hfill] \TT{T} if the TBox is successfully
+loaded; \Nil\ otherwise.
+
+\item[\textbf{Examples:}\hfill] \TT{(load-tkb 'demo.kb :verbose T)}
+
+\end{Function}
+
+
+
+\subsection{TBox Definitions}
+
+\begin{Macro}{defprimconcept}
+
+\item[\textbf{Description:}\hfill] Defines a primitive concept.
+
+\item[\textbf{Syntax:}\hfill] (\FM{defprimconcept} \Arg{name} \Key{\&optional}
+(\Arg{description} \Top))
+
+\item[\textbf{Arguments:}\hfill]%
+        \begin{Arglist}
+        \item[\Arg{name}\hfill -~] Name of the new concept.
+        \item[\Arg{description}\hfill -~] Optional description of the
+        new concept. If omitted it defaults to \Top.
+        \end{Arglist}
+
+\item[\textbf{Return:}\hfill] A concept structure \TT{c[}\Arg{name}\TT{]} is returned.
+
+\item[\textbf{Remarks:}\hfill] The new concept is not classified until
+a call is made to \FM{classify-tkb}. It is an error if a concept
+\Arg{name} has already been defined.
+
+\item[\textbf{Examples:}\hfill] \TT{(defprimconcept ANIMAL)} \\
+        \TT{(defprimconcept MALE)} \\
+        \TT{(defprimconcept FEMALE)} \\
+        \TT{(defprimconcept BIPED)} \\
+        \TT{(defprimconcept HUMAN (and ANIMAL BIPED))}
+
+\end{Macro}
+
+
+\begin{Function}{defprimconcept-f}
+
+\item[\textbf{Description:}\hfill] Functional equivalent of
+\FM{defprimconcept}.
+
+\item[\textbf{Remarks:}\hfill] Note that all arguments have to be
+quoted.
+
+\item[\textbf{Examples:}\hfill] \TT{(defprimconcept-f 'ANIMAL)} \\
+        \TT{(defprimconcept-f 'MALE)} \\
+        \TT{(defprimconcept-f 'FEMALE)} \\
+        \TT{(defprimconcept-f 'BIPED)} \\
+        \TT{(defprimconcept-f 'HUMAN '(and ANIMAL BIPED))}
+
+\end{Function}
+
+
+\begin{Macro}{defconcept}
+
+\item[\textbf{Description:}\hfill] Defines a non-primitive concept.
+
+\item[\textbf{Syntax:}\hfill] (\FM{defconcept} \Arg{name} \Arg{description})
+
+\item[\textbf{Arguments:}\hfill]%
+        \begin{Arglist}
+        \item[\Arg{name}\hfill -~] Name of the new concept.
+        \item[\Arg{description}\hfill -~] Description of the new concept.
+        \end{Arglist}
+
+\item[\textbf{Return:}\hfill] A concept structure \TT{c[}\Arg{name}\TT{]} is returned.
+
+\item[\textbf{Remarks:}\hfill] The new concept is not classified until
+a call is made to \FM{classify-tkb}. It is an error if a concept
+\Arg{name} has already been defined. Note that in contrast to
+\FM{defprimconcept} it is also an error if
+\Arg{description} is omitted.
+
+\item[\textbf{Examples:}\hfill] \TT{(defconcept MAN (and MALE HUMAN))} \\
+        \TT{(defconcept WOMAN (and FEMALE HUMAN))}
+
+\end{Macro}
+
+
+\begin{Function}{defconcept-f}
+
+\item[\textbf{Description:}\hfill] Functional equivalent of
+\FM{defconcept}.
+
+\item[\textbf{Remarks:}\hfill] Note that all arguments have to be
+quoted.
+
+\item[\textbf{Examples:}\hfill] \TT{(defconcept-f 'MAN '(and MALE HUMAN))} \\
+        \TT{(defconcept-f 'WOMAN '(and FEMALE HUMAN))}
+
+\end{Function}
+
+
+\begin{Macro}{defprimrole}
+
+\item[\textbf{Description:}\hfill] Defines a primitive role.
+
+\item[\textbf{Syntax:}\hfill] (\FM{defprimrole} \Arg{name}
+\Key{\&key} (\Arg{supers} \Nil) (\Arg{transitive} \Nil))
+
+\item[\textbf{Arguments:}\hfill]%
+
+        \begin{Arglist}
+
+        \item[\Arg{name}\hfill -~] Name of the new primitive role.
+
+        \item[\Arg{supers}\hfill -~] Keyword list of super-roles. If
+        omitted it defaults to \Nil.
+
+        \item[\Arg{transitive}\hfill -~] Keyword which, if non-\Nil,
+        makes the role transitive. If omitted it defaults to \Nil.
+
+        \end{Arglist}
+
+\item[\textbf{Return:}\hfill] A role structure \TT{r[}\Arg{name}\TT{]} is returned.
+
+\item[\textbf{Remarks:}\hfill] It is an error if a role or attribute
+\Arg{name} has already been defined.
+
+\item[\textbf{Examples:}\hfill] \TT{(defprimrole Relation :transitive T)} \\
+        \TT{(defprimrole Close-relation :supers (Relation))}\\
+        \TT{(defprimrole Ancestor :supers (Relation) :transitive T)}\\
+        \TT{(defprimrole Parent :supers (Close-relation Ancestor))}
+
+\end{Macro}
+
+
+\begin{Function}{defprimrole-f}
+
+\item[\textbf{Description:}\hfill] Functional equivalent of
+\FM{defprimrole}.
+
+\item[\textbf{Remarks:}\hfill] Note that all arguments have to be
+quoted.
+
+\item[\textbf{Examples:}\hfill] \TT{(defprimrole-f 'Relation :transitive T)} \\
+        \TT{(defprimrole-f 'Close-relation :supers '(Relation))}\\
+        \TT{(defprimrole-f 'Ancestor :supers '(Relation) :transitive T)}\\
+        \TT{(defprimrole-f 'Parent :supers '(Close-relation Ancestor))}
+
+\end{Function}
+
+
+\begin{Macro}{defprimattribute}
+
+\item[\textbf{Description:}\hfill] Defines a primitive attribute
+(functional role).
+
+\item[\textbf{Syntax:}\hfill] (\FM{defprimattribute} \Arg{name}
+\Key{\&key} (\Arg{supers} \Nil))
+
+\item[\textbf{Arguments:}\hfill]%
+
+        \begin{Arglist}
+
+        \item[\Arg{name}\hfill -~] Name of the new primitive attribute.
+
+        \item[\Arg{supers}\hfill -~] Keyword list of 
+        super-attributes or super-roles. If omitted it defaults to
+        \Nil.
+
+        \end{Arglist}
+
+\item[\textbf{Return:}\hfill] A role structure \TT{r[}\Arg{name}\TT{]} is returned.
+
+\item[\textbf{Remarks:}\hfill] It is an error if a role or attribute
+\Arg{name} has already been defined. Note that unlike roles,
+attributes cannot be transitive.
+
+\item[\textbf{Examples:}\hfill] \TT{(defprimattribute Best-friend)} \\
+        \TT{(defprimattribute Father :supers (Parent))}\\
+        \TT{(defprimattribute Mother :supers (Parent))}
+
+\end{Macro}
+
+
+\begin{Function}{defprimattribute-f}
+
+\item[\textbf{Description:}\hfill] Functional equivalent of
+\FM{defprimattribute}.
+
+\item[\textbf{Remarks:}\hfill] Note that all arguments have to be
+quoted.
+
+\item[\textbf{Examples:}\hfill] \TT{(defprimattribute-f 'Best-friend)} \\
+        \TT{(defprimattribute-f 'Father :supers '(Parent))}\\
+        \TT{(defprimattribute-f 'Mother :supers '(Parent))}
+
+\end{Function}
+
+
+\begin{Macro}{implies}
+
+\item[\textbf{Description:}\hfill] An implication/subsumption axiom
+between two concept descriptions.
+
+\item[\textbf{Syntax:}\hfill] (\FM{implies} \Arg{antecedent} \Arg{consequent})
+
+\item[\textbf{Arguments:}\hfill]%
+        \begin{Arglist}
+        \item[\Arg{antecedent}\hfill -~] Description of the antecedent concept.
+        \item[\Arg{consequent}\hfill -~] Description of the consequent concept.
+        \end{Arglist}
+
+\item[\textbf{Return:}\hfill] \Arg{antecedent} is returned.
+
+\item[\textbf{Remarks:}\hfill] Asserts that \Arg{antecedent} implies
+\Arg{consequent} ($\Arg{antecedent} \Rightarrow \Arg{consequent}$) or,
+equivalently that the \Arg{antecedent} is subsumed by \Arg{consequent}
+($\Arg{antecedent} \sqsubseteq \Arg{consequent}$). Note that adding
+implications \emph{after} the TBox has been classified may cause
+strange and unpredictable results.
+
+\item[\textbf{Examples:}\hfill] \TT{(implies (and POLYGON ((some
+Angles 3))) (some Sides 3))}
+
+\end{Macro}
+
+
+\begin{Function}{implies-f}
+
+\item[\textbf{Description:}\hfill] Functional equivalent of
+\FM{implies}.
+
+\item[\textbf{Remarks:}\hfill] Note that all arguments have to be
+quoted.
+
+\item[\textbf{Examples:}\hfill] \TT{(implies-f '(and POLYGON ((some
+Angles 3))) '(some Sides 3))}
+
+\end{Function}
+
+
+\begin{Macro}{disjoint}
+
+\item[\textbf{Description:}\hfill] A disjointness axiom between
+concept descriptions.
+
+\item[\textbf{Syntax:}\hfill] (\FM{disjoint} \Arg{description-1} \Arg{description-n})
+
+\item[\textbf{Arguments:}\hfill]%
+        \begin{Arglist}
+        \item[\Arg{description-i}\hfill -~] A concept description.
+        \end{Arglist}
+
+\item[\textbf{Remarks:}\hfill] Asserts that the extensions of
+\Arg{description-1},\ldots,\Arg{description-n} are
+disjoint.
+
+\item[\textbf{Examples:}\hfill] \TT{(disjoint MALE FEMALE)}\\
+        \TT{(disjoint CAT DOG RABBIT HAMSTER)}
+
+\end{Macro}
+
+
+\begin{Function}{disjoint-f}
+
+\item[\textbf{Description:}\hfill] Functional equivalent of
+\FM{disjoint}.
+
+\item[\textbf{Remarks:}\hfill] Note that all arguments have to be
+quoted.
+
+\item[\textbf{Examples:}\hfill] \TT{(disjoint-f 'MALE 'FEMALE)}\\
+        \TT{(disjoint 'CAT 'DOG 'RABBIT 'HAMSTER)}
+
+\end{Function}
+
+
+
+\subsection{TBox Inferences}
+
+
+\begin{Function}{classify-tkb}
+
+\item[\textbf{Description:}\hfill] Classifies the TBox.
+
+\item[\textbf{Syntax:}\hfill] (\FM{classify-tkb} \Key{\&key}
+(\Arg{mode} \TT{:nothing}))
+
+\item[\textbf{Arguments:}\hfill]%
+%
+        \begin{Arglist}
+
+        \item[\Arg{mode}\hfill -~] Keyword which controls the output
+        from the classifier:
+
+                \begin{Arglist}
+
+                \item[\TT{:nothing}\hfill -~] None;
+
+                \item[\TT{:stars}\hfill -~] A symbol for each concept
+                classified: \TT{P} for a primitive concept, \TT{C}
+                for a non-primitive concept and \TT{S} for a synonym;
+
+                \item[\TT{:names}\hfill -~] The name of each concept
+                classified followed by -\TT{P} for a primitive
+                concept, -\TT{C} for an non-primitive concept and
+                -\TT{S} for a synonym;
+
+                \item[\TT{:count}\hfill -~] The number of subsumption
+                and satisfiability tests.
+
+                \end{Arglist}
+
+        Warnings are always output regardless of the setting of
+        \Arg{mode}. If \Arg{mode} is either \TT{:stars} or \TT{:names}
+        then symbols are also output during the pre-processing of
+        roles (\TT{r} for each role \TT{a} for each attribute),
+        implications (\TT{p} for each implication absorbed into a
+        primitive concept, \TT{i} for each non-absorbed implication)
+        and concept terms (\TT{c} for each concept term). If omitted,
+        \Arg{mode} defaults to \TT{:nothing}.
+
+        \end{Arglist}
+        
+\item[\textbf{Return:}\hfill] Returns \TT{T} if the current TBox
+is coherent (i.e., the concept \Top\ is satisfiable),
+\Nil\ otherwise.
+
+\item[\textbf{Remarks:}\hfill] If any new implications have been added
+to the TBox (\FM{implies} or \FM{f-implies}) since the last TBox
+classification (\FM{classify-tkb}), all concepts will be reclassified;
+otherwise classification will be incremental.
+
+\item[\textbf{Examples:}\hfill] \TT{(classify-tkb :mode :stars)}
+
+\end{Function}
+
+
+\begin{Function}{direct-supers}
+
+\item[\textbf{Description:}\hfill] Finds the direct super-concepts of
+a classified concept.
+
+\item[\textbf{Syntax:}\hfill] (\FM{direct-supers} \Arg{name})
+
+\item[\textbf{Arguments:}\hfill]%
+        \begin{Arglist}
+        \item[\Arg{name}\hfill -~] A concept name.
+        \end{Arglist}
+
+\item[\textbf{Return:}\hfill] Returns a list of the direct subsumers
+(super-concepts) of the concept \Arg{name}.
+
+\item[\textbf{Remarks:}\hfill] The TBox must have been classified
+using \FM{classify-tkb}. Note that \Arg{name} must be quoted.
+
+\item[\textbf{Examples:}\hfill] \TT{(direct-supers 'MAN)}
+$\Rightarrow$ \TT{(c[HUMAN] c[MALE])}
+
+\end{Function}
+
+
+\begin{Function}{all-supers}
+%
+\item[\textbf{Description:}\hfill] Finds all the super-concepts of
+a classified concept.
+
+\item[\textbf{Syntax:}\hfill] (\FM{all-supers} \Arg{name})
+
+\item[\textbf{Arguments:}\hfill]%
+        \begin{Arglist}
+        \item[\Arg{name}\hfill -~] A concept name.
+        \end{Arglist}
+
+\item[\textbf{Return:}\hfill] Returns a list of all the subsumers
+(super-concepts) of the concept \Arg{name}.
+
+\item[\textbf{Remarks:}\hfill] The TBox must have been classified
+using \FM{classify-tkb}. Note that \Arg{name} must be quoted.
+
+\item[\textbf{Examples:}\hfill] \TT{(all-supers 'MAN)}
+$\Rightarrow$ \TT{(c[ANIMAL] c[HUMAN] c[BIPED] c[MALE] c[*TOP*])}
+
+\end{Function}
+
+
+\begin{Function}{direct-subs}
+
+\item[\textbf{Description:}\hfill] Finds the direct sub-concepts of
+a classified concept.
+
+\item[\textbf{Syntax:}\hfill] (\FM{direct-subs} \Arg{name})
+
+\item[\textbf{Arguments:}\hfill]%
+        \begin{Arglist}
+        \item[\Arg{name}\hfill -~] A concept name.
+        \end{Arglist}
+
+\item[\textbf{Return:}\hfill] Returns a list of the direct subsumees
+(sub-concepts) of the concept \Arg{name}.
+
+\item[\textbf{Remarks:}\hfill] The TBox must have been classified
+using \FM{classify-tkb}. Note that \Arg{name} must be quoted.
+
+\item[\textbf{Examples:}\hfill] \TT{(direct-subs 'MALE)}
+$\Rightarrow$ \TT{(c[MAN])}
+
+\end{Function}
+
+
+\begin{Function}{all-subs}
+
+\item[\textbf{Description:}\hfill] Finds all the direct sub-concepts of
+a classified concept.
+
+\item[\textbf{Syntax:}\hfill] (\FM{all-subs} \Arg{name})
+
+\item[\textbf{Arguments:}\hfill]%
+        \begin{Arglist}
+        \item[\Arg{name}\hfill -~] A concept name.
+        \end{Arglist}
+
+\item[\textbf{Return:}\hfill] Returns a list of all the subsumees
+(sub-concepts) of the concept \Arg{name}.
+
+\item[\textbf{Remarks:}\hfill] The TBox must have been classified
+using \FM{classify-tkb}. Note that \Arg{name} must be quoted.
+
+\item[\textbf{Examples:}\hfill] \TT{(all-subs 'MALE)}
+$\Rightarrow$ \TT{(c[MAN] c[*BOTTOM*])}
+
+\end{Function}
+
+
+\begin{Function}{equivalences}
+
+\item[\textbf{Description:}\hfill] Finds those concepts which are
+equivalent to a classified concept.
+
+\item[\textbf{Syntax:}\hfill] (\FM{equivalences} \Arg{name})
+
+\item[\textbf{Arguments:}\hfill]%
+        \begin{Arglist}
+        \item[\Arg{name}\hfill -~] A concept name.
+        \end{Arglist}
+
+\item[\textbf{Return:}\hfill] Returns a list of all the concepts which
+are equivalent to (synonyms for) \Arg{name}.
+
+\item[\textbf{Remarks:}\hfill] The TBox must have been classified
+using \FM{classify-tkb}. Note that \Arg{name} must be quoted.
+
+\end{Function}
+
+
+\begin{Function}{satisfiable}
+
+\item[\textbf{Description:}\hfill] Tests if a concept description is satisfiable.
+
+\item[\textbf{Syntax:}\hfill] (\FM{satisfiable} \Arg{description})
+
+\item[\textbf{Arguments:}\hfill]%
+        \begin{Arglist}
+        \item[\Arg{description}\hfill -~] A concept description.
+        \end{Arglist}
+
+\item[\textbf{Return:}\hfill] Returns \TT{T} if \Arg{description} is
+satisfiable w.r.t.\ the current TBox, \Nil\ otherwise.
+
+\item[\textbf{Remarks:}\hfill] The TBox must have been classified
+using \FM{classify-tkb}. Note that \Arg{description} must be quoted.
+
+\item[\textbf{Examples:}\hfill] \TT{(satisfiable '(and MALE FEMALE))}
+$\Rightarrow$ \Nil\\
+\TT{(satisfiable '(and MALE ANIMAL))}
+$\Rightarrow$ \TT{T}
+
+\end{Function}
+
+
+\begin{Function}{subsumes}
+
+\item[\textbf{Description:}\hfill] Tests if one concept description
+subsumes another.
+
+\item[\textbf{Syntax:}\hfill] (\FM{subsumes} \Arg{description-1} \Arg{description-2})
+
+\item[\textbf{Arguments:}\hfill]%
+        \begin{Arglist}
+        \item[\Arg{description-1}\hfill -~] A concept description.
+        \item[\Arg{description-2}\hfill -~] A concept description.
+        \end{Arglist}
+
+\item[\textbf{Return:}\hfill] Returns \TT{T} if \Arg{description-1}
+subsumes \Arg{description-2} w.r.t.\ the current TBox, \Nil\ otherwise.
+
+\item[\textbf{Remarks:}\hfill] The TBox must have been classified
+using \FM{classify-tkb}. Note that \Arg{description-1} and
+\Arg{description-2} must be quoted.
+
+\item[\textbf{Examples:}\hfill] \TT{(subsumes '(and MALE ANIMAL) 'MAN)}
+$\Rightarrow$ \TT{T}
+
+\end{Function}
+
+
+\begin{Function}{equivalent-concepts}
+
+\item[\textbf{Description:}\hfill] Tests if two concept descriptions
+are equivalent.
+
+\item[\textbf{Syntax:}\hfill] (\FM{equivalent-concepts}
+\Arg{description-1} \Arg{description-2})
+
+\item[\textbf{Arguments:}\hfill]%
+        \begin{Arglist}
+        \item[\Arg{description-1}\hfill -~] A concept description.
+        \item[\Arg{description-2}\hfill -~] A concept description.
+        \end{Arglist}
+
+\item[\textbf{Return:}\hfill] Returns \TT{T} if \Arg{description-1} is
+equivalent to \Arg{description-2} w.r.t.\ the current TBox, \Nil\ 
+otherwise.
+
+\item[\textbf{Remarks:}\hfill] The TBox must have been classified
+using \FM{classify-tkb}. Note that \Arg{description-1} and
+\Arg{description-2} must be quoted.
+
+\item[\textbf{Examples:}\hfill] \TT{(equivalent-concepts '(and MALE HUMAN) 'MAN)}
+$\Rightarrow$ \TT{T}\\
+\TT{(equivalent-concepts 'HUMAN '(and ANIMAL BIPED))}
+$\Rightarrow$ \Nil
+
+\end{Function}
+
+
+\begin{Function}{disjoint-concepts}
+
+\item[\textbf{Description:}\hfill] Tests if two concept descriptions
+are disjoint.
+
+\item[\textbf{Syntax:}\hfill] (\FM{disjoint-concepts}
+\Arg{description-1} \Arg{description-2})
+
+\item[\textbf{Arguments:}\hfill]%
+        \begin{Arglist}
+        \item[\Arg{description-1}\hfill -~] A concept description.
+        \item[\Arg{description-2}\hfill -~] A concept description.
+        \end{Arglist}
+
+\item[\textbf{Return:}\hfill] Returns \TT{T} if \Arg{description-1} is
+disjoint from \Arg{description-2} w.r.t.\ the current TBox, \Nil\ 
+otherwise.
+
+\item[\textbf{Remarks:}\hfill] The TBox must have been classified
+using \FM{classify-tkb}. Note that \Arg{description-1} and
+\Arg{description-2} must be quoted.
+
+\item[\textbf{Examples:}\hfill] \TT{(disjoint-concepts 'MALE 'FEMALE)}
+$\Rightarrow$ \TT{T}
+
+\end{Function}
+
+
+\begin{Function}{classify-concept}
+
+\item[\textbf{Description:}\hfill] Finds where a concept description
+would classify without adding it to the TBox.
+
+\item[\textbf{Syntax:}\hfill] (\FM{classify-concept} \Arg{description})
+
+\item[\textbf{Arguments:}\hfill]%
+        \begin{Arglist}
+        \item[\Arg{description}\hfill -~] A concept description.
+        \end{Arglist}
+
+\item[\textbf{Return:}\hfill] Returns three values: a list of all the
+direct-supers of \Arg{description}; a list of all the direct-subs of
+\Arg{description}; a list of all the concepts which are equivalent
+to \Arg{description}.
+
+\item[\textbf{Remarks:}\hfill] The TBox must have been classified
+using \FM{classify-tkb}. Note that \Arg{description} must be quoted.
+
+\item[\textbf{Examples:}\hfill] \TT{(classify-concept '(and MALE ANIMAL))}
+$\Rightarrow$ \TT{(c[MALE] c[ANIMAL]) (c[MAN])} \Nil
+
+\end{Function}
+
+
+\begin{Macro}{add-concept}
+
+\item[\textbf{Description:}\hfill] Defines a new concept and
+classifies the TBox using \FM{classify-tkb}.
+
+\item[\textbf{Syntax:}\hfill] (\FM{add-concept} \Arg{name}
+\Arg{description} \Key{\&key} (\Arg{primitive} \Nil))
+
+\item[\textbf{Arguments:}\hfill]%
+        \begin{Arglist}
+        \item[\Arg{name}\hfill -~] Name of the new concept.
+        \item[\Arg{description}\hfill -~] Description of the new concept.
+        \item[\Arg{primitive}\hfill -~] Keyword which, if non-\Nil,
+        makes the concept primitive. If omitted it defaults to \Nil.
+        \end{Arglist}
+
+\item[\textbf{Return:}\hfill] A concept structure \TT{c[}\Arg{name}\TT{]} is returned.
+
+\item[\textbf{Remarks:}\hfill] It is an error if a concept \Arg{name}
+has already been defined.
+
+\item[\textbf{Examples:}\hfill] \TT{(add-concept VEGETABLE \Top\
+        :primitive T)} \\
+        \TT{(add-concept WOMAN (and FEMALE HUMAN))}
+
+\end{Macro}
+
+
+\begin{Function}{add-concept-f}
+
+\item[\textbf{Description:}\hfill] Functional equivalent of
+\FM{add-concept}.
+
+\item[\textbf{Remarks:}\hfill] Note that all arguments have to be
+quoted.
+
+\item[\textbf{Examples:}\hfill] \TT{(add-concept-f 'VEGETABLE '\Top\ 
+        :primitive T)} \\
+        \TT{(add-concept-f 'WOMAN '(and FEMALE HUMAN))}
+
+\end{Function}
+
+
+
+\subsection{TBox Queries}
+
+\begin{Function}{get-concept}
+
+\item[\textbf{Description:}\hfill] Retrieves a concept from the TBox.
+
+\item[\textbf{Syntax:}\hfill] (\FM{get-concept} \Arg{name})
+
+\item[\textbf{Arguments:}\hfill]%
+        \begin{Arglist}
+        \item[\Arg{name}\hfill -~] Concept name (a LISP atom).
+        \end{Arglist}
+
+\item[\textbf{Return:}\hfill] A concept structure
+\TT{c[}\Arg{name}\TT{]} if a concept \Arg{name} is defined in the
+TBox; \Nil\ otherwise.
+
+\end{Function}
+
+
+\begin{Function}{get-role}
+
+\item[\textbf{Description:}\hfill] Retrieves a role or attribute
+from the TBox.
+
+\item[\textbf{Syntax:}\hfill] (\FM{get-role} \Arg{name})
+
+\item[\textbf{Arguments:}\hfill]%
+        \begin{Arglist}
+        \item[\Arg{name}\hfill -~] Role or attribute name (a LISP atom).
+        \end{Arglist}
+
+\item[\textbf{Return:}\hfill] A role structure \TT{r[}\Arg{name}\TT{]}
+if a role or attribute \Arg{name} is defined in the TBox; \Nil\
+otherwise.
+
+\end{Function}
+
+
+\begin{Function}{get-all-concepts}
+
+\item[\textbf{Description:}\hfill] Retrieves all concepts from the TBox.
+
+\item[\textbf{Syntax:}\hfill] (\FM{get-all-concepts})
+
+\item[\textbf{Return:}\hfill] A list of all the concepts defined in
+the TBox.
+
+\end{Function}
+
+
+\begin{Function}{get-all-roles}
+
+\item[\textbf{Description:}\hfill] Retrieves all roles and attributes from the TBox.
+
+\item[\textbf{Syntax:}\hfill] (\FM{get-all-roles})
+
+\item[\textbf{Return:}\hfill] A list of all the roles and attributes
+defined in the TBox.
+
+\end{Function}
+
+
+\begin{Function}{classified-tkb?}
+
+\item[\textbf{Description:}\hfill] Tests if the TBox is classified.
+
+\item[\textbf{Syntax:}\hfill] (\FM{classified-tkb?})
+
+\item[\textbf{Return:}\hfill] \TT{T} if the TBox is classified; \Nil\ otherwise.
+
+\end{Function}
+
+
+\begin{Function}{what-is?}
+
+\item[\textbf{Description:}\hfill] Determines the type of a concept,
+or role structure.
+
+\item[\textbf{Syntax:}\hfill] (\FM{what-is?} \Arg{structure})
+
+\item[\textbf{Arguments:}\hfill]%
+        \begin{Arglist}
+        \item[\Arg{structure}\hfill -~] Concept or role structure.
+        \end{Arglist}
+
+\item[\textbf{Return:}\hfill] The type of structure, one of
+\TT{CONCEPT}, \TT{PRIMITIVE}, \TT{ROLE} or \TT{FEATURE}.
+
+\end{Function}
+
+
+\begin{Function}{is-primitive?}
+
+\item[\textbf{Description:}\hfill] Determines if a structure
+is a primitive concept (of type \TT{PRIMITIVE}).
+
+\item[\textbf{Syntax:}\hfill] (\FM{is-primitive?} \Arg{structure})
+
+\item[\textbf{Arguments:}\hfill]%
+        \begin{Arglist}
+        \item[\Arg{structure}\hfill -~] Concept structure.
+        \end{Arglist}
+
+\item[\textbf{Return:}\hfill] \TT{T} if \Arg{structure} is a primitive
+concept (of type \TT{PRIMITIVE}); \Nil\ otherwise.
+
+\end{Function}
+
+
+\begin{Function}{is-concept?}
+
+\item[\textbf{Description:}\hfill] Determines if a structure
+is a non-primitive concept (of type \TT{CONCEPT}).
+
+\item[\textbf{Syntax:}\hfill] (\FM{is-concept?} \Arg{structure})
+
+\item[\textbf{Arguments:}\hfill]%
+        \begin{Arglist}
+        \item[\Arg{structure}\hfill -~] Concept structure.
+        \end{Arglist}
+
+\item[\textbf{Return:}\hfill] \TT{T} if \Arg{structure} is a non-primitive
+concept (of type \TT{CONCEPT}); \Nil\ otherwise.
+
+\end{Function}
+
+
+\begin{Function}{is-role?}
+
+\item[\textbf{Description:}\hfill] Determines if a structure
+is a role (of type \TT{ROLE}).
+
+\item[\textbf{Syntax:}\hfill] (\FM{is-role?} \Arg{structure})
+
+\item[\textbf{Arguments:}\hfill]%
+        \begin{Arglist}
+        \item[\Arg{structure}\hfill -~] Role structure.
+        \end{Arglist}
+
+\item[\textbf{Return:}\hfill] \TT{T} if \Arg{structure} is a role
+(of type \TT{ROLE}); \Nil\ otherwise.
+
+\end{Function}
+
+
+\begin{Function}{is-feature?}
+
+\item[\textbf{Description:}\hfill] Determines if a structure
+is an attribute (of type \TT{FEATURE}).
+
+\item[\textbf{Syntax:}\hfill] (\FM{is-feature?} \Arg{structure})
+
+\item[\textbf{Arguments:}\hfill]%
+        \begin{Arglist}
+        \item[\Arg{structure}\hfill -~] Role structure.
+        \end{Arglist}
+
+\item[\textbf{Return:}\hfill] \TT{T} if \Arg{structure} is an attribute
+(of type \TT{FEATURE}); \Nil\ otherwise.
+
+\end{Function}
+
+
+\begin{Function}{name}
+
+\item[\textbf{Description:}\hfill] Retrieves the name of a concept or
+role structure.
+
+\item[\textbf{Syntax:}\hfill] (\FM{name} \Arg{structure})
+
+\item[\textbf{Arguments:}\hfill]%
+        \begin{Arglist}
+        \item[\Arg{structure}\hfill -~] Concept or role structure.
+        \end{Arglist}
+
+\item[\textbf{Return:}\hfill] The name of \Arg{structure} if it is a
+concept or role structure; \Nil\ otherwise.
+
+\end{Function}
+
+
+\begin{Function}{description}
+
+\item[\textbf{Description:}\hfill] Retrieves the description of a
+concept or role structure.
+
+\item[\textbf{Syntax:}\hfill] (\FM{description} \Arg{structure})
+
+\item[\textbf{Arguments:}\hfill]%
+        \begin{Arglist}
+        \item[\Arg{structure}\hfill -~] Concept or role structure.
+        \end{Arglist}
+
+\item[\textbf{Return:}\hfill] The description of \Arg{structure} if it is a
+concept or role structure; \Nil\ otherwise. The format of the
+description depends on the type of structure:
+%
+        \begin{Arglist}
+%
+        \item[\TT{PRIMITIVE}\hfill -~] The \Arg{description} given
+        in the \FM{defprimconcept} or \FM{defprimconcept-f}
+        definition, possibly extended by absorption of \FM{implies}
+        axioms.
+%
+        \item[\TT{CONCEPT}\hfill -~] The \Arg{description} given in
+        the \FM{defconcept} or \FM{defconcept-f} definition.
+%
+        \item[\TT{ROLE}\hfill -~] A list consisting of the role's
+        name, the keyword \TT{:supers} followed by a list of the
+        role's \Arg{supers} given in the \FM{defprimrole} or
+        \FM{defprimrole-f} definition and the keyword \TT{:transitive}
+        followed by \TT{T} if the role is transitive (the last 2 items
+        will be omitted if their values are \Nil).
+%
+        \item[\TT{FEATURE}\hfill -~] A list consisting of the
+        attribute's name and the keyword \TT{:supers} followed by a
+        list of the attribute's \Arg{supers} given in the
+        \FM{defprimattribute} or \FM{defprimattribute-f} definition
+        (the last item will be omitted if its value is \Nil).
+%
+        \end{Arglist}
+
+\end{Function}
+
+
+
+\section{Controlling \FaCT's Behavior}
+
+This section describes functions and macros which allow the
+classifiers features to be customised and which control performance
+profiling.
+
+
+\begin{Function}{set-features}
+
+\item[\textbf{Description:}\hfill] Enables classifier features.
+
+\item[\textbf{Syntax:}\hfill] (\FM{set-features} \Key{\&rest} \Arg{features})
+
+\item[\textbf{Arguments:}\hfill]%
+%
+        \begin{Arglist}
+
+        \item[\Arg{features}\hfill -~] Zero or more keywords. The
+        feature associated with each supplied keyword is enabled. The
+        available keywords are as follows:
+        \begin{flushleft}
+        \KI{:transitivity} \KI{:concept-eqn}
+        \KI{:subset-s-equivalent} \KI{:backjumping} \KI{:obvious-subs}
+        \KI{:top-level-caching} \KI{:full-caching} \KI{:blocking}
+        \KI{:taxonomic-encoding} \KI{:gci-absorption}
+        \KI{:cyclical-definitions} \KI{:auto-configure}
+        \KI{:moms-heuristic} \KI{:prefer-pos-lits}
+        \KI{:minimise-clashes} \KI{:auto-install-primitives}
+        \KI{:auto-install-transitive}
+        \end{flushleft}
+        By default all features are enabled except:
+        \begin{flushleft}
+        \KI{:moms-heuristic},
+        \KI{:auto-install-primitives} \KI{:auto-install-transitive}
+        \end{flushleft}
+        \end{Arglist}
+
+\item[\textbf{Return:}\hfill] A list of all enabled features.
+
+\item[\textbf{Remarks:}\hfill] See source code for details of the
+effect of each feature.
+
+\item[\textbf{Examples:}\hfill] \TT{(set-features)} \\
+        \TT{(set-features :transitivity :backjumping)}
+
+\end{Function}
+
+
+\begin{Function}{reset-features}
+
+\item[\textbf{Description:}\hfill] Disables classifier features.
+
+\item[\textbf{Syntax:}\hfill] (\FM{reset-features} \Key{\&rest} \Arg{features})
+
+\item[\textbf{Arguments:}\hfill]%
+%
+        \begin{Arglist}
+
+        \item[\Arg{features}\hfill -~] Zero or more keywords. The
+        feature associated with each supplied keyword is disabled.
+
+        \end{Arglist}
+
+\item[\textbf{Return:}\hfill] A list of all enabled features.
+
+\item[\textbf{Remarks:}\hfill] See \FM{set-features} for a list of
+features. See source code for details of the effect of each feature.
+
+\item[\textbf{Examples:}\hfill] \TT{(reset-features :transitivity :backjumping)}
+
+\end{Function}
+
+
+\begin{Function}{features}
+
+\item[\textbf{Description:}\hfill] Prints information about feature settings.
+
+\item[\textbf{Syntax:}\hfill] (\FM{features} \Key{\&optional}
+(\Arg{stream} \TT{T}))
+
+\item[\textbf{Arguments:}\hfill]%
+%
+        \begin{Arglist}
+
+        \item[\Arg{stream}\hfill -~] Optional output stream; default
+        is \TT{T} (\Key{*terminal-io*}).
+
+        \end{Arglist}
+
+\item[\textbf{Examples:}\hfill] \TT{(features)}
+
+\end{Function}
+
+
+\begin{Function}{set-profiling}
+
+\item[\textbf{Description:}\hfill] Controls performance profiling.
+
+\item[\textbf{Syntax:}\hfill] (\FM{set-profiling} \Key{\&key}
+(\Arg{level} 1) (\Arg{file} ``profile.out''))
+
+\item[\textbf{Arguments:}\hfill]%
+%
+        \begin{Arglist}
+
+        \item[\Arg{level}\hfill -~] Keyword which controls the amount
+of profiling data which is output:
+
+        \begin{Arglist}
+
+                \item[0\hfill -~] Disables profiling.
+
+                \item[1\hfill -~] Outputs profiling data for
+                each concept classification.
+
+                \item[2\hfill -~] Outputs profiling data for
+                each subsumption test.
+
+                \item[3\hfill -~] Outputs profiling data for
+                each satisfiability test.
+
+        \end{Arglist}
+
+        If omitted, \Arg{level} defaults to 1.
+
+
+        \item[\Arg{file}\hfill -~] Keyword specifying the name of a
+        file to which the profiling data is to be written. If
+        explicitly \Nil\ it is written to the \Key{*terminal-io*}
+        stream. If omitted, \Arg{file} defaults to
+        ``profile.out''.
+
+        \end{Arglist}
+
+\item[\textbf{Remarks:}\hfill] Note that profiling can generate a
+        large amount of data, particularly if \Key{level} is $>$1. For
+        each satisfiability test the profiler outputs the number of
+        backtracks, the maximum model size, the maximum model depth,
+        the number of cache accesses, the number of cache hits, the
+        CPU time used, the result (\TT{T} or \Nil) and whether
+        blocking was triggered (\TT{T} or \Nil). See source code for
+        more details.
+
+\item[\textbf{Examples:}\hfill] \TT{(set-profiling)} \\
+        \TT{(set-profiling :level 2 :file nil)}
+
+\end{Function}
+
+
+\begin{Function}{reset-profiling}
+
+\item[\textbf{Description:}\hfill] Disables performance profiling.
+
+\item[\textbf{Syntax:}\hfill] (\FM{reset-profiling})
+
+\item[\textbf{Remarks:}\hfill] Equivalent to \TT{(set-profiling :level 0)}.
+
+\item[\textbf{Examples:}\hfill] \TT{(reset-profiling)}
+
+\end{Function}
+
+
+\begin{Function}{set-verbosity}
+
+\item[\textbf{Description:}\hfill] Controls the verbosity of the classifier.
+
+\item[\textbf{Syntax:}\hfill] (\FM{set-verbosity} \Key{\&rest} \Arg{features})
+
+\item[\textbf{Arguments:}\hfill]%
+%
+        \begin{Arglist}
+
+        \item[\Arg{features}\hfill -~] Zero or more keywords. The
+        verbosity feature associated with each supplied keyword is enabled. The
+        available keywords are as follows:
+        \begin{flushleft}
+        \KI{:warnings} \KI{:notes} \KI{:synonyms} \KI{:reclassifying}
+        \KI{:features} \KI{:rc-counts} \KI{:test-counts}
+        \KI{:cache-counts} \KI{:classify-1} \KI{:classify-2}
+        \end{flushleft}
+        By default, the of enabled verbosity features are:
+        \begin{flushleft}
+        \KI{:warnings} \KI{:synonyms} \KI{:reclassifying}
+        \KI{:rc-counts} \KI{:test-counts}
+        \KI{:cache-counts}
+        \end{flushleft}
+
+        \end{Arglist}
+
+\item[\textbf{Return:}\hfill] A list of all enabled verbosity features.
+
+\item[\textbf{Remarks:}\hfill] The verbosity setting is temporarily
+overridden by the \Arg{verbose} argument to \FM{load-tkb} and the
+\Arg{mode} argument to \FM{classify-tkb}. See source code for details
+of the effect of each verbosity feature.
+
+\item[\textbf{Examples:}\hfill] \TT{(set-verbosity)} \\
+        \TT{(set-verbosity :notes :classify-2)}
+
+\end{Function}
+
+
+\begin{Function}{reset-verbosity}
+
+\item[\textbf{Description:}\hfill] Reduces the verbosity of the classifier.
+
+\item[\textbf{Syntax:}\hfill] (\FM{reset-verbosity} \Key{\&rest} \Arg{features})
+
+\item[\textbf{Arguments:}\hfill]%
+%
+        \begin{Arglist}
+
+        \item[\Arg{features}\hfill -~] Zero or more keywords. The
+        feature associated with each supplied keyword is disabled. If
+        no keywords are supplied, all verbosity features are disabled.
+
+        \end{Arglist}
+
+\item[\textbf{Return:}\hfill] A list of all enabled verbosity features.
+
+\item[\textbf{Remarks:}\hfill] See \FM{set-features} for a list of
+verbosity features. See source code for details of the effect of each
+feature.
+
+\item[\textbf{Examples:}\hfill] \TT{(reset-verbosity)} \\
+        \TT{(reset-verbosity :notes :classify-2)}
+
+\end{Function}
+
+
+
+\section{Modal Logic Theorem Proving}
+
+\FaCT\ can also be used as a decision procedure for the propositional
+modal logics \Km\ and \Kfour. Although the functions and macros
+described in Section~\ref{sec:interface} could be used for this
+purpouse, \FaCT\ provides a more convenient functional interface for
+performing single satisfiability tests on \Km\ and \Kfour\ formulae
+encoded as an \ALC concept description.
+
+
+\begin{Function}{alc-concept-coherent}
+
+\item[\textbf{Description:}\hfill] Tests the satisfiability of an
+        \ALC concept.
+
+\item[\textbf{Syntax:}\hfill] (\FM{alc-concept-coherent} \Arg{description} \Key{\&key}
+        (\Arg{k4} \Nil))
+
+\item[\textbf{Arguments:}\hfill]%
+%
+        \begin{Arglist}
+
+        \item[\Arg{description}\hfill -~] Concept description.
+
+        \item[\Arg{k4}\hfill -~] Keyword which, if non-\Nil, causes
+        \Arg{description} to be treated as a \Kfour\ formula (all
+        roles are transitive). If omitted it defaults to \Nil.
+
+        \end{Arglist}
+
+\item[\textbf{Return:}\hfill] Returns four values: \TT{T} if
+\Arg{description} is satisfiable, \Nil\ otherwise; run time (seconds)
+\emph{excluding} concept encoding; number of backtracks; maximum model
+size (nodes).
+
+\item[\textbf{Remarks:}\hfill] All user defined concepts, roles and
+implications are deleted from the TBox (using \FM{init-tkb}); some or
+all of the concepts and roles occuring in \Arg{description} are then
+automatically installed in the TBox. The verbosity setting is
+temporarily overridden and set to \Nil. Profiling is temporarily
+disabled.
+
+\settowidth{\temp}{\TT{(alc-concept-coherent '}}
+\item[\textbf{Examples:}\hfill]
+\TT{(alc-concept-coherent '(and (some R (some R C1))}\\
+\hspace*{\temp}\TT{(all R (not C1))))} \\[0.2 \baselineskip]
+\TT{(alc-concept-coherent '(and (some R (some R C1))}\\
+\hspace*{\temp}\TT{(all R (not C1))) :k4 T)}
+
+%\parbox[t]{0pt}{\vspace{-(\baselineskip + \parskip)}\begin{tabbing}
+%\TT{(alc-concept-coherent} \= \TT{'(and (some R (some R C1))}\\
+%       \> \TT{(all R (not C1))))} \\
+%\TT{(alc-concept-coherent '(and (some R (some R C1))}\\
+%       \> \TT{(all R (not C1))) :k4 T)}
+%         \end{tabbing}}
+
+\end{Function}
+
+
+
+
+\newpage
+\addcontentsline{toc}{section}{References}
+\begin{thebibliography}{BH91}
+
+\bibitem[BH91]{Baader91a}
+F.~Baader and B.~Hollunder.
+\newblock {KRIS}: Knowledge representation and inference system.
+\newblock {\em SIGART Bulletin}, 2(3):8--14, 1991.
+
+\bibitem[GS96]{Giunchiglia96b}
+F.~Giunchiglia and R.~Sebastiani.
+\newblock A {SAT}-based decision procedure for $\mathcal{ALC}$.
+\newblock In L.~C. Aiello, J.~Doyle, and S.~Shapiro, editors, {\em Principals
+  of Knowledge Representation and Reasoning: Proceedings of the Fifth
+  International Conference (KR'96)}, pages 304--314. Morgan Kaufmann, November
+  1996.
+
+\bibitem[HS97]{Hustadt97a}
+U.~Hustadt and R.~A. Schmidt.
+\newblock On evaluating decision procedures for modal logic.
+\newblock Technical Report MPI-I-97-2-003, Max-Planck-Institut F\"ur
+  Informatik, February 1997.
+
+\end{thebibliography}
+
+%\bibliographystyle{alpha}
+%\bibliography{../../bibtex/all}
+
+\printindex
+
+\end{document}

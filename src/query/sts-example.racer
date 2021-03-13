@@ -1,0 +1,47 @@
+(full-reset)
+
+(in-rcc-box geo-example :rcc5)
+
+
+(implies city bavarian-city)
+(implies software-department computer-science-department)
+(implies computer-science-department university-department)
+(implies computer-science-department it-specialists)
+(implies it-company it-specialists)
+(implies it-company company)
+
+
+
+
+(rcc-node germany country country)
+
+(rcc-node hamburg city city)
+
+(rcc-node munich bavarian-city bavarian-city)
+
+(rcc-node harburg district district)
+
+(rcc-node sts software-department software-department)
+
+(rcc-node docomo-euro-labs company it-company)
+
+(rcc-related germany hamburg :ppi)
+
+(rcc-related germany munich :ppi)
+
+(rcc-related hamburg harburg :ppi)
+
+(rcc-related hamburg munich :dr)
+
+(rcc-related munich docomo-euro-labs :ppi)
+
+(rcc-related hamburg sts :ppi)
+
+
+
+(pprint (retrieve (?x ?y) (and (?x country) (?*x ?*y :ppi) (?y it-specialists))))
+
+(pprint (retrieve (?x ?y) (and (?*x ?*y :dr) (?x it-specialists) (?y it-specialists))))
+
+(pprint (retrieve (?x ?y) (and (?*x ?*y :dr) (?x it-specialists) (?y it-specialists)
+                               (?*y ?*z :pp) (?z bavarian-city))))

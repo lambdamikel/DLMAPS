@@ -1,0 +1,1 @@
+(((racer-answer-query (quote (alice ?y)) (quote (inv (alice ?y (:constraint (age) (age) <)))) :timeout *timeout* :abox (or *abox* (current-abox))) nil res-equal-p))

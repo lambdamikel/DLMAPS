@@ -1,0 +1,1 @@
+(((retrieve (?*x ?*y) (and (?*x ?*y (has-collegue (:predicate (search "a description")))) (?*x ?*y (:satisfies (:predicate <))) (?*y (:predicate (search "ralf"))))) (((?*x michael) (?*y ralf))) res-equal-p))

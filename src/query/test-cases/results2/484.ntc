@@ -1,0 +1,1 @@
+(((racer-answer-query (quote (?z)) (quote (and (?z ?y on) (?z ?x near) (?z ?c near))) :timeout *timeout* :abox (or *abox* (current-abox))) (((?z saucer-1)) ((?z saucer-3)) ((?z saucer-4)) ((?z saucer-6)) ((?z context-info-cup-2))) res-equal-p))

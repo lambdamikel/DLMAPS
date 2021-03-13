@@ -1,0 +1,60 @@
+
+(define-primitive-role R)
+(define-primitive-concept A TOP)
+(define-primitive-concept B TOP)
+
+(define-concept E (all R A)) 
+(define-concept F (all R B)) 
+(define-concept G (all R (and A B)))
+
+(define-concept C
+  (and 
+   (SOME R E) (SOME R G)
+   (all R (and G 
+               (SOME R E) (SOME R G)
+               (all R (and G 
+                           (SOME R E) (SOME R G)
+                           (all R (and G 
+                                       (SOME R E) (SOME R G)
+                                       (all R (and G 
+                                                   (SOME R E) (SOME R G)
+                                                   (all R (and G 
+                                                               (SOME R E) (SOME R G)
+                                                               (all R (and G 
+                                                                           (SOME R E) (SOME R G)
+                                                                           (all R (and G 
+                                                                                       (SOME R E) (SOME R G)
+                                                                                       (all R (and G 
+                                                                                                   (SOME R E) (SOME R G)
+                                                                                                   (all R (and G 
+                                                                                                               (SOME R E) (SOME R G)
+                                                                                                               (all R (and G 
+                                                                                                                           (SOME R E) (SOME R G)
+                                                                                                                           (all R (and G 
+                                                                                                                                       (SOME R E) (SOME R G)) )) )) )) )) )) )) )) )) )) )) )))
+(define-concept D
+  (and 
+   (SOME R F) (SOME R G)
+   (all R (and G 
+               (SOME R F) (SOME R G)
+               (all R (and G 
+                           (SOME R F) (SOME R G)
+                           (all R (and G 
+                                       (SOME R F) (SOME R G)
+                                       (all R (and G 
+                                                   (SOME R F) (SOME R G)
+                                                   (all R (and G 
+                                                               (SOME R F) (SOME R G)
+                                                               (all R (and G 
+                                                                           (SOME R F) (SOME R G)
+                                                                           (all R (and G 
+                                                                                       (SOME R F) (SOME R G)
+                                                                                       (all R (and G 
+                                                                                                   (SOME R F) (SOME R G)
+                                                                                                   (all R (and G 
+                                                                                                               (SOME R F) (SOME R G)
+                                                                                                               (all R (and G 
+                                                                                                                           (SOME R F) (SOME R G)
+                                                                                                                           (all R (and G 
+                                                                                                                                       (SOME R F) (SOME R G)) )) )) )) )) )) )) )) )) )) )) )))
+

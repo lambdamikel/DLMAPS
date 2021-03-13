@@ -1,0 +1,1 @@
+(((RETRIEVE (?*X ?*Y) (AND (?*X ?*Y (:SATISFIES (:PREDICATE STRING=))))) (((?*X C) (?*Y G)) ((?*X G) (?*Y C))) RES-EQUAL-P))

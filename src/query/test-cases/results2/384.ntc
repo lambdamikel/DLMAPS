@@ -1,0 +1,1 @@
+(((defquery mother (?x ?y) (and (?x woman) (?x ?y has-child))) mother res-equal-p))

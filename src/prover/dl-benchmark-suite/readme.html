@@ -1,0 +1,81 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <TITLE>DL99 System Comparison</TITLE>
+</HEAD>
+<BODY>
+<!-- Changed by: Ralf Moeller, 21-Jan-1996 -->
+
+<P><HR><P>
+<H1>The Description Logic Benchmark Suite</H1>
+<P>
+With contributions from 
+<A HREF="http://kogs-www.informatik.uni-hamburg.de/~haarslev/">Volker 
+Haarslev</A>, 
+<A HREF="http://www.cs.man.ac.uk/~horrocks">Ian Horrocks</A>,
+<A HREF="http://kogs-www.informatik.uni-hamburg.de/~moeller/">Ralf 
+M&ouml;ller</A> and
+<A HREF="http://www-db.research.bell-labs.com/user/pfps/index.html">
+Peter Patel-Schneider</A>.
+
+
+<P><HR><P>
+
+In order to run the benchmarks, please decide which DL system to use
+and follow the instructions below.
+
+<UL>
+    <LI><A HREF="http://www-db.research.bell-labs.com/user/pfps/index.html">
+DLP</A>: Instructions supplied RSN.</LI>
+    <LI><A HREF="http://www.cs.man.ac.uk/~horrocks/FaCT/">
+FaCT</A>:<BR>
+        <OL><LI>Install and start your favorite Common Lisp system.</LI>
+            <LI>Load the file "fact-tests.lisp" into your Lisp system.</LI>
+            <LI>If not compiled beforehand, compile the file
+                "dl-test:FaCT-1.11;fact" and load the corresponding binary
+                file manually. Compiling Fact is strictly recommended, once
+                this third step has been completed, it can be omitted.</LI>
+            <LI>Run the tests by evaluating (run-dl-tests). See the
+                definition of this function in the file "fact-tests.lisp"
+                in order to select specific tests.
+            </LI>
+            <LI>In order to run the TANCS'99 benchmarks, decompress and
+                extract the problems in the archives found in 
+                "dl-test:TANCS99-tests;". Load 
+                "dl-test:TANCS99-tests;tancs-tests.lisp" and execute
+                (run-tancs-tests). See the definition of this function
+                in order to select specific tests.
+            </LI>
+        </OL>
+    </LI>
+    <LI><A 
+HREF="http://kogs-www.informatik.uni-hamburg.de/~moeller/race/race.html">RACE</A>:<BR>
+        <OL><LI>Install and start your Common Lisp system.</LI>
+            <LI>Load the file "race-tests.lisp" into your Lisp system.</LI>
+            <LI>Run the tests by evaluating (run-dl-tests). See the
+                definition of this function in the file "race-tests.lisp"
+                in order to select specific tests.</LI>
+            <LI>In order to run the TANCS'99 benchmarks, decompress and
+                extract the problems in the archives found in 
+                "dl-test:TANCS99-tests;". Load 
+                "dl-test:TANCS99-tests;tancs-tests.lisp" and execute
+                (run-tancs-tests). See the definition of this function
+                in order to select specific tests.
+            </LI>
+        </OL>
+    </LI>
+</UL>
+
+<P>You can find the results of various tests in the folder
+"dl-test:Results;". For further documentation, see the folder
+"dl-test:Documentation;". Optimization switches can be found in the
+user guides of the DL systems. If your DL system implementation is
+not mentioned here and you would like it to be included into the DL
+Benchmark Suite, please send us a <A
+HREF="mailto:moeller@informatik.uni-hamburg.de">message</A>.
+
+<P><HR><P>
+
+</BODY>
+</HTML>
+

@@ -1,0 +1,1 @@
+(((defquery mother-with-male-child (?x ?child) (and (:substitute (mother ?x ?child)) (?child man))) mother-with-male-child res-equal-p))
