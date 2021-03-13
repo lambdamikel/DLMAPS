@@ -16,9 +16,9 @@ DLMAPS](https://www.michael-wessel.info/dlmaps.html), including
 publications.
 
 DLMAPS can be considered the first hybrid ontology-based geographical
-information system that relies on Description Logic reasoning. In a
+information system that relies on Description Logic reasoning. *In a
 sense, its spatio-thematic query language is an ancient predecessor of
-GeoSPARQL. It features a rich ontology-based spatial query language to
+GeoSPARQL.* It features a rich ontology-based spatial query language to
 so-called "substrates". Substrates subsume Description Logic ABoxes,
 RDFs graphs, property graphs, and other graph-like knowledge
 representation structures. A unique feature of the substrate data
