@@ -67,7 +67,7 @@ Here are some pictures for illustration:
 
 ## Papers 
 
-[See the DLMAPS homepage.](https://www.michael-wessel.info/dlmaps.html).
+[See the DLMAPS homepage.](https://www.michael-wessel.info/dlmaps.html)
 
 ## Usage / Loading
 
