@@ -72,10 +72,10 @@ these pre-defined queries are in the files
 
 (defun q7 ()
   (let ((q 
-	 '(and (?*x (:or teich see)) 
+	 '(and (?*x (or teich see)) 
 	   (?*x ?*y ec)
-	   (?*y (:or fluss bach))
-	   (?*y ?*z (:or ec po)) 
+	   (?*y (or fluss bach))
+	   (?*y ?*z (or ec po)) 
 	   (?*z wohngebiet) 
 	   (?*x ?*w pp)
 	   (?*w park)))
@@ -95,13 +95,11 @@ these pre-defined queries are in the files
 	    wohnen
 	    (some ec
 		  (and wiese-weide
-		       (:or (some tppi teich-nicht-schiffbar)
-			    (some ntppi teich-nicht-schiffbar))))
-	    (:or (some tppi oeffentliches-gebaeude)
-
-		 (some ntppi oeffentliches-gebaeude))
-	    (all ec (:or wiese-weide
-			 parkplatz)))))
+		       (or (some tppi teich-nicht-schiffbar)
+			   (some ntppi teich-nicht-schiffbar))))
+	    (or (some tppi oeffentliches-gebaeude)
+		(some ntppi oeffentliches-gebaeude))
+	    (all ec (or wiese-weide parkplatz)))))
         (v '(?*x)))
 
     (inspector-answer-query q v
@@ -120,7 +118,7 @@ these pre-defined queries are in the files
 	   (?*u-bahn-station u-bahn-station)
 	   (?u-bahn-station ?wohngebiet (:inside-epsilon 100))
 	   (?*wohngebiet ?*teich :contains)
-	   (?*teich (:or :teich :see))))
+	   (?*teich (or teich see))))
         (v '(?*wohngebiet ?*u-bahn-station ?*teich)))
 
     (inspector-answer-query q v 
@@ -155,14 +153,14 @@ these pre-defined queries are in the files
   (let ((q 
 	 '(and 
 	   (?*wohngebiet wohngebiet)
-	   (?*wohngebiet (ALL EC (not (:or industrie gewerbe))))
+	   (?*wohngebiet (ALL EC (not (or industrie gewerbe))))
 	   (?*wohngebiet ?*gebaeude :contains)
 	   (?*gebaeude gebaeude)
 	   (?kirche ?wohngebiet (:inside-epsilon 200))
 	   (?*u-bahn-station u-bahn-station)
 	   (?u-bahn-station ?wohngebiet (:inside-epsilon 100))
 	   (?*wohngebiet ?*teich :contains)
-	   (?*teich (:or :teich :see))
+	   (?*teich (or teich see))
 	   (?*kirche kirche)))
         (v
          '(?*wohngebiet 
