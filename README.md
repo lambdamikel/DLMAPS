@@ -77,8 +77,8 @@ map from the "Map Viewer" via "Load SQD Map" menu. When the map has
 loaded, go to the "Query Inspector" frame / window. Here, you can
 enter one of 20 pre-defined queries and get it executed, simply type
 `q1` to `q19` into the "Query Processor" console pane. Some queries
-(e.g., `q17` will take some time to execute, so be patient ;-) 
-Also, queries that use an `(all ...)` quantifier will require that
-you "close the roles" first - this can be done right after the SQD
-map was loaded, using the menu item "Close Roles" from the "Map Viewer"
-menu. Enjoy! 
+(e.g., `q17`) will take some time to execute the first time. Also,
+queries that use an `(all ...)` quantifier will require that you
+"close the roles" first - this can be done right after the SQD map was
+loaded, using the menu item "Close Roles" from the "Map Viewer"
+menu. Enjoy!
