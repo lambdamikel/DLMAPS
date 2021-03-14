@@ -35,12 +35,13 @@ The software in this repository is a cut-down version of the original
 DLMAPS. The full version was also capable of using the Racer
 description logic reasoner for ABox query answering (i.e., in a hybrid
 way). Here, a special-purpose Description Logic reasoner, called
-"MiDeLoRa" (for Michael's Description Logic Reasoner), is used for
+["MiDeLoRa" (for Michael's Description Logic
+Reasoner)](https://github.com/lambdamikel/MiDeLoRa), is used for
 answering the ontology-based parts of the queries instead. MiDeLoRa's
 ABox is a special geometric map substrate in this instantiation; i.e.,
 the ABox nodes / individuals are geometric objects, and their spatial
 properties are hence intrinsicially ("analogical") represented, and
-can be queried. 
+can be queried.
 
 DLMAPS is an instantiation of a general framework: the **substrate
 representation, reasoning, and querying framework**, as described in
