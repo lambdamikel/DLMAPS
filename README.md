@@ -51,8 +51,9 @@ OpenSource these days as well:
 [https://github.com/ha-mo-we/Racer/](https://github.com/ha-mo-we/Racer/).
 
 nRQL / DLMAPS provided the first Description Logic ABox (conjunctive)
-query language with a evaluation cost / heuristic query optimizer that
-drastically (i.e., by several orders of magnitude) improved query
+query language with an [evaluation cost / heuristic query
+optimizer](https://github.com/lambdamikel/DLMAPS/blob/main/src/query/optimizer21.lisp)
+that drastically (i.e., by several orders of magnitude) improved query
 performance. Later, other researchers have applied these ideas to
 SPARQL and analyzed these ideas somewhat more theoretically. Somehow,
 our papers never got cited by certain folks, even though our
