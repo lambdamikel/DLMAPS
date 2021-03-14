@@ -66,9 +66,10 @@ played a key role in transitioning these ideas into nowadays products
 as well. During the partnership of Racer Systems GmbH with Franz Inc.,
 Jans got inspired by our work on spatio-thematic query answering and
 ontologies and incorporated very similar ideas into AllegroGraph,
-which was in its infancy in 2005. Spatio-thematic query answering,
+which was in its infancy in 2005. Jans saw a demo of DLMAPS in our
+Racer Systems Hamburg office in 2005. Spatio-thematic query answering,
 ontologies, and geo-spatial knowledge graphs have come a long way
-since then! 
+since then!
 
 But back to DLMAPS: 
 
