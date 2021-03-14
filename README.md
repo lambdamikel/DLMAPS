@@ -59,7 +59,16 @@ SPARQL and analyzed these ideas somewhat more theoretically. Somehow,
 our papers on ABox query answering and optimization never got cited by
 certain folks, even though our documented and within Racer
 implementated ideas predated subsequent work on SPARQL and GeoSPARQL
-optimization by years... anyhow, this is history :-)
+optimization by years... anyhow, this is history :-) It is great to
+see that many of these things can nowadays be done with off-the-shelf
+GeoSPARQL engines. The company Franz Inc. (specially Jans Aasman)
+played a key role in transitioning these ideas into nowadays products
+as well. During the partnership of Racer Systems GmbH with Franz Inc.,
+Jans got inspired by our work on spatio-thematic query answering and
+ontologies and incorporated very similar ideas into AllegroGraph,
+which was in its infancy in 2005. Spatio-thematic query answering,
+ontologies, and geo-spatial knowledge graphs have come a long way
+since then!
 
 But back to DLMAPS: 
 
