@@ -70,8 +70,7 @@ AllegroGraph, which was in its infancy in 2005. Jans saw a demo of
 Racer and also of the DLMAPS system, running on LispWorks, in our
 Racer Systems Hamburg offices in 2006. After that, we became a full
 Franz Inc. partner. Spatio-thematic query answering, ontologies, and
-geo-spatial knowledge graphs have come a long way since then! I am
-happy we are we we are these days, well done, everybody.
+geo-spatial knowledge graphs have come a long way since then! 
 
 But back to DLMAPS: 
 
