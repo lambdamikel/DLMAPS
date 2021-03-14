@@ -58,7 +58,7 @@ performance. Later, other researchers have applied these ideas to
 SPARQL and analyzed these ideas somewhat more theoretically. Somehow,
 our papers on ABox query answering and optimization never got cited by
 certain folks, even though our documented and within Racer
-implementated ideas predated subsequent work on SPARQL and GeoSPARQL
+implemented ideas predated subsequent work on SPARQL and GeoSPARQL
 optimization by years... anyhow, this is history :-) It is great to
 see that many of these things can nowadays be done with off-the-shelf
 GeoSPARQL engines. The company Franz Inc. (especially Jans Aasman)
