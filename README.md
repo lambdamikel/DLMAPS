@@ -66,12 +66,12 @@ played a key role in transitioning these ideas into nowadays products
 as well. During the partnership of Racer Systems GmbH with Franz Inc.
 (2006 - 2013?), Jans got inspired by our work on spatio-thematic query
 answering and ontologies and incorporated very similar ideas into
-AllegroGraph, which was in its infancy in 2005. Jans saw a demo of the
-DLMAPS system, running on LispWorks, in our Racer Systems Hamburg
-office in 2006. After that, we became a full partner. Spatio-thematic
-query answering, ontologies, and geo-spatial knowledge graphs have
-come a long way since then! I am happy we are we we are these days, 
-well done, everybody. 
+AllegroGraph, which was in its infancy in 2005. Jans saw a demo of
+Racer and also of the DLMAPS system, running on LispWorks, in our
+Racer Systems Hamburg offices in 2006. After that, we became a full
+Franz Inc. partner. Spatio-thematic query answering, ontologies, and
+geo-spatial knowledge graphs have come a long way since then! I am
+happy we are we we are these days, well done, everybody.
 
 But back to DLMAPS: 
 
