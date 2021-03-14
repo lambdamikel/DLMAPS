@@ -49,12 +49,16 @@ realizing the new Racer Query Language of the Racer OWL / Description
 Logic reasoner. nRQL was first included with Racer in ~ 2004. Racer is
 OpenSource these days as well:
 [https://github.com/ha-mo-we/Racer/](https://github.com/ha-mo-we/Racer/).
+
 nRQL / DLMAPS provided the first Description Logic ABox (conjunctive)
-query language with a heuristics-based cost optimizer that drastically
-improved query evaluation plans / performance. Later, other
-researchers have applied these ideas to SPARQL (somehow, our papers
-never got cited by certain folks, even thy predated subsequent work 
-on SPARQL and GeoSPARQL optimization by years... anyhow :-) 
+query language with a evaluation cost / heuristic query optimizer that
+drastically (i.e., by several orders of magnitude) improved query
+performance. Later, other researchers have applied these ideas to
+SPARQL and analyzed these ideas somewhat more theoretically. Somehow,
+our papers never got cited by certain folks, even though our
+(documented) ideas and implementations predated subsequent work on
+SPARQL and GeoSPARQL optimization by years... anyhow, this is history
+:-)
 
 But back to DLMAPS: 
 
