@@ -42,6 +42,15 @@ the ABox nodes / individuals are geometric objects, and their spatial
 properties are hence intrinsicially ("analogical") represented, and
 can be queried. 
 
+DLMAPS is an instantiation of a general framework, the substrate
+representation, reasoning, and querying framework, as described in my
+2005 PhD thesis. Another instantiations of this framework was used for 
+realizing the new Racer Query Language of the Racer OWL / Description 
+Logic reasoner. nRQL was first included with Racer in ~ 2004. Racer
+is OpenSource these days as well: 
+[https://github.com/ha-mo-we/Racer/](https://github.com/ha-mo-we/Racer/). 
+
+But back to DLMAPS: 
 
 ![dlmaps-2](pics/dlmaps-2.png)
 
