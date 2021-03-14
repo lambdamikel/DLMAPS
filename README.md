@@ -42,24 +42,24 @@ the ABox nodes / individuals are geometric objects, and their spatial
 properties are hence intrinsicially ("analogical") represented, and
 can be queried. 
 
-DLMAPS is an instantiation of a general framework, the substrate
-representation, reasoning, and querying framework, as described in my
-2005 PhD thesis. Another instantiations of this framework was used for
-realizing the new Racer Query Language of the Racer OWL / Description
-Logic reasoner. nRQL was first included with Racer in ~ 2004. Racer is
-OpenSource these days as well:
+DLMAPS is an instantiation of a general framework: the **substrate
+representation, reasoning, and querying framework**, as described in
+my 2005 PhD thesis. Another instantiations of this framework was used
+for realizing the **new Racer Query Language (nRQL)** of the Racer OWL
+/ Description Logic reasoner. nRQL was first included with Racer in ~
+2004. Racer is OpenSource these days as well:
 [https://github.com/ha-mo-we/Racer/](https://github.com/ha-mo-we/Racer/).
 
-nRQL / DLMAPS provided the first Description Logic ABox (conjunctive)
-query language with an [evaluation cost / heuristic query
+nRQL / DLMAPS provided the first Description Logic ABox expressive,
+conjunctive query language with an [evaluation cost / heuristic query
 optimizer](https://github.com/lambdamikel/DLMAPS/blob/main/src/query/optimizer21.lisp)
 that drastically (i.e., by several orders of magnitude) improved query
 performance. Later, other researchers have applied these ideas to
 SPARQL and analyzed these ideas somewhat more theoretically. Somehow,
-our papers never got cited by certain folks, even though our
-(documented) ideas and implementations predated subsequent work on
-SPARQL and GeoSPARQL optimization by years... anyhow, this is history
-:-)
+our papers on ABox query answering and optimization never got cited by
+certain folks, even though our documented and implementations ideas
+predated subsequent work on SPARQL and GeoSPARQL optimization by
+years... anyhow, this is history :-)
 
 But back to DLMAPS: 
 
