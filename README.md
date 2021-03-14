@@ -44,11 +44,17 @@ can be queried.
 
 DLMAPS is an instantiation of a general framework, the substrate
 representation, reasoning, and querying framework, as described in my
-2005 PhD thesis. Another instantiations of this framework was used for 
-realizing the new Racer Query Language of the Racer OWL / Description 
-Logic reasoner. nRQL was first included with Racer in ~ 2004. Racer
-is OpenSource these days as well: 
-[https://github.com/ha-mo-we/Racer/](https://github.com/ha-mo-we/Racer/). 
+2005 PhD thesis. Another instantiations of this framework was used for
+realizing the new Racer Query Language of the Racer OWL / Description
+Logic reasoner. nRQL was first included with Racer in ~ 2004. Racer is
+OpenSource these days as well:
+[https://github.com/ha-mo-we/Racer/](https://github.com/ha-mo-we/Racer/).
+nRQL / DLMAPS provided the first Description Logic ABox (conjunctive)
+query language with a heuristics-based cost optimizer that drastically
+improved query evaluation plans / performance. Later, other
+researchers have applied these ideas to SPARQL (somehow, our papers
+never got cited by certain folks, even thy predated subsequent work 
+on SPARQL and GeoSPARQL optimization by years... anyhow :-) 
 
 But back to DLMAPS: 
 
