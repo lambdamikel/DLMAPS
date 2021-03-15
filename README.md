@@ -55,23 +55,7 @@ nRQL / DLMAPS provided the first Description Logic ABox expressive,
 conjunctive query language with an [evaluation cost / heuristic query
 optimizer](https://github.com/lambdamikel/DLMAPS/blob/main/src/query/optimizer21.lisp)
 that drastically (i.e., by several orders of magnitude) improved query
-performance. Later, other researchers have applied these ideas to
-SPARQL and analyzed these ideas somewhat more theoretically. Somehow,
-our papers on ABox query answering and optimization never got cited by
-certain folks, even though our documented and within Racer
-implemented ideas predated subsequent work on SPARQL and GeoSPARQL
-optimization by years... anyhow, this is history :-) It is great to
-see that many of these things can nowadays be done with off-the-shelf
-GeoSPARQL engines. The company Franz Inc. (especially Jans Aasman)
-played a key role in transitioning these ideas into nowadays products
-as well. During the partnership of Racer Systems GmbH with Franz Inc.
-(2006 - 2013?), Jans got inspired by our work on spatio-thematic query
-answering and ontologies and incorporated very similar ideas into
-AllegroGraph, which was in its infancy in 2005. Jans saw a demo of
-Racer and also of the DLMAPS system, running on LispWorks, in our
-Racer Systems Hamburg offices in 2006. After that, we became a full
-Franz Inc. partner. Spatio-thematic query answering, ontologies, and
-geo-spatial knowledge graphs have come a long way since then! 
+performance. 
 
 But back to DLMAPS: 
 
