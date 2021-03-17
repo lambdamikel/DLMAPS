@@ -52,10 +52,21 @@ for realizing the **new Racer Query Language (nRQL)** of the Racer OWL
 [https://github.com/ha-mo-we/Racer/](https://github.com/ha-mo-we/Racer/).
 
 nRQL / DLMAPS provided the first Description Logic ABox expressive,
-conjunctive query language with an [evaluation cost / heuristic query
+conjunctive query language with a [heuristic query
 optimizer](https://github.com/lambdamikel/DLMAPS/blob/main/src/query/optimizer21.lisp)
-that drastically (i.e., by several orders of magnitude) improved query
-performance. 
+that drastically improved query performance (i.e., frequently by
+several orders of magnitude). The query planner / optimizer was based
+on query rewritting, sub-goal / conjunct reordering, and query
+inference (i.e., identification and removal of implied and hence
+redundant sub-queries, identification of inconsistent, tautological,
+or subsumed sub-queries in combination with caching, query
+realization, etc.)  Many of these ideas and techniques have later been
+adapted, adopted, and analyzed somewhat more theoretical by other
+researchers in the Semantic Web and Description Logics field, and have
+been applied for SPARQL and GeoSPARQL as well. Our implemented and
+documented techniques for geospatial query answering predate
+subsequent work on GeoSPARQL by years, yet there are almost no
+citations of our work. 
 
 But back to DLMAPS: 
 
