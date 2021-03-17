@@ -63,10 +63,10 @@ or subsumed sub-queries in combination with caching, query
 realization, etc.)  Many of these ideas and techniques have later been
 adapted, adopted, and analyzed somewhat more theoretical by other
 researchers in the Semantic Web and Description Logics field, and have
-been applied for SPARQL and GeoSPARQL as well. Our implemented and
-documented techniques for geospatial query answering predate
-subsequent work on GeoSPARQL by years, yet there are almost no
-citations of our work. 
+been applied to SPARQL and GeoSPARQL as well. Our implemented and
+documented techniques for geospatial, ontology-based query answering
+predate subsequent work on GeoSPARQL by years, yet there are almost no
+citations of our work.
 
 But back to DLMAPS: 
 
