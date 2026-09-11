@@ -56,7 +56,7 @@ conjunctive query language with a [heuristic query
 optimizer](https://github.com/lambdamikel/DLMAPS/blob/main/src/query/optimizer21.lisp)
 that drastically improved query performance (i.e., frequently by
 several orders of magnitude). The query planner / optimizer was based
-on query rewritting, sub-goal / conjunct reordering, and query
+on query rewriting, sub-goal / conjunct reordering, and query
 inference (i.e., identification and removal of implied and hence
 redundant sub-queries, identification of inconsistent, tautological,
 or subsumed sub-queries in combination with caching, query
